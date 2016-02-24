@@ -7,6 +7,7 @@ This README would normally document whatever steps are necessary to get your app
 * Quick summary:
 This is a game for our CSC450 project.
 It involves battling global warming.
+Floe is a puzzle game with procedurally generated levels.
 * Version
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
@@ -28,4 +29,5 @@ It involves battling global warming.
 ### Who do I talk to?
 
 * Repo owner or admin
+* Supreme Dictator of Floe - Sam
 * Other community or team contact
