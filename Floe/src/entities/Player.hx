@@ -69,15 +69,10 @@ class Player extends Entity
 	{	
 		if(frameCountdown <= 0){
 			var w:Entity = collide("waterTile", x, y);
-			var i:Entity = collide("iceTile", x, y);
 			if (w != null)
 			{
 				var w:WaterTile = cast(w, WaterTile);
 				w.freeze();
-				slide();
-			}
-			else if (i != null)
-			{
 				slide();
 			}
 			

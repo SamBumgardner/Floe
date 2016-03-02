@@ -147,11 +147,11 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "191",
+			build: "194",
 			company: "",
 			file: "Main",
 			fps: 60,
-			name: "Tut01",
+			name: "Floe",
 			orientation: "",
 			packageName: "com.example.app",
 			version: "1.0.0",
@@ -169,7 +169,7 @@ class ApplicationMain {
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: true,
-					title: "Tut01",
+					title: "Floe",
 					vsync: false,
 					width: 640,
 					x: null,
