@@ -24,7 +24,7 @@ class WaterTile extends Entity
 	}
 	public function freeze()
 	{
-		graphic = new Image("graphics/ice.png");
+		graphic = new Image("graphics/Ground_Winter.png");
 		frozen = true;
 	}
 	public function autoFreezeCheck()
@@ -88,6 +88,8 @@ class WaterTile extends Entity
 	
 	public override function update()
 	{
-		autoFreezeCheck();
+		if(!frozen){
+			autoFreezeCheck();
+		}
 	}
 }

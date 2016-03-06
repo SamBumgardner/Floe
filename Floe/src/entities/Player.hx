@@ -40,7 +40,7 @@ class Player extends Entity
 		verticalMove = 0;
 		sliding = false;
 		
-		idleAnim = new Image("graphics/block.png");
+		idleAnim = new Image("graphics/goodfriend.png");
 		
 		graphic = idleAnim;
 		
@@ -97,7 +97,7 @@ class Player extends Entity
 					
 					frameCountdown = frameDelay;
 					//numberOfMoves++;
-					//HXP.console.log([numberOf`Moves]);
+					//HXP.console.log([numberOfMoves]);
 				}
 				else if(verticalMove != 0){
 					moveBy(0, verticalMove * moveSpeed);

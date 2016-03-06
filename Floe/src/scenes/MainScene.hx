@@ -1,9 +1,10 @@
 package scenes;
 
-import com.haxepunk.HXP;
+import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
 import entities.Player;
 import entities.WaterTile;
+import entities.GroundTile;
 
 
 class MainScene extends Scene
@@ -29,6 +30,9 @@ class MainScene extends Scene
 			if(Math.random() > .1){
 				add(new WaterTile(placeX, placeY));
 				numOfTiles -= 1;
+			}
+			else{
+				add(new GroundTile(placeX, placeY));
 			}
 			placeX += 32;
 			if(placeX > 32 * dimensionX){
