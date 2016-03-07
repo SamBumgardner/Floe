@@ -141,12 +141,15 @@ class Player extends Entity
 					w.freeze();
 				}
 				
-				if(canSlide()){ //check if the player can move in lastMove
+				if(canSlide() && lastMove != 0){ //check if the player can move in lastMove
 					slide();
 				}
-				else if(!stopBump){
-					bumpSound.play(0.5);
-					stopBump = true;
+				else if(lastMove != 0){
+					if(!stopBump){
+						bumpSound.play(0.5);
+						stopBump = true;
+					}
+					lastMove = 0;
 				}
 			}
 			
