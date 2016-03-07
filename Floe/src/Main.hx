@@ -1,6 +1,7 @@
 import com.haxepunk.Engine;
+import com.haxepunk.Scene;
 import com.haxepunk.HXP;
-import com.haxepunk.graphics.Stamp;
+
 
 class Main extends Engine
 {
@@ -10,22 +11,28 @@ class Main extends Engine
 #if debug
 		HXP.console.enable();
 #end
+
+
+		
 		HXP.scene = new scenes.MainScene();
 	}
 
 	public static function main() { new Main(); }
 	
-public function new(width:Int = 0, height:Int = 0)
+	
+	public function new(width:Int = 0, height:Int = 0)
 	{
 		super(width, height, 60, false);
 	}
 	
 	public function gameOver(){
 		HXP.console.log(["Game Over!"]);
+		HXP.scene = new scenes.GameOver();
 	}
 	
 	public function nextLevel(){
-
+		//This is somewhat irresponsible. 
+		//need to clean up memory used by a scene before switching to new one.
 		HXP.scene = new scenes.MainScene();
 	}
 	
