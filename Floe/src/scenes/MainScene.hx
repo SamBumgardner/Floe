@@ -5,6 +5,7 @@ import com.haxepunk.Scene;
 import entities.Player;
 import entities.WaterTile;
 import entities.GroundTile;
+import entities.Obstacle;
 import entities.GameManager;
 import com.haxepunk.Sfx;
 
@@ -45,7 +46,12 @@ class MainScene extends Scene
 				GM.waterAdded();
 			}
 			else{
-				add(new GroundTile(placeX, placeY));
+				if(Math.random() > .5){
+					add(new GroundTile(placeX, placeY));
+				}
+				else{
+					add(new Obstacle(placeX, placeY));
+				}
 			}
 			placeX += 32;
 			if(placeX > 32 * dimensionX){
