@@ -74,7 +74,47 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("graphics/Blank 32x32.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("graphics/block.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/friend.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/gameOver.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/goodfriend.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/Ground Rock.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/Ground Trees.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/ground.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/ground2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/Ground_Basic.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/Ground_Winter.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -82,8 +122,40 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("graphics/ice2.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/ice_placeholder.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/otherFriend.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/rock.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("graphics/water.png");
 		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/watermove.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("graphics/water_placeholder.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("audio/bgm.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
+		
+		
+		urls.push ("audio/got.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
 		
 		
 		
@@ -147,11 +219,11 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "191",
+			build: "277",
 			company: "",
 			file: "Main",
 			fps: 60,
-			name: "Tut01",
+			name: "Floe",
 			orientation: "",
 			packageName: "com.example.app",
 			version: "1.0.0",
@@ -169,7 +241,7 @@ class ApplicationMain {
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: true,
-					title: "Tut01",
+					title: "Floe",
 					vsync: false,
 					width: 640,
 					x: null,

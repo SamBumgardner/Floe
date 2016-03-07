@@ -11,6 +11,10 @@ import com.haxepunk.HXP;
 class Player extends Entity
 {
 	
+	private var maxHealth:Int;
+	private var currentHealth:Int;
+	
+	
 	private var frameDelay:Int;
 	private var frameCountdown:Int;
 	private var moveSpeed:Int;
@@ -29,18 +33,22 @@ class Player extends Entity
 	
 	public function new(x:Int, y:Int)
 	{
-		HXP.console.watch(["sliding"]);
 	
 		super(x, y);
 		setHitbox(32, 32);
 		moveSpeed = 4;
 		moveTime = 8; // doesn't do anything yet.
 		
+		HXP.console.watch(["sliding"]);
+	
+		maxHealth = 3;
+		currentHealth = maxHealth;
+		
 		horizontalMove = 0;
 		verticalMove = 0;
 		sliding = false;
 		
-		idleAnim = new Image("graphics/block.png");
+		idleAnim = new Image("graphics/goodfriend.png");
 		
 		graphic = idleAnim;
 		
@@ -63,21 +71,32 @@ class Player extends Entity
 		frameCountdown = frameDelay; //The + 1 is necessary because sliding technically gets one less frame of movement than walking, because of how I set up update function.
 	}
 	
+	private function isDead(){
 	
+		//only need to call this after taking damage.
+	
+		if(currentHealth < 0){
+			HXP.engine.gameOver();
+		}
+	
+	}
+	
+	public function takeDamage(damage:Int){
+	
+		currentHealth -= damage;
+		isDead();//Check if the player died as a result.
+	}
 	
 	public override function update()
 	{	
 		if(frameCountdown <= 0){
 			var w:Entity = collide("waterTile", x, y);
-			var i:Entity = collide("iceTile", x, y);
 			if (w != null)
 			{
 				var w:WaterTile = cast(w, WaterTile);
-				w.freeze();
-				slide();
-			}
-			else if (i != null)
-			{
+				if(!w.isFrozen()){
+					w.freeze();
+				}
 				slide();
 			}
 			
@@ -102,7 +121,7 @@ class Player extends Entity
 					
 					frameCountdown = frameDelay;
 					//numberOfMoves++;
-					//HXP.console.log([numberOf`Moves]);
+					//HXP.console.log([numberOfMoves]);
 				}
 				else if(verticalMove != 0){
 					moveBy(0, verticalMove * moveSpeed);

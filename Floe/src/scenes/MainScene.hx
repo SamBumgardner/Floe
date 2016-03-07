@@ -1,19 +1,28 @@
 package scenes;
 
-import com.haxepunk.HXP;
+import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
 import entities.Player;
 import entities.WaterTile;
+import entities.GroundTile;
+import entities.GameManager;
+import com.haxepunk.Sfx;
 
 
 class MainScene extends Scene
 {
+	
+	private var music:Sfx;
+	
 	public function new()
 	{
 		super();
 	}
 	public override function begin()
 	{
+		
+		music = new Sfx("audio/bgm.mp3");
+		music.loop();
 		
 		var dimensionX = 10;
 		//var dimensionY = 20
@@ -22,13 +31,21 @@ class MainScene extends Scene
 		var playerX = 0;
 		var playerY = 0;
 		var numOfTiles = 60; //controls number of water tiles initially placed.
+		var PC = new Player(playerX, 0);
+		add(PC);
 		
-		add(new Player(playerX, 0));
+		var GM = new GameManager(0,0, PC);
+		add(GM);
 		
 		while(numOfTiles > 0){
 			if(Math.random() > .1){
-				add(new WaterTile(placeX, placeY));
+				add(new WaterTile(placeX, placeY, GM));
 				numOfTiles -= 1;
+				
+				GM.waterAdded();
+			}
+			else{
+				add(new GroundTile(placeX, placeY));
 			}
 			placeX += 32;
 			if(placeX > 32 * dimensionX){
@@ -36,5 +53,10 @@ class MainScene extends Scene
 				placeY +=32;
 			}
 		}
+	}
+	public override function end(){
+	
+		music.stop();
+	
 	}
 }

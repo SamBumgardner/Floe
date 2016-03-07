@@ -66,6 +66,24 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		#end
 		
 		#if flash
@@ -92,12 +110,48 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("font/04B_03__.ttf", AssetType.FONT);
 		className.set ("font/04B_03__.ttf.png", __ASSET__font_04b_03___ttf_png);
 		type.set ("font/04B_03__.ttf.png", AssetType.IMAGE);
+		className.set ("graphics/Blank 32x32.png", __ASSET__graphics_blank_32x32_png);
+		type.set ("graphics/Blank 32x32.png", AssetType.IMAGE);
 		className.set ("graphics/block.png", __ASSET__graphics_block_png);
 		type.set ("graphics/block.png", AssetType.IMAGE);
+		className.set ("graphics/friend.png", __ASSET__graphics_friend_png);
+		type.set ("graphics/friend.png", AssetType.IMAGE);
+		className.set ("graphics/gameOver.png", __ASSET__graphics_gameover_png);
+		type.set ("graphics/gameOver.png", AssetType.IMAGE);
+		className.set ("graphics/goodfriend.png", __ASSET__graphics_goodfriend_png);
+		type.set ("graphics/goodfriend.png", AssetType.IMAGE);
+		className.set ("graphics/Ground Rock.png", __ASSET__graphics_ground_rock_png);
+		type.set ("graphics/Ground Rock.png", AssetType.IMAGE);
+		className.set ("graphics/Ground Trees.png", __ASSET__graphics_ground_trees_png);
+		type.set ("graphics/Ground Trees.png", AssetType.IMAGE);
+		className.set ("graphics/ground.png", __ASSET__graphics_ground_png);
+		type.set ("graphics/ground.png", AssetType.IMAGE);
+		className.set ("graphics/ground2.png", __ASSET__graphics_ground2_png);
+		type.set ("graphics/ground2.png", AssetType.IMAGE);
+		className.set ("graphics/Ground_Basic.png", __ASSET__graphics_ground_basic_png);
+		type.set ("graphics/Ground_Basic.png", AssetType.IMAGE);
+		className.set ("graphics/Ground_Winter.png", __ASSET__graphics_ground_winter_png);
+		type.set ("graphics/Ground_Winter.png", AssetType.IMAGE);
 		className.set ("graphics/ice.png", __ASSET__graphics_ice_png);
 		type.set ("graphics/ice.png", AssetType.IMAGE);
+		className.set ("graphics/ice2.png", __ASSET__graphics_ice2_png);
+		type.set ("graphics/ice2.png", AssetType.IMAGE);
+		className.set ("graphics/ice_placeholder.png", __ASSET__graphics_ice_placeholder_png);
+		type.set ("graphics/ice_placeholder.png", AssetType.IMAGE);
+		className.set ("graphics/otherFriend.png", __ASSET__graphics_otherfriend_png);
+		type.set ("graphics/otherFriend.png", AssetType.IMAGE);
+		className.set ("graphics/rock.png", __ASSET__graphics_rock_png);
+		type.set ("graphics/rock.png", AssetType.IMAGE);
 		className.set ("graphics/water.png", __ASSET__graphics_water_png);
 		type.set ("graphics/water.png", AssetType.IMAGE);
+		className.set ("graphics/watermove.png", __ASSET__graphics_watermove_png);
+		type.set ("graphics/watermove.png", AssetType.IMAGE);
+		className.set ("graphics/water_placeholder.png", __ASSET__graphics_water_placeholder_png);
+		type.set ("graphics/water_placeholder.png", AssetType.IMAGE);
+		className.set ("audio/bgm.mp3", __ASSET__audio_bgm_mp3);
+		type.set ("audio/bgm.mp3", AssetType.MUSIC);
+		className.set ("audio/got.mp3", __ASSET__audio_got_mp3);
+		type.set ("audio/got.mp3", AssetType.MUSIC);
 		
 		
 		#elseif html5
@@ -147,7 +201,47 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
+		id = "graphics/Blank 32x32.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "graphics/block.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/friend.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/gameOver.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/goodfriend.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/Ground Rock.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/Ground Trees.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/ground.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/ground2.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/Ground_Basic.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/Ground_Winter.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
@@ -155,10 +249,42 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
+		id = "graphics/ice2.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/ice_placeholder.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/otherFriend.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/rock.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "graphics/water.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
+		id = "graphics/watermove.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/water_placeholder.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "audio/bgm.mp3";
+		path.set (id, id);
+		
+		type.set (id, AssetType.MUSIC);
+		id = "audio/got.mp3";
+		path.set (id, id);
+		
+		type.set (id, AssetType.MUSIC);
 		
 		
 		var assetsPrefix = null;
@@ -210,14 +336,68 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("font/04B_03__.ttf.png", __ASSET__font_04b_03___ttf_png);
 		type.set ("font/04B_03__.ttf.png", AssetType.IMAGE);
 		
+		className.set ("graphics/Blank 32x32.png", __ASSET__graphics_blank_32x32_png);
+		type.set ("graphics/Blank 32x32.png", AssetType.IMAGE);
+		
 		className.set ("graphics/block.png", __ASSET__graphics_block_png);
 		type.set ("graphics/block.png", AssetType.IMAGE);
+		
+		className.set ("graphics/friend.png", __ASSET__graphics_friend_png);
+		type.set ("graphics/friend.png", AssetType.IMAGE);
+		
+		className.set ("graphics/gameOver.png", __ASSET__graphics_gameover_png);
+		type.set ("graphics/gameOver.png", AssetType.IMAGE);
+		
+		className.set ("graphics/goodfriend.png", __ASSET__graphics_goodfriend_png);
+		type.set ("graphics/goodfriend.png", AssetType.IMAGE);
+		
+		className.set ("graphics/Ground Rock.png", __ASSET__graphics_ground_rock_png);
+		type.set ("graphics/Ground Rock.png", AssetType.IMAGE);
+		
+		className.set ("graphics/Ground Trees.png", __ASSET__graphics_ground_trees_png);
+		type.set ("graphics/Ground Trees.png", AssetType.IMAGE);
+		
+		className.set ("graphics/ground.png", __ASSET__graphics_ground_png);
+		type.set ("graphics/ground.png", AssetType.IMAGE);
+		
+		className.set ("graphics/ground2.png", __ASSET__graphics_ground2_png);
+		type.set ("graphics/ground2.png", AssetType.IMAGE);
+		
+		className.set ("graphics/Ground_Basic.png", __ASSET__graphics_ground_basic_png);
+		type.set ("graphics/Ground_Basic.png", AssetType.IMAGE);
+		
+		className.set ("graphics/Ground_Winter.png", __ASSET__graphics_ground_winter_png);
+		type.set ("graphics/Ground_Winter.png", AssetType.IMAGE);
 		
 		className.set ("graphics/ice.png", __ASSET__graphics_ice_png);
 		type.set ("graphics/ice.png", AssetType.IMAGE);
 		
+		className.set ("graphics/ice2.png", __ASSET__graphics_ice2_png);
+		type.set ("graphics/ice2.png", AssetType.IMAGE);
+		
+		className.set ("graphics/ice_placeholder.png", __ASSET__graphics_ice_placeholder_png);
+		type.set ("graphics/ice_placeholder.png", AssetType.IMAGE);
+		
+		className.set ("graphics/otherFriend.png", __ASSET__graphics_otherfriend_png);
+		type.set ("graphics/otherFriend.png", AssetType.IMAGE);
+		
+		className.set ("graphics/rock.png", __ASSET__graphics_rock_png);
+		type.set ("graphics/rock.png", AssetType.IMAGE);
+		
 		className.set ("graphics/water.png", __ASSET__graphics_water_png);
 		type.set ("graphics/water.png", AssetType.IMAGE);
+		
+		className.set ("graphics/watermove.png", __ASSET__graphics_watermove_png);
+		type.set ("graphics/watermove.png", AssetType.IMAGE);
+		
+		className.set ("graphics/water_placeholder.png", __ASSET__graphics_water_placeholder_png);
+		type.set ("graphics/water_placeholder.png", AssetType.IMAGE);
+		
+		className.set ("audio/bgm.mp3", __ASSET__audio_bgm_mp3);
+		type.set ("audio/bgm.mp3", AssetType.MUSIC);
+		
+		className.set ("audio/got.mp3", __ASSET__audio_got_mp3);
+		type.set ("audio/got.mp3", AssetType.MUSIC);
 		
 		
 		if (useManifest) {
@@ -873,9 +1053,27 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__graphics_preloader_haxepunk_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__font_04b_03___ttf extends flash.text.Font { }
 @:keep @:bind #if display private #end class __ASSET__font_04b_03___ttf_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_blank_32x32_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_block_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_friend_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_gameover_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_goodfriend_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_ground_rock_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_ground_trees_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_ground_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_ground2_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_ground_basic_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_ground_winter_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_ice_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_ice2_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_ice_placeholder_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_otherfriend_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_rock_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_water_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_watermove_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_water_placeholder_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__audio_bgm_mp3 extends flash.media.Sound { }
+@:keep @:bind #if display private #end class __ASSET__audio_got_mp3 extends flash.media.Sound { }
 
 
 #elseif html5
@@ -890,6 +1088,24 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 @:keep #if display private #end class __ASSET__font_04b_03___ttf extends lime.text.Font { public function new () { super (); name = "04b03"; } } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -914,9 +1130,27 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("C:/HaxeToolkit/haxe/lib/HaxePunk/2,5,5/assets/graphics/preloader/haxepunk.png") #if display private #end class __ASSET__graphics_preloader_haxepunk_png extends lime.graphics.Image {}
 @:font("C:/HaxeToolkit/haxe/lib/HaxePunk/2,5,5/assets/font/04B_03__.ttf") #if display private #end class __ASSET__font_04b_03___ttf extends lime.text.Font {}
 @:image("C:/HaxeToolkit/haxe/lib/HaxePunk/2,5,5/assets/font/04B_03__.ttf.png") #if display private #end class __ASSET__font_04b_03___ttf_png extends lime.graphics.Image {}
+@:image("assets/graphics/Blank 32x32.png") #if display private #end class __ASSET__graphics_blank_32x32_png extends lime.graphics.Image {}
 @:image("assets/graphics/block.png") #if display private #end class __ASSET__graphics_block_png extends lime.graphics.Image {}
+@:image("assets/graphics/friend.png") #if display private #end class __ASSET__graphics_friend_png extends lime.graphics.Image {}
+@:image("assets/graphics/gameOver.png") #if display private #end class __ASSET__graphics_gameover_png extends lime.graphics.Image {}
+@:image("assets/graphics/goodfriend.png") #if display private #end class __ASSET__graphics_goodfriend_png extends lime.graphics.Image {}
+@:image("assets/graphics/Ground Rock.png") #if display private #end class __ASSET__graphics_ground_rock_png extends lime.graphics.Image {}
+@:image("assets/graphics/Ground Trees.png") #if display private #end class __ASSET__graphics_ground_trees_png extends lime.graphics.Image {}
+@:image("assets/graphics/ground.png") #if display private #end class __ASSET__graphics_ground_png extends lime.graphics.Image {}
+@:image("assets/graphics/ground2.png") #if display private #end class __ASSET__graphics_ground2_png extends lime.graphics.Image {}
+@:image("assets/graphics/Ground_Basic.png") #if display private #end class __ASSET__graphics_ground_basic_png extends lime.graphics.Image {}
+@:image("assets/graphics/Ground_Winter.png") #if display private #end class __ASSET__graphics_ground_winter_png extends lime.graphics.Image {}
 @:image("assets/graphics/ice.png") #if display private #end class __ASSET__graphics_ice_png extends lime.graphics.Image {}
+@:image("assets/graphics/ice2.png") #if display private #end class __ASSET__graphics_ice2_png extends lime.graphics.Image {}
+@:image("assets/graphics/ice_placeholder.png") #if display private #end class __ASSET__graphics_ice_placeholder_png extends lime.graphics.Image {}
+@:image("assets/graphics/otherFriend.png") #if display private #end class __ASSET__graphics_otherfriend_png extends lime.graphics.Image {}
+@:image("assets/graphics/rock.png") #if display private #end class __ASSET__graphics_rock_png extends lime.graphics.Image {}
 @:image("assets/graphics/water.png") #if display private #end class __ASSET__graphics_water_png extends lime.graphics.Image {}
+@:image("assets/graphics/watermove.png") #if display private #end class __ASSET__graphics_watermove_png extends lime.graphics.Image {}
+@:image("assets/graphics/water_placeholder.png") #if display private #end class __ASSET__graphics_water_placeholder_png extends lime.graphics.Image {}
+@:file("assets/audio/bgm.mp3") #if display private #end class __ASSET__audio_bgm_mp3 extends lime.utils.Bytes {}
+@:file("assets/audio/got.mp3") #if display private #end class __ASSET__audio_got_mp3 extends lime.utils.Bytes {}
 
 
 
