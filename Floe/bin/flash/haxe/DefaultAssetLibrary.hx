@@ -82,6 +82,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
 		#end
 		
 		#if flash
@@ -146,6 +148,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("graphics/watermove.png", AssetType.IMAGE);
 		className.set ("graphics/water_placeholder.png", __ASSET__graphics_water_placeholder_png);
 		type.set ("graphics/water_placeholder.png", AssetType.IMAGE);
+		className.set ("audio/bgm.mp3", __ASSET__audio_bgm_mp3);
+		type.set ("audio/bgm.mp3", AssetType.MUSIC);
+		className.set ("audio/got.mp3", __ASSET__audio_got_mp3);
+		type.set ("audio/got.mp3", AssetType.MUSIC);
 		
 		
 		#elseif html5
@@ -271,6 +277,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
+		id = "audio/bgm.mp3";
+		path.set (id, id);
+		
+		type.set (id, AssetType.MUSIC);
+		id = "audio/got.mp3";
+		path.set (id, id);
+		
+		type.set (id, AssetType.MUSIC);
 		
 		
 		var assetsPrefix = null;
@@ -378,6 +392,12 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("graphics/water_placeholder.png", __ASSET__graphics_water_placeholder_png);
 		type.set ("graphics/water_placeholder.png", AssetType.IMAGE);
+		
+		className.set ("audio/bgm.mp3", __ASSET__audio_bgm_mp3);
+		type.set ("audio/bgm.mp3", AssetType.MUSIC);
+		
+		className.set ("audio/got.mp3", __ASSET__audio_got_mp3);
+		type.set ("audio/got.mp3", AssetType.MUSIC);
 		
 		
 		if (useManifest) {
@@ -1052,6 +1072,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__graphics_water_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_watermove_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_water_placeholder_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__audio_bgm_mp3 extends flash.media.Sound { }
+@:keep @:bind #if display private #end class __ASSET__audio_got_mp3 extends flash.media.Sound { }
 
 
 #elseif html5
@@ -1066,6 +1088,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 @:keep #if display private #end class __ASSET__font_04b_03___ttf extends lime.text.Font { public function new () { super (); name = "04b03"; } } 
+
+
 
 
 
@@ -1125,6 +1149,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("assets/graphics/water.png") #if display private #end class __ASSET__graphics_water_png extends lime.graphics.Image {}
 @:image("assets/graphics/watermove.png") #if display private #end class __ASSET__graphics_watermove_png extends lime.graphics.Image {}
 @:image("assets/graphics/water_placeholder.png") #if display private #end class __ASSET__graphics_water_placeholder_png extends lime.graphics.Image {}
+@:file("assets/audio/bgm.mp3") #if display private #end class __ASSET__audio_bgm_mp3 extends lime.utils.Bytes {}
+@:file("assets/audio/got.mp3") #if display private #end class __ASSET__audio_got_mp3 extends lime.utils.Bytes {}
 
 
 

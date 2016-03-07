@@ -150,6 +150,14 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("audio/bgm.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
+		
+		
+		urls.push ("audio/got.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
+		
+		
 		
 		if (config.assetsPrefix != null) {
 			
@@ -211,7 +219,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "273",
+			build: "277",
 			company: "",
 			file: "Main",
 			fps: 60,
