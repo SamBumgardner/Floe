@@ -86,6 +86,10 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("graphics/gameOver.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("graphics/goodfriend.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
@@ -207,7 +211,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "214",
+			build: "242",
 			company: "",
 			file: "Main",
 			fps: 60,

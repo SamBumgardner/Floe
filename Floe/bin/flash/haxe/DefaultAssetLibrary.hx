@@ -81,6 +81,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
 		#end
 		
 		#if flash
@@ -113,6 +114,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("graphics/block.png", AssetType.IMAGE);
 		className.set ("graphics/friend.png", __ASSET__graphics_friend_png);
 		type.set ("graphics/friend.png", AssetType.IMAGE);
+		className.set ("graphics/gameOver.png", __ASSET__graphics_gameover_png);
+		type.set ("graphics/gameOver.png", AssetType.IMAGE);
 		className.set ("graphics/goodfriend.png", __ASSET__graphics_goodfriend_png);
 		type.set ("graphics/goodfriend.png", AssetType.IMAGE);
 		className.set ("graphics/Ground Rock.png", __ASSET__graphics_ground_rock_png);
@@ -201,6 +204,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		type.set (id, AssetType.IMAGE);
 		id = "graphics/friend.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "graphics/gameOver.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
@@ -323,6 +330,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("graphics/friend.png", __ASSET__graphics_friend_png);
 		type.set ("graphics/friend.png", AssetType.IMAGE);
+		
+		className.set ("graphics/gameOver.png", __ASSET__graphics_gameover_png);
+		type.set ("graphics/gameOver.png", AssetType.IMAGE);
 		
 		className.set ("graphics/goodfriend.png", __ASSET__graphics_goodfriend_png);
 		type.set ("graphics/goodfriend.png", AssetType.IMAGE);
@@ -1026,6 +1036,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__graphics_blank_32x32_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_block_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_friend_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_gameover_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_goodfriend_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_ground_rock_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_ground_trees_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -1076,6 +1087,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
+
 #else
 
 
@@ -1097,6 +1109,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("assets/graphics/Blank 32x32.png") #if display private #end class __ASSET__graphics_blank_32x32_png extends lime.graphics.Image {}
 @:image("assets/graphics/block.png") #if display private #end class __ASSET__graphics_block_png extends lime.graphics.Image {}
 @:image("assets/graphics/friend.png") #if display private #end class __ASSET__graphics_friend_png extends lime.graphics.Image {}
+@:image("assets/graphics/gameOver.png") #if display private #end class __ASSET__graphics_gameover_png extends lime.graphics.Image {}
 @:image("assets/graphics/goodfriend.png") #if display private #end class __ASSET__graphics_goodfriend_png extends lime.graphics.Image {}
 @:image("assets/graphics/Ground Rock.png") #if display private #end class __ASSET__graphics_ground_rock_png extends lime.graphics.Image {}
 @:image("assets/graphics/Ground Trees.png") #if display private #end class __ASSET__graphics_ground_trees_png extends lime.graphics.Image {}

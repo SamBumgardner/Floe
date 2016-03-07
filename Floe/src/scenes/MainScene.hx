@@ -5,6 +5,7 @@ import com.haxepunk.Scene;
 import entities.Player;
 import entities.WaterTile;
 import entities.GroundTile;
+import entities.GameManager;
 
 
 class MainScene extends Scene
@@ -23,13 +24,18 @@ class MainScene extends Scene
 		var playerX = 0;
 		var playerY = 0;
 		var numOfTiles = 60; //controls number of water tiles initially placed.
+		var PC = new Player(playerX, 0);
+		add(PC);
 		
-		add(new Player(playerX, 0));
+		var GM = new GameManager(0,0, PC);
+		add(GM);
 		
 		while(numOfTiles > 0){
 			if(Math.random() > .1){
-				add(new WaterTile(placeX, placeY));
+				add(new WaterTile(placeX, placeY, GM));
 				numOfTiles -= 1;
+				
+				GM.waterAdded();
 			}
 			else{
 				add(new GroundTile(placeX, placeY));
