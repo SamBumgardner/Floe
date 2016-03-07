@@ -33,15 +33,16 @@ class Player extends Entity
 	
 	public function new(x:Int, y:Int)
 	{
-		HXP.console.watch(["sliding"]);
-	
-		maxHealth = 3;
-		currentHealth = maxHealth;
 	
 		super(x, y);
 		setHitbox(32, 32);
 		moveSpeed = 4;
 		moveTime = 8; // doesn't do anything yet.
+		
+		HXP.console.watch(["sliding"]);
+	
+		maxHealth = 3;
+		currentHealth = maxHealth;
 		
 		horizontalMove = 0;
 		verticalMove = 0;
