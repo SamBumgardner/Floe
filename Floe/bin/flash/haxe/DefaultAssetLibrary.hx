@@ -84,6 +84,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
 		#end
 		
 		#if flash
@@ -128,6 +130,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("graphics/ground.png", AssetType.IMAGE);
 		className.set ("graphics/ground2.png", __ASSET__graphics_ground2_png);
 		type.set ("graphics/ground2.png", AssetType.IMAGE);
+		className.set ("graphics/groundRock.png", __ASSET__graphics_groundrock_png);
+		type.set ("graphics/groundRock.png", AssetType.IMAGE);
 		className.set ("graphics/Ground_Basic.png", __ASSET__graphics_ground_basic_png);
 		type.set ("graphics/Ground_Basic.png", AssetType.IMAGE);
 		className.set ("graphics/Ground_Winter.png", __ASSET__graphics_ground_winter_png);
@@ -150,6 +154,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("graphics/water_placeholder.png", AssetType.IMAGE);
 		className.set ("audio/bgm.mp3", __ASSET__audio_bgm_mp3);
 		type.set ("audio/bgm.mp3", AssetType.MUSIC);
+		className.set ("audio/bump.mp3", __ASSET__audio_bump_mp3);
+		type.set ("audio/bump.mp3", AssetType.MUSIC);
 		className.set ("audio/got.mp3", __ASSET__audio_got_mp3);
 		type.set ("audio/got.mp3", AssetType.MUSIC);
 		
@@ -237,6 +243,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
+		id = "graphics/groundRock.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "graphics/Ground_Basic.png";
 		path.set (id, id);
 		
@@ -278,6 +288,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		type.set (id, AssetType.IMAGE);
 		id = "audio/bgm.mp3";
+		path.set (id, id);
+		
+		type.set (id, AssetType.MUSIC);
+		id = "audio/bump.mp3";
 		path.set (id, id);
 		
 		type.set (id, AssetType.MUSIC);
@@ -363,6 +377,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("graphics/ground2.png", __ASSET__graphics_ground2_png);
 		type.set ("graphics/ground2.png", AssetType.IMAGE);
 		
+		className.set ("graphics/groundRock.png", __ASSET__graphics_groundrock_png);
+		type.set ("graphics/groundRock.png", AssetType.IMAGE);
+		
 		className.set ("graphics/Ground_Basic.png", __ASSET__graphics_ground_basic_png);
 		type.set ("graphics/Ground_Basic.png", AssetType.IMAGE);
 		
@@ -395,6 +412,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("audio/bgm.mp3", __ASSET__audio_bgm_mp3);
 		type.set ("audio/bgm.mp3", AssetType.MUSIC);
+		
+		className.set ("audio/bump.mp3", __ASSET__audio_bump_mp3);
+		type.set ("audio/bump.mp3", AssetType.MUSIC);
 		
 		className.set ("audio/got.mp3", __ASSET__audio_got_mp3);
 		type.set ("audio/got.mp3", AssetType.MUSIC);
@@ -1062,6 +1082,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__graphics_ground_trees_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_ground_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_ground2_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__graphics_groundrock_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_ground_basic_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_ground_winter_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_ice_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -1073,6 +1094,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__graphics_watermove_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__graphics_water_placeholder_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__audio_bgm_mp3 extends flash.media.Sound { }
+@:keep @:bind #if display private #end class __ASSET__audio_bump_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__audio_got_mp3 extends flash.media.Sound { }
 
 
@@ -1088,6 +1110,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 @:keep #if display private #end class __ASSET__font_04b_03___ttf extends lime.text.Font { public function new () { super (); name = "04b03"; } } 
+
+
 
 
 
@@ -1139,6 +1163,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("assets/graphics/Ground Trees.png") #if display private #end class __ASSET__graphics_ground_trees_png extends lime.graphics.Image {}
 @:image("assets/graphics/ground.png") #if display private #end class __ASSET__graphics_ground_png extends lime.graphics.Image {}
 @:image("assets/graphics/ground2.png") #if display private #end class __ASSET__graphics_ground2_png extends lime.graphics.Image {}
+@:image("assets/graphics/groundRock.png") #if display private #end class __ASSET__graphics_groundrock_png extends lime.graphics.Image {}
 @:image("assets/graphics/Ground_Basic.png") #if display private #end class __ASSET__graphics_ground_basic_png extends lime.graphics.Image {}
 @:image("assets/graphics/Ground_Winter.png") #if display private #end class __ASSET__graphics_ground_winter_png extends lime.graphics.Image {}
 @:image("assets/graphics/ice.png") #if display private #end class __ASSET__graphics_ice_png extends lime.graphics.Image {}
@@ -1150,6 +1175,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("assets/graphics/watermove.png") #if display private #end class __ASSET__graphics_watermove_png extends lime.graphics.Image {}
 @:image("assets/graphics/water_placeholder.png") #if display private #end class __ASSET__graphics_water_placeholder_png extends lime.graphics.Image {}
 @:file("assets/audio/bgm.mp3") #if display private #end class __ASSET__audio_bgm_mp3 extends lime.utils.Bytes {}
+@:file("assets/audio/bump.mp3") #if display private #end class __ASSET__audio_bump_mp3 extends lime.utils.Bytes {}
 @:file("assets/audio/got.mp3") #if display private #end class __ASSET__audio_got_mp3 extends lime.utils.Bytes {}
 
 

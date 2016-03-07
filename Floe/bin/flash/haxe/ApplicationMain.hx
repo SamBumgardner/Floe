@@ -110,6 +110,10 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("graphics/groundRock.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("graphics/Ground_Basic.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
@@ -151,6 +155,10 @@ class ApplicationMain {
 		
 		
 		urls.push ("audio/bgm.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
+		
+		
+		urls.push ("audio/bump.mp3");
 		types.push (lime.Assets.AssetType.MUSIC);
 		
 		
@@ -219,7 +227,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "277",
+			build: "290",
 			company: "",
 			file: "Main",
 			fps: 60,
