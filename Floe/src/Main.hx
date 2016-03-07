@@ -27,12 +27,14 @@ class Main extends Engine
 	
 	public function gameOver(){
 		HXP.console.log(["Game Over!"]);
+		HXP.scene.end();
 		HXP.scene = new scenes.GameOver();
 	}
 	
 	public function nextLevel(){
 		//This is somewhat irresponsible. 
 		//need to clean up memory used by a scene before switching to new one.
+		HXP.scene.end();
 		HXP.scene = new scenes.MainScene();
 	}
 	

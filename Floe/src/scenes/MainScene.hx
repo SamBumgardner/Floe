@@ -6,16 +6,23 @@ import entities.Player;
 import entities.WaterTile;
 import entities.GroundTile;
 import entities.GameManager;
+import com.haxepunk.Sfx;
 
 
 class MainScene extends Scene
 {
+	
+	private var music:Sfx;
+	
 	public function new()
 	{
 		super();
 	}
 	public override function begin()
 	{
+		
+		music = new Sfx("audio/bgm.mp3");
+		music.loop();
 		
 		var dimensionX = 10;
 		//var dimensionY = 20
@@ -46,5 +53,10 @@ class MainScene extends Scene
 				placeY +=32;
 			}
 		}
+	}
+	public override function end(){
+	
+		music.stop();
+	
 	}
 }
