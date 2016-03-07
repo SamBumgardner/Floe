@@ -20,6 +20,11 @@ Floe is a puzzle game with procedurally generated levels.
 * How to run tests
 * Deployment instructions
 
+### Useful Notes:
+
+* Freeze all water tiles in the level to move on to the next.
+* Use the 'd' key to hurt yourself and eventually get a game over.
+
 ### Contribution guidelines
 
 * Writing tests
