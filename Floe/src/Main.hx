@@ -25,6 +25,12 @@ class Main extends Engine
 		super(width, height, 60, false);
 	}
 	
+	public function returnToMenu(){
+		HXP.console.log(["Returning to main menu..."]);
+		HXP.scene.end();
+		HXP.scene = new scenes.MainMenu();
+	}
+	
 	public function gameOver(){
 		HXP.console.log(["Game Over!"]);
 		HXP.scene.end();
