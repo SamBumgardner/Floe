@@ -118,7 +118,7 @@ class Player extends Entity
 	
 		//only need to call this after taking damage.
 	
-		if(currentHealth < 0){
+		if(currentHealth <= 0){
 			HXP.engine.gameOver();
 		}
 	
