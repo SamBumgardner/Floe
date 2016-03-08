@@ -30,7 +30,7 @@ class GameManager extends Entity{
 	public function waterFrozen(){
 		unfrozenWaterCount--;
 		
-		HXP.console.log([unfrozenWaterCount]);
+		HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
 		
 		if(unfrozenWaterCount <= 0){
 			HXP.console.log(["Level Complete!"]);

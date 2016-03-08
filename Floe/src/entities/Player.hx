@@ -127,6 +127,7 @@ class Player extends Entity
 	public function takeDamage(damage:Int){
 	
 		currentHealth -= damage;
+		HXP.console.log(["Took ", damage, " damage! Only ", currentHealth, " health remaining."]);
 		isDead();//Check if the player died as a result.
 	}
 	
