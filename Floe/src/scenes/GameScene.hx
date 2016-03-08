@@ -10,7 +10,7 @@ import entities.GameManager;
 import com.haxepunk.Sfx;
 
 
-class MainScene extends Scene
+class GameScene extends Scene
 {
 	
 	private var music:Sfx;

@@ -14,7 +14,7 @@ class Main extends Engine
 
 
 		
-		HXP.scene = new scenes.MainScene();
+		HXP.scene = new scenes.GameScene();
 	}
 
 	public static function main() { new Main(); }
@@ -35,7 +35,7 @@ class Main extends Engine
 		//This is somewhat irresponsible. 
 		//need to clean up memory used by a scene before switching to new one.
 		HXP.scene.end();
-		HXP.scene = new scenes.MainScene();
+		HXP.scene = new scenes.GameScene();
 	}
 	
 }
