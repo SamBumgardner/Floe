@@ -35,7 +35,7 @@ class MenuSelector extends Entity
 		// layer is implicitly 0
 		moveDisabled = false;
 		moveDistance = 50;
-		graphic = new Image("graphics/menuSelector.png");
+		graphic = new Image("graphics/MenuSelector.png");
 		
 		currentPos = 1;
 		numOfPos = 4;
