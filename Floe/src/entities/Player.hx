@@ -56,8 +56,6 @@ class Player extends Entity
 		
 		bumpSound = new Sfx("audio/bump.mp3");
 		stopBump = false;
-		
-		HXP.console.watch(["sliding"]);
 	
 		maxHealth = 3;
 		currentHealth = maxHealth;
@@ -73,8 +71,7 @@ class Player extends Entity
 		frameDelay = 7; // For some reason this is different for moving and sliding. Sliding needs to be 8, while moving has to be seven.
 		frameCountdown = 0; 
 		
-		numberOfMoves = 0;
-		
+		numberOfMoves = 0;		
 	}
 	
 	private function canSlide(){
@@ -132,6 +129,11 @@ class Player extends Entity
 	
 	public override function update()
 	{	
+		//check if the bump sound should be played again.
+		if (Input.pressed(Key.LEFT) || Input.pressed(Key.RIGHT)
+			|| Input.pressed(Key.UP) || Input.pressed(Key.DOWN)){stopBump = false;}
+	
+	
 		if(frameCountdown <= 0){
 			var w:Entity = collide("waterTile", x, y);
 			if (w != null)
@@ -155,10 +157,6 @@ class Player extends Entity
 			
 			if(sliding == false)
 			{
-				//check if the bump sound should be played again.
-				if (Input.pressed(Key.LEFT) || Input.pressed(Key.RIGHT)
-					|| Input.pressed(Key.UP) || Input.pressed(Key.DOWN)){stopBump = false;}
-				
 				
 				//use incrementation so that opposite keys cancel each other out.
 				if (Input.check(Key.LEFT)){ horizontalMove--; }
