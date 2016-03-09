@@ -175,10 +175,7 @@ class Player extends Entity
 					var o:Entity = collide("obstacle", x + horizontalMove, y);
 					if (o != null)
 					{
-						if(!stopBump){
-							bumpSound.play(0.5);
-							stopBump = true;
-						}
+						//Do nothing.
 					}
 					else{	
 						moveBy(horizontalMove * moveSpeed, 0);
@@ -193,10 +190,7 @@ class Player extends Entity
 					var o:Entity = collide("obstacle", x, y + verticalMove);
 					if (o != null)
 					{
-						if(!stopBump){
-							bumpSound.play(0.5);
-							stopBump = true;
-						}
+						//Do nothing.
 					}
 					else{	
 						moveBy(0, verticalMove * moveSpeed);
