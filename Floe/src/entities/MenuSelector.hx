@@ -58,7 +58,7 @@ class MenuSelector extends Entity
 		if(moveDisabled){
 			switch currentPos{
 				case 2: removeInfographic();
-				//case 3 is ended by pressing enter instead of spacebar.
+				case 3: removeSeedSelection();
 				case 4: removeCredits();
 			}
 		}
@@ -147,11 +147,10 @@ class MenuSelector extends Entity
 				userSeed = userSeed.substring(0, userSeed.length - 1);
 			}
 			if (code == 13){   // if the input is 'enter'
-				removeSeedSelection(); //stop accepting input.
+				//The removeSeedSelection() function is called by selectOption()
 			}
 			else if(code == 27){ // if the input is 'escape'
 				userSeed = "";
-				removeSeedSelection();
 			}
 			else{
 				displayUserSeed.text = userSeed;   // update the input string display
