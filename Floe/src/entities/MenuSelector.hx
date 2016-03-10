@@ -90,7 +90,7 @@ class MenuSelector extends Entity
 	
 	private function displaySeedSelection(){
 		userSeed = "";
-		displayUserSeed = new Text("", 350, 480, 0, 0);
+		displayUserSeed = new Text("", 300, 480, 0, 0);
 		displayUserSeed.setTextProperty("color", 0);
 		displayUserSeed.setTextProperty("size", 48);
 		popUp = HXP.scene.addGraphic( new Image("graphics/rngSeed.png"));
@@ -138,7 +138,7 @@ class MenuSelector extends Entity
 			var code = event.keyCode;
 			
 			// Check if the input string isn't too big, and that the key was a number
-			if (userSeed.length < 5 && ((code >= 48 && code < 58) || (code >= 96 && code < 106))){   
+			if (userSeed.length < 10 && ((code >= 48 && code < 58) || (code >= 96 && code < 106))){   
 				if(code > 95){
 					code -= 48;
 				}
