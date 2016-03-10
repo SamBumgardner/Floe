@@ -13,12 +13,11 @@ import com.haxepunk.HXP;
 
 class GameManager extends Entity{
 	
-	private var PC:Player;
 	private var unfrozenWaterCount:Int;
+	private var totalScore:Int;
 	
 	public function new(x:Int, y:Int, playerObj:Player){
 		super(x, y);
-		PC = playerObj;
 		
 		unfrozenWaterCount = 0;
 		
@@ -38,9 +37,19 @@ class GameManager extends Entity{
 		}
 	}
 	
-	public override function update(){
+	public function addScore(points:Int){
+		totalScore += points;
+	}
 	
-		if (Input.pressed(Key.D)){ PC.takeDamage(1);}
+	public function getScore(){
+		return totalScore;
+	}
+	
+	public function newLevelSetup(){
+		unfrozenWaterCount = 0;
+	}
+	
+	public override function update(){
 	
 	}
 	

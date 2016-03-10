@@ -225,6 +225,12 @@ class Player extends Entity
 		//HXP.console.log([frameCountdown]);
 		
 		
+		//Temporary system for damaging the player.
+			
+		if (Input.pressed(Key.D)){ takeDamage(1);}
+	
+		
+		
 		super.update();
 	}
 }
