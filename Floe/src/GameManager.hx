@@ -1,26 +1,25 @@
-package entities;
+package ;
+//Has no package, is imported via import GameManager.
 
-///Long term idea: this class will be used as a middle man for user interactions, and hold general game information that doesn't belong to other classes.
-
-import com.haxepunk.Entity;
-import com.haxepunk.utils.Input;
-import com.haxepunk.utils.Key;
-import com.haxepunk.graphics.Image;
-import entities.WaterTile;
-import entities.Player;
+///This  class will belong to the game's engine, and is responsible for:
+// Communication with the engine
+// Tracking level completion
+// Tracking player score
+// Providing information about score when asked
 
 import com.haxepunk.HXP;
 
-class GameManager extends Entity{
+class GameManager{
 	
 	private var unfrozenWaterCount:Int;
 	private var totalScore:Int;
 	
-	public function new(x:Int, y:Int, playerObj:Player){
-		super(x, y);
+	public function new(){
 		
 		unfrozenWaterCount = 0;
+		totalScore = 0;
 		
+		//I need to use the random seed for something.
 	}
 	
 	public function waterAdded(){
@@ -48,11 +47,5 @@ class GameManager extends Entity{
 	public function newLevelSetup(){
 		unfrozenWaterCount = 0;
 	}
-	
-	public override function update(){
-	
-	}
-	
-	
 	
 }
