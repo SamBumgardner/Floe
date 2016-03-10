@@ -43,6 +43,7 @@ class MenuSelector extends Entity
 		menuMove = new Sfx("audio/menuMove.mp3");
 		menuSelect = new Sfx("audio/menuSelect.mp3");
 		
+		userSeed = "";
 		keyboardListener();
 		
 	
