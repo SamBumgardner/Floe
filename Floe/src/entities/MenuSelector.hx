@@ -178,7 +178,7 @@ class MenuSelector extends Entity
 		verticalMove = 0;
 		
 		
-		if(Input.pressed(Key.SPACE)){
+		if(Input.pressed(Key.SPACE) || Input.pressed(Key.ENTER)){
 			selectOption();
 		}
 		
