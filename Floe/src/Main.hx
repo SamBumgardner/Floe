@@ -2,17 +2,18 @@ import com.haxepunk.Engine;
 import com.haxepunk.Scene;
 import com.haxepunk.HXP;
 
+import GameManager;
 
 class Main extends Engine
 {
+
+	public var gm:GameManager;
 
 	override public function init()
 	{
 #if debug
 		HXP.console.enable();
 #end
-
-
 		
 		HXP.scene = new scenes.MainMenu();
 	}
@@ -28,6 +29,9 @@ class Main extends Engine
 	public function returnToMenu(){
 		HXP.console.log(["Returning to main menu..."]);
 		HXP.scene.end();
+		
+		//Need to delete the gm object.
+		
 		HXP.scene = new scenes.MainMenu();
 	}
 	
@@ -35,17 +39,15 @@ class Main extends Engine
 		// --- Sets up manager and RNG for the new game ---
 		
 		if(seed != ""){
-			HXP.console.log(["The random seed is: ", seed]);
-			//This is a placeholder.
-			//Should convert the Sring to Int
+			HXP.randomSeed = Std.parseInt(seed);
 		}
-		else{
-			//Select a random seed automatically
-		}
-		//Create an instance of a game manager object
+		
+		HXP.console.log(["The random seed is: ", HXP.randomSeed]);
+		
+		gm = new GameManager();
+		
 		HXP.scene.end();
 		HXP.scene = new scenes.GameScene();
-		
 	}
 	
 	public function nextLevel(){

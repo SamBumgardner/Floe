@@ -2,20 +2,17 @@ package entities;
 
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
-import entities.GameManager;
 import com.haxepunk.HXP;
 
 class WaterTile extends Entity
 {
 	private var frozen:Bool;
-	private var GM:GameManager;
 	
-	public function new(x:Int, y:Int, gameManager:GameManager)
+	public function new(x:Int, y:Int)
 	{
 		super(x, y);
 		setHitbox(32,32);
 		type = "waterTile";
-		GM = gameManager;
 		graphic = new Image("graphics/water.png");
 		layer = 1;
 		frozen = false;
@@ -28,7 +25,7 @@ class WaterTile extends Entity
 	{
 		graphic = new Image("graphics/Ground_Winter.png");
 		frozen = true;
-		GM.waterFrozen();
+		HXP.engine.gm.waterFrozen();
 		
 	}
 	public function autoFreezeCheck()
