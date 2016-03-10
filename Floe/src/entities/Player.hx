@@ -118,7 +118,7 @@ class Player extends Entity
 	
 		//only need to call this after taking damage.
 	
-		if(currentHealth < 0){
+		if(currentHealth <= 0){
 			HXP.engine.gameOver();
 		}
 	
@@ -127,6 +127,7 @@ class Player extends Entity
 	public function takeDamage(damage:Int){
 	
 		currentHealth -= damage;
+		HXP.console.log(["Took ", damage, " damage! Only ", currentHealth, " health remaining."]);
 		isDead();//Check if the player died as a result.
 	}
 	

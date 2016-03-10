@@ -10,7 +10,7 @@ import entities.GameManager;
 import com.haxepunk.Sfx;
 
 
-class MainScene extends Scene
+class GameScene extends Scene
 {
 	
 	private var music:Sfx;
@@ -21,6 +21,7 @@ class MainScene extends Scene
 	}
 	public override function begin()
 	{
+		HXP.console.log(["Level is loading..."]);
 		
 		music = new Sfx("audio/bgm.mp3");
 		music.loop();
@@ -59,6 +60,7 @@ class MainScene extends Scene
 				placeY +=32;
 			}
 		}
+		HXP.console.log(["Level has been generated!"]);
 	}
 	public override function end(){
 	

@@ -26,7 +26,7 @@ class GameOverSplash extends Entity{
 		
 		if(Input.pressed(Key.SPACE)){
 			gameOverTag.stop();
-			HXP.engine.nextLevel();
+			HXP.engine.returnToMenu();
 		}
 	}
 	
