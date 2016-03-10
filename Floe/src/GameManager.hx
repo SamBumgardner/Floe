@@ -27,6 +27,7 @@ class GameManager{
 	}
 	public function waterFrozen(){
 		unfrozenWaterCount--;
+		addScore(10);
 		
 		HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
 		

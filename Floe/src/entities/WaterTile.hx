@@ -8,6 +8,7 @@ class WaterTile extends Entity
 {
 	private var frozen:Bool;
 	
+	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
@@ -83,6 +84,7 @@ class WaterTile extends Entity
 			
 		}
 		if (shouldFreeze){
+			HXP.engine.gm.addScore(10); //Double points for doing autofreezing.
 			freeze();
 		}
 	}

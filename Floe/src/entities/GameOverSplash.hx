@@ -20,6 +20,8 @@ class GameOverSplash extends Entity{
 		gameOverTag = new Sfx("audio/got.mp3");
 		gameOverTag.play();
 		
+		HXP.console.log(["Your final score was: ", HXP.engine.gm.getScore()]);
+		
 	}
 
 	public override function update(){
