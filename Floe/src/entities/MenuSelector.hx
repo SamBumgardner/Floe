@@ -151,6 +151,7 @@ class MenuSelector extends Entity
 			}
 			else if(code == 27){ // if the input is 'escape'
 				userSeed = "";
+				removeSeedSelection();
 			}
 			else{
 				displayUserSeed.text = userSeed;   // update the input string display
