@@ -30,8 +30,6 @@ class Main extends Engine
 		HXP.console.log(["Returning to main menu..."]);
 		HXP.scene.end();
 		
-		//Need to delete the gm object.
-		
 		HXP.scene = new scenes.MainMenu();
 	}
 	
@@ -40,6 +38,9 @@ class Main extends Engine
 		
 		if(seed != ""){
 			HXP.randomSeed = Std.parseInt(seed);
+		}
+		else{
+			HXP.randomizeSeed();
 		}
 		
 		HXP.console.log(["The random seed is: ", HXP.randomSeed]);
