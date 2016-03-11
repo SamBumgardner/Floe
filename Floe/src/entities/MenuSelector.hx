@@ -138,7 +138,7 @@ class MenuSelector extends Entity
 			var code = event.keyCode;
 			
 			// Check if the input string isn't too big, and that the key was a number
-			if (userSeed.length < 10 && ((code >= 48 && code < 58) || (code >= 96 && code < 106))){   
+			if (userSeed.length < 9 && ((code >= 48 && code < 58) || (code >= 96 && code < 106))){   
 				if(code > 95){
 					code -= 48;
 				}
