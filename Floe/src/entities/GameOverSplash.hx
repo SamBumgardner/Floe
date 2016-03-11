@@ -2,6 +2,7 @@ package entities;
 
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Text;
 import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
 import com.haxepunk.Sfx;
@@ -10,6 +11,8 @@ import com.haxepunk.HXP;
 class GameOverSplash extends Entity{
 
 	private var gameOverTag:Sfx;
+	
+	private var scoreInfo:Text = new Text("Your score was: " + HXP.engine.gm.getScore(), 70, 410);
 
 	public function new(x:Int, y:Int)
 	{
@@ -20,7 +23,8 @@ class GameOverSplash extends Entity{
 		gameOverTag = new Sfx("audio/got.mp3");
 		gameOverTag.play();
 		
-		HXP.console.log(["Your final score was: ", HXP.engine.gm.getScore()]);
+		scoreInfo.setTextProperty("size", 32);
+		HXP.scene.addGraphic(scoreInfo, -1);
 		
 	}
 
