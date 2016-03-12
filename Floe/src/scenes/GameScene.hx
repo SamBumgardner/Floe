@@ -40,6 +40,7 @@ class GameScene extends Scene
 		
 		if(gameManager != null){ //This only happens when a new game is started.
 			GM = gameManager;
+			musicPlaying = false;
 		}
 		
 		if(!staticAssetSetup){
@@ -96,6 +97,7 @@ class GameScene extends Scene
 		
 		if(!musicPlaying){
 			music.loop();
+			musicPlaying = true;
 		}
 		
 		add(GM);
