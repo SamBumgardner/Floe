@@ -1,5 +1,14 @@
 package entities;
 
+/* GameOverSplash casts HXP.scene to scenes.GameOver to access the public field GM at:
+ *
+ * 	Line 35
+ *
+ * 
+ *
+ *
+*/
+
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Text;
@@ -12,7 +21,7 @@ class GameOverSplash extends Entity{
 
 	private var gameOverTag:Sfx;
 	
-	private var scoreInfo:Text = new Text("Your score was: " + HXP.engine.gm.getScore(), 70, 410);
+	private var scoreInfo:Text;
 
 	public function new(x:Int, y:Int)
 	{
@@ -23,6 +32,7 @@ class GameOverSplash extends Entity{
 		gameOverTag = new Sfx("audio/got.mp3");
 		gameOverTag.play();
 		
+		scoreInfo = new Text("Your score was: " + cast(HXP.scene, scenes.GameOver).GM.getScore(), 70, 410);
 		scoreInfo.setTextProperty("size", 32);
 		HXP.scene.addGraphic(scoreInfo, -1);
 		

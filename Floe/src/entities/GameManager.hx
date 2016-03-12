@@ -1,5 +1,4 @@
-package ;
-//Has no package, is imported via import GameManager.
+package entities;
 
 ///This  class will belong to the game's engine, and is responsible for:
 // Communication with the engine
@@ -8,13 +7,15 @@ package ;
 // Providing information about score when asked
 
 import com.haxepunk.HXP;
+import com.haxepunk.Entity;
 
-class GameManager{
+class GameManager extends Entity{
 	
 	private var unfrozenWaterCount:Int;
 	private var totalScore:Int;
 	
-	public function new(){
+	public function new(x:Int = 0, y:Int = 0){
+		super(x, y);
 		
 		unfrozenWaterCount = 0;
 		totalScore = 0;

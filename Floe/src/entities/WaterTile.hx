@@ -1,5 +1,15 @@
 package entities;
 
+/* WaterTile interacts with GameScene's static variable GM at the following lines:
+ * 
+ * 	Line 39 in the freeze() function
+ *  Line 87 in the autoFreeze() function
+ * 
+ * 
+*/
+	  
+ 
+
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.HXP;
@@ -26,7 +36,7 @@ class WaterTile extends Entity
 	{
 		graphic = new Image("graphics/Ground_Winter.png");
 		frozen = true;
-		HXP.engine.gm.waterFrozen();
+		scenes.GameScene.GM.waterFrozen();
 		
 	}
 	public function autoFreezeCheck()
@@ -84,7 +94,7 @@ class WaterTile extends Entity
 			
 		}
 		if (shouldFreeze){
-			HXP.engine.gm.addScore(10); //Double points for doing autofreezing.
+			scenes.GameScene.GM.addScore(10); //Double points for doing autofreezing.
 			freeze();
 		}
 	}

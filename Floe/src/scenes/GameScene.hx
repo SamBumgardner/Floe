@@ -1,5 +1,18 @@
 package scenes;
 
+/* Where to find the non-overloaded public functions and static things:
+ *	Game Manager stuff:
+ * 		I declare the game manager as a public static variable at line 31.
+ * 		A GameManager can optionally be passed in as a parameter to new. 
+ *		It's assigned value in new() at line 45
+ *
+ * 	GameOver stuff:
+ *		public function GameOver is set up at line 116
+ * 
+ */
+
+
+
 import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
 import entities.Player;
@@ -16,6 +29,7 @@ class GameScene extends Scene
 	//declare static entities 
 	private static var music:Sfx;
 	public  static var GM:GameManager;
+	private static var musicPlaying:Bool = false;
 	
 	//Use a single boolean variable to check if the static entities and assets have been set up.
 	private static var staticSetup:Bool = false;
@@ -24,7 +38,6 @@ class GameScene extends Scene
 	{
 		super();
 		
-		music.loop();
 		if(!staticSetup){
 			//All entity and asset assignments for static variables go here.
 			
@@ -92,7 +105,6 @@ class GameScene extends Scene
 	
 	public override function end(){
 	
-		music.stop();
 		removeAll();
 	
 	}
@@ -100,7 +112,9 @@ class GameScene extends Scene
 	//Called when going to the gameOver scene, and not the next level.
 	// Stops the looping music.
 	// Returns the GameManager object for the gameOver scene to use.
+	
 	public function gameOver(){
+		music.stop();
 		return GM;
 	}
 }

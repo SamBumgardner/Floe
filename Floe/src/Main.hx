@@ -2,12 +2,19 @@ import com.haxepunk.Engine;
 import com.haxepunk.Scene;
 import com.haxepunk.HXP;
 
-import GameManager;
+/* Main.hx casts HXP.scene to GameScene to access not-overridden public functions at:
+ * 
+ * 	Line 70, where it needs t ocall GameScene.GameOver();
+ *  
+ *  Honestly, I don't need a separate GameOver function, but I wanted to try having an
+ *    alternative function that is called to end the scene when there won't be another
+ *    GameScene following.
+*/
+
+import entities.GameManager;
 
 class Main extends Engine
 {
-
-	public var gm:GameManager;
 
 	override public function init()
 	{
@@ -45,10 +52,10 @@ class Main extends Engine
 		
 		HXP.console.log(["The random seed is: ", HXP.randomSeed]);
 		
-		gm = new GameManager();
+		var gm:GameManager = new entities.GameManager();
 		
 		HXP.scene.end();
-		HXP.scene = new scenes.GameScene();
+		HXP.scene = new scenes.GameScene(gm);
 	}
 	
 	public function nextLevel(){
@@ -60,8 +67,9 @@ class Main extends Engine
 	
 	public function gameOver(){
 		HXP.console.log(["Game Over!"]);
+		var gm:GameManager = cast(HXP.scene, scenes.GameScene).gameOver(); //ends the looping music.
 		HXP.scene.end();
-		HXP.scene = new scenes.GameOver();
+		HXP.scene = new scenes.GameOver(gm);
 	}
 	
 }
