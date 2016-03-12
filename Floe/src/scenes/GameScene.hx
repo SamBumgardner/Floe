@@ -31,20 +31,21 @@ class GameScene extends Scene
 	public  static var GM:GameManager;
 	private static var musicPlaying:Bool = false;
 	
-	//Use a single boolean variable to check if the static entities and assets have been set up.
-	private static var staticSetup:Bool = false;
+	//Use a single boolean variable to check if the static assets have been set up.
+	private static var staticAssetSetup:Bool = false;
 	
 	public function new(?gameManager:GameManager) //leading ? means optional parameter.
 	{
 		super();
 		
-		if(!staticSetup){
-			//All entity and asset assignments for static variables go here.
-			
-			music = new Sfx("audio/bgm.mp3");
+		if(gameManager != null){ //This only happens when a new game is started.
 			GM = gameManager;
-			
-			staticSetup = true;
+		}
+		
+		if(!staticAssetSetup){
+			//All entity and asset assignments for static variables go here.
+			music = new Sfx("audio/bgm.mp3");
+			staticAssetSetup = true;
 		}
 		
 	}

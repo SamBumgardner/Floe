@@ -19,7 +19,6 @@ class GameManager extends Entity{
 		
 		unfrozenWaterCount = 0;
 		totalScore = 0;
-		
 		//I need to use the random seed for something.
 	}
 	
