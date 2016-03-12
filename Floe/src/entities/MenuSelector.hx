@@ -80,11 +80,11 @@ class MenuSelector extends Entity
 	
 	
 	private function displayInfographic(){
-		popUp = HXP.scene.addGraphic( new Image("graphics/infographic.png"), -1);
+		popUp = scene.addGraphic( new Image("graphics/infographic.png"), -1);
 		moveDisabled = true;
 	}
 	private function removeInfographic(){
-		HXP.scene.remove(popUp);
+		scene.remove(popUp);
 		moveDisabled = false;
 	}
 	
@@ -93,13 +93,13 @@ class MenuSelector extends Entity
 		displayUserSeed = new Text("", 300, 480, 0, 0);
 		displayUserSeed.setTextProperty("color", 0);
 		displayUserSeed.setTextProperty("size", 48);
-		popUp = HXP.scene.addGraphic( new Image("graphics/rngSeed.png"));
-		txtReference = HXP.scene.addGraphic(displayUserSeed);
+		popUp = scene.addGraphic( new Image("graphics/rngSeed.png"));
+		txtReference = scene.addGraphic(displayUserSeed);
 		moveDisabled = true;
 	}
 	private function removeSeedSelection(){
-		HXP.scene.remove(popUp);
-		HXP.scene.remove(txtReference);
+		scene.remove(popUp);
+		scene.remove(txtReference);
 		moveDisabled = false;
 	}
 	
@@ -108,11 +108,11 @@ class MenuSelector extends Entity
 	// will likely diverge as the project approaches completion.
 	
 	private function displayCredits(){
-		popUp = HXP.scene.addGraphic( new Image("graphics/credits.png"), -1);
+		popUp = scene.addGraphic( new Image("graphics/credits.png"), -1);
 		moveDisabled = true;
 	}
 	private function removeCredits(){
-		HXP.scene.remove(popUp);
+		scene.remove(popUp);
 		moveDisabled = false;
 	}
 	
