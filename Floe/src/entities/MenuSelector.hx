@@ -43,6 +43,7 @@ class MenuSelector extends Entity
 		menuMove = new Sfx("audio/menuMove.mp3");
 		menuSelect = new Sfx("audio/menuSelect.mp3");
 		
+		userSeed = "";
 		keyboardListener();
 		
 	
@@ -79,26 +80,26 @@ class MenuSelector extends Entity
 	
 	
 	private function displayInfographic(){
-		popUp = HXP.scene.addGraphic( new Image("graphics/infographic.png"), -1);
+		popUp = scene.addGraphic( new Image("graphics/infographic.png"), -1);
 		moveDisabled = true;
 	}
 	private function removeInfographic(){
-		HXP.scene.remove(popUp);
+		scene.remove(popUp);
 		moveDisabled = false;
 	}
 	
 	private function displaySeedSelection(){
 		userSeed = "";
-		displayUserSeed = new Text("", 350, 480, 0, 0);
+		displayUserSeed = new Text("", 300, 480, 0, 0);
 		displayUserSeed.setTextProperty("color", 0);
 		displayUserSeed.setTextProperty("size", 48);
-		popUp = HXP.scene.addGraphic( new Image("graphics/rngSeed.png"));
-		txtReference = HXP.scene.addGraphic(displayUserSeed);
+		popUp = scene.addGraphic( new Image("graphics/rngSeed.png"));
+		txtReference = scene.addGraphic(displayUserSeed);
 		moveDisabled = true;
 	}
 	private function removeSeedSelection(){
-		HXP.scene.remove(popUp);
-		HXP.scene.remove(txtReference);
+		scene.remove(popUp);
+		scene.remove(txtReference);
 		moveDisabled = false;
 	}
 	
@@ -107,11 +108,11 @@ class MenuSelector extends Entity
 	// will likely diverge as the project approaches completion.
 	
 	private function displayCredits(){
-		popUp = HXP.scene.addGraphic( new Image("graphics/credits.png"), -1);
+		popUp = scene.addGraphic( new Image("graphics/credits.png"), -1);
 		moveDisabled = true;
 	}
 	private function removeCredits(){
-		HXP.scene.remove(popUp);
+		scene.remove(popUp);
 		moveDisabled = false;
 	}
 	
@@ -137,7 +138,7 @@ class MenuSelector extends Entity
 			var code = event.keyCode;
 			
 			// Check if the input string isn't too big, and that the key was a number
-			if (userSeed.length < 5 && ((code >= 48 && code < 58) || (code >= 96 && code < 106))){   
+			if (userSeed.length < 9 && ((code >= 48 && code < 58) || (code >= 96 && code < 106))){   
 				if(code > 95){
 					code -= 48;
 				}
