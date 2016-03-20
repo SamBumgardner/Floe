@@ -128,6 +128,35 @@ class Player extends Entity
 		isDead();//Check if the player died as a result.
 	}
 	
+	//Ends the player's movement, setting variables used for sliding and  such
+	private function stopMovement(){};
+	
+	
+	//Starts player movement, locking player control for the next x frames
+	//Also sets a variable to track the player's movement direction (in case the player starts sliding on ice.
+	//Also resets the player's "Can't move" variables, since the player is in a different direction.
+	private function startMovement(){};
+	
+	
+	//While the player's control is locked out, move in the player's movement direction.
+	private function continueMovement(){};
+	
+	
+	//Called when the player finishes a movement cycle to see if the player should start sliding.
+	//Only moves player if the player has a non-zero value in the "last move" variable &&
+	//If the tile underfoot is slippery, like ice.
+	private function checkGround(){};
+	
+	
+	//Called when a movement key is pressed. identifies if a particular route for movement is blocked.
+	//If it is, set a boolean variable for that direction to show that it's blocked.
+	//That variable will be reset after the player successfully moves.
+	//Possibly execute some code every time this fails.
+	private function checkNextStep(){};
+	
+	
+	
+	
 	public override function update()
 	{	
 		//check if the bump sound should be played again.
