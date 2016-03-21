@@ -9,6 +9,14 @@ import entities.WaterTile;
 
 import com.haxepunk.HXP;
 
+enum Direction {
+	Up;
+	Down;
+	Left;
+	Right;
+	None;
+}
+
 //Note about bump sound effect logic:
 /*
 	To prevent the bump from sounding on every frame, I set bumpStop to true after playing the sound.
@@ -23,6 +31,10 @@ import com.haxepunk.HXP;
 class Player extends Entity
 {
 	
+	///////////////////////////////////////////
+	//          DATA INITIALIZATION          //
+	///////////////////////////////////////////
+	
 	private var maxHealth:Int;
 	private var currentHealth:Int;
 	
@@ -30,18 +42,26 @@ class Player extends Entity
 	private var stopBump:Bool; //hacky way to make this only play once.
 	
 	
-	private var frameDelay:Int;
+	private static var frameDelay:Int;
 	private var frameCountdown:Int;
-	private var moveSpeed:Int;
-	private var moveTime:Int;
+	private static var moveSpeed:Int;
 	
-	private var horizontalMove:Int; //Used to track user input with left/right keys.
-	private var verticalMove:Int;	//Used to track user input with up/down keys.
+	// Used to tell how recently a direction key was pressed, relative to
+	// the other priority variables.
+	private var leftPriority:Int = 0; 
+	private var rightPriority:Int= 0;
+	private var upPriority:Int = 0;
+	private var downPriority:Int = 0;
 	
-	private var lastMove:Int;
-	private var sliding:Bool;
-	private var numberOfMoves:Int;
+	// Used to tell if the top-priority direction was pressed this frame, or if it was held.
+	private var pressedThisFrame:Bool = false;
+
+	private var horizontalMove:Int = 0; //Used to track user input with left/right keys.
+	private var verticalMove:Int = 0;	//Used to track user input with up/down keys.
 	
+	private var currentMove:Direction = None;
+	private var lastMove:Direction = None;
+	private var sliding:Bool = False;
 	
 	private var idleAnim:Image;
 	
@@ -68,11 +88,15 @@ class Player extends Entity
 		
 		graphic = idleAnim;
 		
-		frameDelay = 7; // For some reason this is different for moving and sliding. Sliding needs to be 8, while moving has to be seven.
+		frameDelay = 7; 
 		frameCountdown = 0; 
 		
 		numberOfMoves = 0;		
 	}
+	
+	///////////////////////////////////////////
+	//            PLAYER  ACTIONS            //
+	///////////////////////////////////////////
 	
 	private function canSlide(){
 
@@ -103,10 +127,10 @@ class Player extends Entity
 		
 		sliding = true;
 		switch lastMove{
-			case -1: moveBy(-1 * moveSpeed, 0);
-			case 1: moveBy(moveSpeed, 0);
-			case 2: moveBy(0, -1 * moveSpeed);
-			case 4: moveBy(0, moveSpeed);
+			case Left: moveBy(-1 * moveSpeed, 0);
+			case Right: moveBy(moveSpeed, 0);
+			case Up: moveBy(0, -1 * moveSpeed);
+			case Down: moveBy(0, moveSpeed);
 		}
 		frameCountdown = frameDelay;
 	}
@@ -128,33 +152,201 @@ class Player extends Entity
 		isDead();//Check if the player died as a result.
 	}
 	
-	//Ends the player's movement, setting variables used for sliding and  such
-	private function stopMovement(){};
+	
+	//Called when the player finishes a movement cycle to see if the player should start sliding.
+	//Only moves player if the player has a non-zero value in the "last move" variable &&
+	//If the tile underfoot is slippery, like ice.
+	private function checkGround(){
+		
+	};
+	
+	//Ends the player's movement, setting variables used for sliding and such.
+	private function stopMovement(){
+		
+	};
+	
+	
+	
+	///////////////////////////////////////////
+	//             INPUT PARSING             //
+	///////////////////////////////////////////
+	
+	
+	//Called near the start of update (if not in the middle of movement) to get the user's inputs.
+	private function checkInputs(){
+		
+		if (Input.check(Key.LEFT)){		horizontalMove--; }		
+		if (Input.check(Key.RIGHT)){ 	horizontalMove++; }	
+		if (Input.check(Key.UP)){    	verticalMove--;   }	
+		if (Input.check(Key.DOWN)){		verticalMove++;   }
+		
+	};
+	
+	// Helper function for setInputPrecedence(), increments all Priority variables.
+	private function incrementPriorities(){
+	
+		leftPriority++;
+		rightPriority++;
+		upPriority++;
+		downPriority++;
+		
+	};
+	
+	// Identifies the most recently pressed movement key.
+	// Used in startMovement
+	private function setInputPrecedence(){
+	
+		pressedThisFrame = false; //Resets variable here for new frame.
+	
+		if (Input.pressed(Key.LEFT)){ 	
+			leftPriority = 0; 	
+			incrementPriorities();
+			pressedThisFrame = true;
+		}		
+		if (Input.pressed(Key.RIGHT)){	
+			rightPriority = 0; 	
+			incrementPriorities();
+			pressedThisFrame = true;
+		}	
+		if (Input.pressed(Key.UP)){ 	
+			upPriority = 0; 	
+			incrementPriorities();
+			pressedThisFrame = true;
+		}	
+		if (Input.pressed(Key.DOWN)){ 	
+			downPriority = 0; 	
+			incrementPriorities();
+			pressedThisFrame = true;
+		}
+	};
+	
+
+	
+	// Last step in the input sequence determines whether the player should move, and if so, what direction.
+	private function evaluateInput(){
+		
+		//No input is active
+		if( horizontalMove == 0 && verticalMove == 0 ){ 
+			currentMove = None;
+		}
+		
+		//Both a vertical and horizontal input are active
+		else if( horizontalMove != 0 && verticalMove != 0 ){ 
+			
+			var horizontalPrio:Int; //Temporary variables used to compare priorities of the inputs.
+			var verticalPrio:Int;
+			
+			var horizontalDir:Direction; //Temporary variables used to tell which inputs are being held.
+			var verticalDir:Direction;
+			
+			
+			// --- Check which horizontal direction is active ---
+			
+			if(horizontalMove == -1){ //Player is holding left
+				horizontalPrio = leftPriority;
+				horizontalDir = Left;
+			}
+			else{ //Player is holding right
+				horizontalPrio = rightPriority;
+				horizontalDir = Right;
+			}
+			
+			
+			// --- Check which vertical direction is active ---
+			
+			if(verticalMove == -1){ //Player is holding up
+				verticalPrio = upPriority;
+				verticalDir = Up;
+			}
+			else{ //Player is holding down
+				verticalPrio = downPriority
+				verticalDir = Down;
+			}
+			
+			
+			// --- Compare priorities and set currentMove ---
+			
+			if(horizontalPrio < verticalPrio){
+				currentMove = horizontalDir;
+			}
+			else{
+				currentMove = verticalDir;
+			}
+			
+		}
+		
+		else{ //Only one input is active
+			
+			// --- Check which horizontal direction is active, if any ---
+			
+			if(horizontalMove == -1){ //Player is holding left
+				currentMove = Left;
+			}
+			else{ //Player is holding right
+				currentMove = Right;
+			}
+			
+			
+			// --- Check which vertical direction is active, if any ---
+			
+			if(verticalMove == -1){ //Player is holding up
+				currentMove = Up;
+			}
+			else{ //Player is holding down
+				currentMove = Down;
+			}
+			
+			
+		}
+	}
+	
+	
+	
+	
+	///////////////////////////////////////////
+	//            PLAYER MOVEMENT            //
+	///////////////////////////////////////////
+	
 	
 	
 	//Starts player movement, locking player control for the next x frames
 	//Also sets a variable to track the player's movement direction (in case the player starts sliding on ice.
 	//Also resets the player's "Can't move" variables, since the player is in a different direction.
-	private function startMovement(){};
+	private function startMovement(){
+		
+	};
 	
 	
 	//While the player's control is locked out, move in the player's movement direction.
-	private function continueMovement(){};
+	private function continueMovement(){
+		switch lastMove{
+			case Left: moveBy(-1 * moveSpeed, 0);
+			case Right: moveBy(moveSpeed, 0);
+			case Up: moveBy(0, -1 * moveSpeed);
+			case Down: moveBy(0, moveSpeed);
+			}
+		frameCountdown--;
+	};
 	
 	
-	//Called when the player finishes a movement cycle to see if the player should start sliding.
-	//Only moves player if the player has a non-zero value in the "last move" variable &&
-	//If the tile underfoot is slippery, like ice.
-	private function checkGround(){};
+	
 	
 	
 	//Called when a movement key is pressed. identifies if a particular route for movement is blocked.
 	//If it is, set a boolean variable for that direction to show that it's blocked.
 	//That variable will be reset after the player successfully moves.
 	//Possibly execute some code every time this fails.
-	private function checkNextStep(){};
+	private function checkNextStep(){
+		
+	};
 	
 	
+	
+	
+	
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////
 	
 	
 	public override function update()
@@ -209,7 +401,8 @@ class Player extends Entity
 					}
 					else{	
 						moveBy(horizontalMove * moveSpeed, 0);
-						lastMove = horizontalMove;
+						if(horizontalMove == -1){lastMove = Left;}
+						if(horizontalMove == 1){lastMove = Right;}
 						
 						frameCountdown = frameDelay;
 						//numberOfMoves++;
@@ -224,7 +417,8 @@ class Player extends Entity
 					}
 					else{	
 						moveBy(0, verticalMove * moveSpeed);
-						lastMove = verticalMove + 3; //offset so that there is no conflict with horizontal move in the switch statement.
+						if(verticalMove == -1){lastMove = Up;}
+						if(verticalMove == 1){lastMove = Down;}
 						
 						frameCountdown = frameDelay;
 						//numberOfMoves++;
