@@ -10,22 +10,30 @@ package entities;
 	  
  
 
-import com.haxepunk.Entity;
+import entities.Tile;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.HXP;
+import com.haxepunk.Entity;
+//import scenes.GameScene;
+//import entities.GameManager;
 
-class WaterTile extends Entity
+class WaterTile extends Tile
 {
+	static public var commonImage:Image;
+	static private var graphicInit:Bool = false;
 	private var frozen:Bool;
 	
 	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
-		setHitbox(32,32);
 		type = "waterTile";
-		graphic = new Image("graphics/water.png");
-		layer = 1;
+		//need to reset graphic
+		if(!graphicInit) {
+			WaterTile.commonImage = new Image("graphics/water.png");
+			graphicInit = true;
+		}
+		graphic = commonImage;
 		frozen = false;
 	}
 	public function isFrozen()
@@ -37,7 +45,6 @@ class WaterTile extends Entity
 		graphic = new Image("graphics/Ground_Winter.png");
 		frozen = true;
 		scenes.GameScene.GM.waterFrozen();
-		
 	}
 	public function autoFreezeCheck()
 	{

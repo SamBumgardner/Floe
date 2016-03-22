@@ -20,6 +20,7 @@ import entities.WaterTile;
 import entities.GroundTile;
 import entities.Obstacle;
 import entities.GameManager;
+import entities.Tile;
 
 import com.haxepunk.Sfx;
 
