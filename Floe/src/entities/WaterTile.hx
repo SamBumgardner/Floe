@@ -14,11 +14,10 @@ import entities.Tile;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
-//import scenes.GameScene;
-//import entities.GameManager;
+import scenes.GameScene;
+import entities.GameManager;
 
-class WaterTile extends Tile
-{
+class WaterTile extends Tile {
 	static public var commonImage:Image;
 	static private var graphicInit:Bool = false;
 	private var frozen:Bool;
@@ -26,15 +25,24 @@ class WaterTile extends Tile
 	
 	public function new(x:Int, y:Int)
 	{
+		HXP.console.log(["calling super"]);
 		super(x, y);
+		HXP.console.log(["called super"]);
 		type = "waterTile";
+		HXP.console.log(["set type"]);
+		
 		//need to reset graphic
 		if(!graphicInit) {
 			WaterTile.commonImage = new Image("graphics/water.png");
 			graphicInit = true;
 		}
+		HXP.console.log(["statics initialized"]);
+		
 		graphic = commonImage;
+		HXP.console.log(["set graphic"]);
+		
 		frozen = false;
+		HXP.console.log(["set froozen"]);
 	}
 	public function isFrozen()
 	{

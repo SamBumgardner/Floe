@@ -15,7 +15,7 @@ class GroundTile extends Tile
 		super(x, y);
 		//need to reset graphic
 		if(!graphicInit) {
-			GroundTile.commonImage = commonImage;//new Image("graphics/ground.png");
+			GroundTile.commonImage = new Image("graphics/ground.png");
 			graphicInit = true;
 		}
 		graphic = commonImage;
