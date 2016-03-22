@@ -19,6 +19,7 @@ import entities.GameManager;
 
 class WaterTile extends Tile {
 	static public var commonImage:Image;
+	static public var commonFrozenImage:Image;
 	static private var graphicInit:Bool = false;
 	private var frozen:Bool;
 	
@@ -34,6 +35,7 @@ class WaterTile extends Tile {
 		//need to reset graphic
 		if(!graphicInit) {
 			WaterTile.commonImage = new Image("graphics/water.png");
+			commonFrozenImage = new Image("graphics/Ground_Winter.png");
 			graphicInit = true;
 		}
 		HXP.console.log(["statics initialized"]);
@@ -50,7 +52,7 @@ class WaterTile extends Tile {
 	}
 	public function freeze()
 	{
-		graphic = new Image("graphics/Ground_Winter.png");
+		graphic = commonFrozenImage;
 		frozen = true;
 		scenes.GameScene.GM.waterFrozen();
 	}
