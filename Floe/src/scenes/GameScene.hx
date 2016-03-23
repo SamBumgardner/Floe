@@ -16,6 +16,7 @@ package scenes;
 import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
 import entities.Player;
+import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
 import entities.Obstacle;
@@ -68,7 +69,9 @@ class GameScene extends Scene
 		
 		while(numOfTiles > 0){
 			if(HXP.random > .1){
+				HXP.console.log(["placing tile ", numOfTiles]);
 				add(new WaterTile(placeX, placeY));
+				HXP.console.log(["placed tile ", numOfTiles]);
 				numOfTiles -= 1;
 				
 				GM.waterAdded();
