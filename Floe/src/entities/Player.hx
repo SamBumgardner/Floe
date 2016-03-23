@@ -7,31 +7,29 @@ import com.haxepunk.utils.Key;
 import com.haxepunk.Sfx;
 import entities.WaterTile;
 
+import entities.MovingActor; //This actually just for the Direction enum, I think.
+
 import com.haxepunk.HXP;
 
-enum Direction {
-	Up;
-	Down;
-	Left;
-	Right;
-	None;
-}
 
-
-class Player extends Entity
+class Player extends MovingActor
 {
 	
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
 	///////////////////////////////////////////
 	
+	// Graphic/Audio asset-holding variables
+	private static var idleAnim:Image;
+	private static var bumpSound:Sfx;
 	
-	private var idleAnim:Image;
-	private var bumpSound:Sfx;
+	private static var assetsInitialized:Bool = false; 
 	
-	private static var frameDelay:Int 	= 7; // The number of frames a single move takes after the initial step. 
-	private var frameCountdown:Int 		= 0; // How many frames are left to do in the current move
-	private static var moveSpeed:Int 	= 4; // The number of pixels moved per frame.
+	
+	//These are child class-specific variables passed in to the super() constructor.
+	private static var frame_delay:Int 	= 7; // The number of frames a single move takes after the initial step. 
+	private static var move_speed:Int 	= 4; // The number of pixels moved per frame.
+	
 	
 	// Used to tell how recently a direction key was pressed, 
 	// relative to the other priority variables.
@@ -40,48 +38,34 @@ class Player extends Entity
 	private var upPriority:Int		= 0;
 	private var downPriority:Int 	= 0;
 	
+	
 	// Used to tell if the top-priority direction was pressed this frame, or if it was held.
 	private var pressedThisFrame:Bool = false;
 
-	private var horizontalMove:Int 	= 0; // Used to track user input with left/right keys.
-	private var verticalMove:Int 	= 0; // Used to track user input with up/down keys.
 	
-	private var currentMove:Direction 	= None;
-	private var inputBlocked:Bool 		= false; // True if the character is mid-move
-	private var sliding:Bool			= false; // True if the character is sliding on water/ice
+	// Variables used to track user input from the arrow keys.
+	private var horizontalMove:Int 	= 0; 
+	private var verticalMove:Int 	= 0; 
 	
 	
-	// Arrays of types used for checking collisions
-	// Note: the types are from the subclass, not from the superclass.
+	// Tells if the character is sliding on water/ice
+	private var sliding:Bool = false; 
 	
-	private static var backgroundTypes = ["groundTile", "waterTile"];
-	private static var actorTypes = ["obstacle"];
-	
-	
-	// Contains references to collision functions.
-	// Used in checkGround() and checkNextStep()
-	
-	private var collisionFunctions = new Map();
-	
-	
-	
+
 	public function new(x:Int, y:Int)
 	{
 	
-		super(x, y);
+		super(x, y, frame_delay, move_speed);
 		setHitbox(32, 32);
 		
-		bumpSound = new Sfx("audio/bump.mp3");
-		idleAnim = new Image("graphics/goodfriend.png");
-		graphic = idleAnim;
+		if( assetsInitialized == false ){
+			bumpSound = new Sfx("audio/bump.mp3");
+			idleAnim = new Image("graphics/goodfriend.png");
+			graphic = idleAnim;
+			assetsInitialized = true;
+		}
 		
-		collisionFunctions = [ 
 		
-		"obstacle" => obstacleCollision,
-		"waterTile" => waterTileCollision,
-		"groundTile" => groundTileCollision
-
-		]; 
 		
 	}
 	
@@ -103,8 +87,9 @@ class Player extends Entity
 	//             INPUT PARSING             //
 	///////////////////////////////////////////
 	
-	
-	//resets horizontalMove and verticalMove to 0, and checks arrow key input.
+	// checkInputs()
+	//
+	// Resets horizontalMove and verticalMove to 0, and checks arrow key input.
 	
 	private function checkInputs(){
 		horizontalMove = 0;
@@ -119,6 +104,8 @@ class Player extends Entity
 	
 	
 	
+	// incrementPriorities()
+	//
 	// Helper function for setInputPrecedence(), increments all Priority variables.
 	
 	private function incrementPriorities(){
@@ -132,6 +119,8 @@ class Player extends Entity
 	
 	
 	
+	// setInputPrecedence()
+	//
 	// Identifies the most recently pressed movement key.
 	// Used in startMovement
 	
@@ -162,7 +151,9 @@ class Player extends Entity
 	};
 	
 
-	
+
+	// evaluateInput()
+	//
 	// Looks at input variables 'horizontalMove' and 'verticalMove'
 	// Determines if Player should move, and if so, what direction.
 	
@@ -246,132 +237,15 @@ class Player extends Entity
 	///////////////////////////////////////////
 	//            PLAYER MOVEMENT            //
 	///////////////////////////////////////////
-	
-	// Helper function for checkNextStep
-	// attempts to do collision with the passed-in entity
-	
-	private function attemptCollision(e:Entity){
-		if( e != null ){
-					
-			//HXP.console.log(["Detected collision with ", e.type, " in the direction ", currentMove]);
-		
-			(collisionFunctions[e.type])(e); //call that object's collision function.	
-		
-		}
-	}
-	
-	
-	
-	// Check if there is another actor in the direction the player is attempting to move in.
-	// If so, attemptCollision() is used to resolve the situation.
 
-	private function checkNextStep(){
-		switch currentMove{
-			case Left: {
-				// Checks 1px left of player for collision with actorType entities
-				var e:Entity = collideTypes(actorTypes, x - 1, y); 
-				
-				attemptCollision(e);
-			}
-			case Right: {
-				// Checks 1px to the right
-				var e:Entity = collideTypes(actorTypes, x + 1, y); 
-				
-				attemptCollision(e);
-			
-			}
-			case Up: {
-				// Checks 1px above
-				var e:Entity = collideTypes(actorTypes, x, y - 1); 
-				
-				attemptCollision(e);
-			
-			}
-			case Down: {
-				// Checks 1px below
-				var e:Entity = collideTypes(actorTypes, x, y + 1); 
-				
-				attemptCollision(e);
-			}
-			
-			case None: {} //Does nothing
-		}
-	};
 	
+	// stopMovement()
+	//
+	// Overrides MovingActor's stopMovement() to track sliding as well.
 	
-	
-	// Starts player movement and locks player control for the next [[frameDelay]] frames
-	
-	private function startMovement(){
-		
-		switch currentMove{
-			case Left: moveBy(-1 * moveSpeed, 0);
-			case Right: moveBy(moveSpeed, 0);
-			case Up: moveBy(0, -1 * moveSpeed);
-			case Down: moveBy(0, moveSpeed);
-			
-			case None: return null; // exits function early, skips setting other variables
-		}
-		
-		inputBlocked = true; // The player cannot change direction until they have finished the move.
-		frameCountdown = frameDelay;
-		
-		return null; // Required by haxe's compiler (since there's a return statement for None.
-		
-	};
-	
-	
-	
-	// While the player's control is locked out, move in the player's movement direction.
-	
-	private function continueMovement(){
-		
-		switch currentMove{
-			case Left: moveBy(-1 * moveSpeed, 0);
-			case Right: moveBy(moveSpeed, 0);
-			case Up: moveBy(0, -1 * moveSpeed);
-			case Down: moveBy(0, moveSpeed);
-			
-			case None: {};
-		}
-		
-		frameCountdown--;
-	};
-	
-	
-	
-	// Called when the player finishes a movement cycle to see what sort of ground
-	// the player is standing on. Calls the appropriate
-	
-	private function checkGround(){
-		var e:Entity = collideTypes(backgroundTypes, x, y);
-		if (e != null)
-		{
-			HXP.console.log(["Detected collision with ", e.type, " beneath Player."]);
-			(collisionFunctions[e.type])(e); //calls appropriate collision function.
-		}
-		else{ //TEMPORARY CODE: remove after level generation is completely fixed!
-			collisionFunctions["groundTile"](e);
-		
-		}
-	};
-	
-	
-	
-	// Ends the player's movement, or could prevent it from starting.
-	
-	private function stopMovement(){
-		
-		if(frameCountdown != 0){
-			HXP.console.log(["ERROR: stopMovement was called while frameCountdown != 0"]);
-		}
-		
-		currentMove = None;
-		inputBlocked = false;
+	private override function stopMovement(){
+		super.stopMovement();
 		sliding = false;
-		
-		frameCountdown = -1; // Ensures that the game doesn't keep checking what the ground is every frame.
-		
 	};
 	
 	
@@ -385,8 +259,12 @@ class Player extends Entity
 	// e.g. move again while on a water tile, or stop when on a ground tile.
 	
 	
-	private function waterTileCollision( e:Entity ){
-		sliding = true;
+	// waterTileCollision( e:Entity )
+	//
+	// Freezes the water tile and attempts to move again.
+	
+	private override function waterTileCollision( e:Entity ){
+		sliding = true; // used in obstacle collision to tell if the player slid into it.
 		var w:WaterTile = cast(e, WaterTile);
 		if(!w.isFrozen()){
 			w.freeze();
@@ -395,9 +273,11 @@ class Player extends Entity
 		startMovement();
 	}
 	
+	// groundTileCollision( e:Entity )
+	//
+	// The player does not slide around.
 	
-	
-	private function groundTileCollision( e:Entity ){
+	private override function groundTileCollision( e:Entity ){
 		stopMovement();
 	}
 	
@@ -407,10 +287,15 @@ class Player extends Entity
 	///////////////////////////////////////////
 	
 	
+	// obstacleCollision( e:Entity )
+	//
+	// Prevent the player from moving into it.
+	// If the player slid into the rock or tried to walk into it while adjacent to it,
+	// play a sound to alert the user that their movement was prevented.
 	
-	private function obstacleCollision( e:Entity ){
+	private override function obstacleCollision( e:Entity ){
 		if( sliding == true || pressedThisFrame == true ){
-			bumpSound.play(.5);
+			bumpSound.play(.2);
 		}
 		stopMovement();
 	}
@@ -429,24 +314,6 @@ class Player extends Entity
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
-	
-	// General Plan for update:
-	
-	// if input is locked, just scoot along
-	
-	// 		On the last move, check ground to see if it's ice/water
-	//		If it's ground, call stop movement
-	
-	// if input is not locked, parse input    *still parse some inputs, like priority stuff. 
-	
-	// if currentMove != None, attempt move   *use bool to tell if this should run, even if input is locked.
-	
-	// 		check for collision in that direction
-	
-	//		Move in currentDirection (if None, don't move)
-	
-	
-	
 	
 	public override function update()
 	{	
@@ -473,7 +340,7 @@ class Player extends Entity
 				
 				evaluateInput();
 				
-				if( currentMove != None){
+				if( currentMove != None ){
 					checkNextStep();
 					startMovement();
 				}
