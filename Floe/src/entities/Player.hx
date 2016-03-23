@@ -61,10 +61,10 @@ class Player extends MovingActor
 		if( assetsInitialized == false ){
 			bumpSound = new Sfx("audio/bump.mp3");
 			idleAnim = new Image("graphics/goodfriend.png");
-			graphic = idleAnim;
 			assetsInitialized = true;
 		}
 		
+		graphic = idleAnim;
 		
 		
 	}
