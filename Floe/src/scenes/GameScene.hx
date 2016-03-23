@@ -16,6 +16,7 @@ package scenes;
 import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
 import entities.Player;
+import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
 import entities.Obstacle;

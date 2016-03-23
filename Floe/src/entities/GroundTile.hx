@@ -1,19 +1,25 @@
 package entities;
 
-import com.haxepunk.Entity;
+import entities.Tile;
 import com.haxepunk.graphics.Image;
 
-class GroundTile extends Entity
+
+
+class GroundTile extends Tile
 {
-	
+	static public var commonImage:Image;
+	static private var graphicInit:Bool = false;
 	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
-		setHitbox(32,32);
+		//need to reset graphic
+		if(!graphicInit) {
+			GroundTile.commonImage = new Image("graphics/Ground_Basic.png");
+			graphicInit = true;
+		}
+		graphic = commonImage;
 		type = "groundTile";
-		graphic = new Image("graphics/Ground_Basic.png");
-		layer = 1;
 	}
 
 }
