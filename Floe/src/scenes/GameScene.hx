@@ -70,8 +70,6 @@ class GameScene extends Scene
 			if(HXP.random > .1){
 				add(new WaterTile(placeX, placeY));
 				numOfTiles -= 1;
-				
-				GM.waterAdded();
 			}
 			else{
 				if(HXP.random > .5){

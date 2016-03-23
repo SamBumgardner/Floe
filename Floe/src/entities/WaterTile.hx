@@ -16,17 +16,19 @@ import com.haxepunk.HXP;
 
 class WaterTile extends Entity
 {
-	private var frozen:Bool;
+	private var frozen:Bool = false;
 	
 	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
+		
 		setHitbox(32,32);
 		type = "waterTile";
 		graphic = new Image("graphics/water.png");
 		layer = 1;
-		frozen = false;
+		
+		scenes.GameScene.GM.waterAdded();
 	}
 	public function isFrozen()
 	{
