@@ -17,20 +17,20 @@ import com.haxepunk.Entity;
 import scenes.GameScene;
 import entities.GameManager;
 
+
 class WaterTile extends Tile {
 	static public var commonImage:Image;
 	static public var commonFrozenImage:Image;
 	static private var graphicInit:Bool = false;
-	private var frozen:Bool;
+	private var frozen:Bool = false;
+
 	
 	
 	public function new(x:Int, y:Int)
 	{
-		HXP.console.log(["calling super"]);
 		super(x, y);
-		HXP.console.log(["called super"]);
+
 		type = "waterTile";
-		HXP.console.log(["set type"]);
 		
 		//need to reset graphic
 		if(!graphicInit) {
@@ -38,13 +38,11 @@ class WaterTile extends Tile {
 			commonFrozenImage = new Image("graphics/Ground_Winter.png");
 			graphicInit = true;
 		}
-		HXP.console.log(["statics initialized"]);
 		
 		graphic = commonImage;
-		HXP.console.log(["set graphic"]);
 		
-		frozen = false;
-		HXP.console.log(["set froozen"]);
+		scenes.GameScene.GM.waterAdded();
+
 	}
 	public function isFrozen()
 	{

@@ -7,224 +7,346 @@ import com.haxepunk.utils.Key;
 import com.haxepunk.Sfx;
 import entities.WaterTile;
 
+import entities.MovingActor; //This actually just for the Direction enum, I think.
+
 import com.haxepunk.HXP;
 
-//Note about bump sound effect logic:
-/*
-	To prevent the bump from sounding on every frame, I set bumpStop to true after playing the sound.
-	If bumpStop is true, then the sound will not be played, even if they player is holding movement
-	toward a rock or is sliding into one.
-	
-	After pressing any key, bumpStop is reset, allowing the sound to play again.
-*/
 
-
-
-class Player extends Entity
+class Player extends MovingActor
 {
 	
-	private var maxHealth:Int;
-	private var currentHealth:Int;
+	///////////////////////////////////////////
+	//          DATA INITIALIZATION          //
+	///////////////////////////////////////////
 	
-	private var bumpSound:Sfx;
-	private var stopBump:Bool; //hacky way to make this only play once.
+	// Graphic/Audio asset-holding variables
+	private static var idleAnim:Image;
+	private static var bumpSound:Sfx;
 	
-	
-	private var frameDelay:Int;
-	private var frameCountdown:Int;
-	private var moveSpeed:Int;
-	private var moveTime:Int;
-	
-	private var horizontalMove:Int; //Used to track user input with left/right keys.
-	private var verticalMove:Int;	//Used to track user input with up/down keys.
-	
-	private var lastMove:Int;
-	private var sliding:Bool;
-	private var numberOfMoves:Int;
+	private static var assetsInitialized:Bool = false; 
 	
 	
-	private var idleAnim:Image;
+	//These are child class-specific variables passed in to the super() constructor.
+	private static var frame_delay:Int 	= 7; // The number of frames a single move takes after the initial step. 
+	private static var move_speed:Int 	= 4; // The number of pixels moved per frame.
 	
 	
+	// Used to tell how recently a direction key was pressed, 
+	// relative to the other priority variables.
+	private var leftPriority:Int 	= 0; 
+	private var rightPriority:Int	= 0;
+	private var upPriority:Int		= 0;
+	private var downPriority:Int 	= 0;
+	
+	
+	// Used to tell if the top-priority direction was pressed this frame, or if it was held.
+	private var pressedThisFrame:Bool = false;
+
+	
+	// Variables used to track user input from the arrow keys.
+	private var horizontalMove:Int 	= 0; 
+	private var verticalMove:Int 	= 0; 
+	
+	
+	// Tells if the character is sliding on water/ice
+	private var sliding:Bool = false; 
+	
+
 	public function new(x:Int, y:Int)
 	{
 	
-		super(x, y);
+		super(x, y, frame_delay, move_speed);
 		setHitbox(32, 32);
-		moveSpeed = 4;
-		moveTime = 8; 
 		
-		bumpSound = new Sfx("audio/bump.mp3");
-		stopBump = false;
-	
-		maxHealth = 3;
-		currentHealth = maxHealth;
-		
-		horizontalMove = 0;
-		verticalMove = 0;
-		sliding = false;
-		
-		idleAnim = new Image("graphics/goodfriend.png");
+		if( assetsInitialized == false ){
+			bumpSound = new Sfx("audio/bump.mp3");
+			idleAnim = new Image("graphics/goodfriend.png");
+			assetsInitialized = true;
+		}
 		
 		graphic = idleAnim;
 		
-		frameDelay = 7; // For some reason this is different for moving and sliding. Sliding needs to be 8, while moving has to be seven.
-		frameCountdown = 0; 
 		
-		numberOfMoves = 0;		
 	}
 	
-	private function canSlide(){
-
-		if(lastMove < 2){
-			var o:Entity = collide("obstacle", x + lastMove, y);
-			if (o != null)
-			{
-				return false;
-			}
-		}
-		else{
-		
-			var o:Entity = collide("obstacle", x, y + lastMove - 3);
-			if (o != null)
-			{
-				return false;
-			}
-		}
-		//If it gets to here, it's safe to slide
-		return true;
-	}
-		
-		
 	
 	
-	private function slide()
-	{
-		
-		sliding = true;
-		switch lastMove{
-			case -1: moveBy(-1 * moveSpeed, 0);
-			case 1: moveBy(moveSpeed, 0);
-			case 2: moveBy(0, -1 * moveSpeed);
-			case 4: moveBy(0, moveSpeed);
-		}
-		frameCountdown = frameDelay;
-	}
+	///////////////////////////////////////////
+	//            PLAYER  ACTIONS            //
+	///////////////////////////////////////////
 	
-	private function isDead(){
-	
-		//only need to call this after taking damage.
-	
-		if(currentHealth <= 0){
-			HXP.engine.gameOver();
-		}
-	
-	}
 	
 	public function takeDamage(damage:Int){
-	
-		currentHealth -= damage;
-		HXP.console.log(["Took ", damage, " damage! Only ", currentHealth, " health remaining."]);
-		isDead();//Check if the player died as a result.
+		scenes.GameScene.GM.damagePlayer(damage);
+		//Play an injury animation & sound effect here.
 	}
+	
+	
+	
+	///////////////////////////////////////////
+	//             INPUT PARSING             //
+	///////////////////////////////////////////
+	
+	// checkInputs()
+	//
+	// Resets horizontalMove and verticalMove to 0, and checks arrow key input.
+	
+	private function checkInputs(){
+		horizontalMove = 0;
+		verticalMove = 0;
+		
+		if (Input.check(Key.LEFT)){		horizontalMove--; }		
+		if (Input.check(Key.RIGHT)){ 	horizontalMove++; }	
+		if (Input.check(Key.UP)){    	verticalMove--;   }	
+		if (Input.check(Key.DOWN)){		verticalMove++;   }
+		
+	};
+	
+	
+	
+	// incrementPriorities()
+	//
+	// Helper function for setInputPrecedence(), increments all Priority variables.
+	
+	private function incrementPriorities(){
+	
+		leftPriority++;
+		rightPriority++;
+		upPriority++;
+		downPriority++;
+		
+	};
+	
+	
+	
+	// setInputPrecedence()
+	//
+	// Identifies the most recently pressed movement key.
+	// Used in startMovement
+	
+	private function setInputPrecedence(){
+	
+		pressedThisFrame = false; //Resets variable here for new frame.
+	
+		if (Input.pressed(Key.LEFT)){ 	
+			leftPriority = 0; 	
+			incrementPriorities();
+			pressedThisFrame = true;
+		}		
+		if (Input.pressed(Key.RIGHT)){	
+			rightPriority = 0; 	
+			incrementPriorities();
+			pressedThisFrame = true;
+		}	
+		if (Input.pressed(Key.UP)){ 	
+			upPriority = 0; 	
+			incrementPriorities();
+			pressedThisFrame = true;
+		}	
+		if (Input.pressed(Key.DOWN)){ 	
+			downPriority = 0; 	
+			incrementPriorities();
+			pressedThisFrame = true;
+		}
+	};
+	
+
+
+	// evaluateInput()
+	//
+	// Looks at input variables 'horizontalMove' and 'verticalMove'
+	// Determines if Player should move, and if so, what direction.
+	
+	private function evaluateInput(){
+		
+		// No input is active
+		if( horizontalMove == 0 && verticalMove == 0 ){ 
+			currentMove = None;
+		}
+		
+		// Both a vertical and horizontal input are active
+		else if( horizontalMove != 0 && verticalMove != 0 ){ 
+			
+			var horizontalPrio:Int; //Temporary variables used to compare priorities of the inputs.
+			var verticalPrio:Int;
+			
+			var horizontalDir:Direction; //Temporary variables used to tell which inputs are being held.
+			var verticalDir:Direction;
+			
+			
+			// --- Check which horizontal direction is active ---
+			
+			if(horizontalMove == -1){ //Player is holding left
+				horizontalPrio = leftPriority;
+				horizontalDir = Left;
+			}
+			else{ //Player is holding right
+				horizontalPrio = rightPriority;
+				horizontalDir = Right;
+			}
+			
+			
+			// --- Check which vertical direction is active ---
+			
+			if(verticalMove == -1){ //Player is holding up
+				verticalPrio = upPriority;
+				verticalDir = Up;
+			}
+			else{ //Player is holding down
+				verticalPrio = downPriority;
+				verticalDir = Down;
+			}
+			
+			
+			// --- Compare priorities and set currentMove ---
+			
+			if(horizontalPrio < verticalPrio){
+				currentMove = horizontalDir;
+			}
+			else{
+				currentMove = verticalDir;
+			}
+			
+		}
+		
+		else{ //Only one input is active
+			
+			// --- Check which horizontal direction is active, if any ---
+			
+			if(horizontalMove == -1){ //Player is holding left
+				currentMove = Left;
+			}
+			else if(horizontalMove == 1){ //Player is holding right
+				currentMove = Right;
+			}
+			
+			
+			// --- Check which vertical direction is active, if any ---
+			
+			else if(verticalMove == -1){ //Player is holding up
+				currentMove = Up;
+			}
+			else if(verticalMove == 1){ //Player is holding down
+				currentMove = Down;
+			}
+		}
+	}
+
+	
+	
+	///////////////////////////////////////////
+	//            PLAYER MOVEMENT            //
+	///////////////////////////////////////////
+
+	
+	// stopMovement()
+	//
+	// Overrides MovingActor's stopMovement() to track sliding as well.
+	
+	private override function stopMovement(){
+		super.stopMovement();
+		sliding = false;
+	};
+	
+	
+	
+	///////////////////////////////////////////
+	//    BACKGROUND COLLISION FUNCTIONS     //
+	///////////////////////////////////////////
+	
+	// These functions will be called when a player finishes moving onto a tile.
+	// They should set in motion any behavior that occurs after landing on that particular tile,
+	// e.g. move again while on a water tile, or stop when on a ground tile.
+	
+	
+	// waterTileCollision( e:Entity )
+	//
+	// Freezes the water tile and attempts to move again.
+	
+	private override function waterTileCollision( e:Entity ){
+		sliding = true; // used in obstacle collision to tell if the player slid into it.
+		var w:WaterTile = cast(e, WaterTile);
+		if(!w.isFrozen()){
+			w.freeze();
+		}
+		checkNextStep();
+		startMovement();
+	}
+	
+	// groundTileCollision( e:Entity )
+	//
+	// The player does not slide around.
+	
+	private override function groundTileCollision( e:Entity ){
+		stopMovement();
+	}
+	
+	
+	///////////////////////////////////////////
+	//       MOVE COLLISION FUNCTIONS        //
+	///////////////////////////////////////////
+	
+	
+	// obstacleCollision( e:Entity )
+	//
+	// Prevent the player from moving into it.
+	// If the player slid into the rock or tried to walk into it while adjacent to it,
+	// play a sound to alert the user that their movement was prevented.
+	
+	private override function obstacleCollision( e:Entity ){
+		if( sliding == true || pressedThisFrame == true ){
+			bumpSound.play(.2);
+		}
+		stopMovement();
+	}
+	
+	
+	
+	///////////////////////////////////////////
+	//      GENERAL COLLISION FUNCTIONS      //
+	///////////////////////////////////////////
+	
+	
+	//Nothing here yet. Useful for handling things like getting hit by a fireball.
+	
+	
+	
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////
 	
 	public override function update()
 	{	
-		//check if the bump sound should be played again.
-		if (Input.pressed(Key.LEFT) || Input.pressed(Key.RIGHT)
-			|| Input.pressed(Key.UP) || Input.pressed(Key.DOWN)){stopBump = false;}
+
+		checkInputs();
+		setInputPrecedence();
 	
-	
-		if(frameCountdown <= 0){
-			var w:Entity = collide("waterTile", x, y);
-			if (w != null)
-			{
-				var w:WaterTile = cast(w, WaterTile);
-				if(!w.isFrozen()){
-					w.freeze();
-				}
-				
-				if(canSlide() && lastMove != 0){ //check if the player can move in lastMove
-					slide();
-				}
-				else if(lastMove != 0){
-					if(!stopBump){
-						bumpSound.play(0.5);
-						stopBump = true;
-					}
-					lastMove = 0;
-				}
-			}
+		if( frameCountdown > 0 ){
 			
-			if(sliding == false)
-			{
-				
-				//use incrementation so that opposite keys cancel each other out.
-				if (Input.check(Key.LEFT)){ horizontalMove--; }
-				
-				if (Input.check(Key.RIGHT)){horizontalMove++;}
-				
-				if (Input.check(Key.UP)){verticalMove--;}
-				
-				if (Input.check(Key.DOWN)){verticalMove++;}
-			
-			
-				//Horizontal movement has priority over vertical movement if both are pressed on the same frame.
-				
-				if(horizontalMove != 0){
-					//check if there is an obstacle blocking movement.
-					var o:Entity = collide("obstacle", x + horizontalMove, y);
-					if (o != null)
-					{
-						//Do nothing.
-					}
-					else{	
-						moveBy(horizontalMove * moveSpeed, 0);
-						lastMove = horizontalMove;
-						
-						frameCountdown = frameDelay;
-						//numberOfMoves++;
-						//HXP.console.log([numberOfMoves]);
-					}
-				}
-				else if(verticalMove != 0){
-					var o:Entity = collide("obstacle", x, y + verticalMove);
-					if (o != null)
-					{
-						//Do nothing.
-					}
-					else{	
-						moveBy(0, verticalMove * moveSpeed);
-						lastMove = verticalMove + 3; //offset so that there is no conflict with horizontal move in the switch statement.
-						
-						frameCountdown = frameDelay;
-						//numberOfMoves++;
-						//HXP.console.log([numberOfMoves]);
-					}
-				}
-			
-			
-			
-				//These must be reset for future frames.
-				horizontalMove = 0;
-				verticalMove = 0;
-			}
-			sliding = false;
-			
+			continueMovement();
+		
 		}
-		else{ //This means that the player is mid-movement, either sliding.
-			switch lastMove{
-			case -1: moveBy(-1 * moveSpeed, 0);
-			case 1: moveBy(moveSpeed, 0);
-			case 2: moveBy(0, -1 * moveSpeed);
-			case 4: moveBy(0, moveSpeed);
+		else if( frameCountdown <= 0 ){
+		
+			if( frameCountdown == 0 ){ //Means that movement just ended.
+			
+				// If the player continues movement here, frameCountdown is reset to frameDelay
+				// If the player stops movement here, frameCountdown is set to -1, so it isn't called every frame.
+				
+				checkGround();
 			}
-			frameCountdown--;
+		
+			if( frameCountdown <= 0 ){ // Don't want to do this if the frameCountdown was reset.
+				
+				evaluateInput();
+				
+				if( currentMove != None ){
+					checkNextStep();
+					startMovement();
+				}
+			}
 		}
-		
-		//HXP.console.log([frameCountdown]);
-		
-		
+			
 		//Temporary system for damaging the player.
 			
 		if (Input.pressed(Key.D)){ takeDamage(1);}
