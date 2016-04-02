@@ -22,6 +22,7 @@ class Player extends MovingActor
 	// Graphic/Audio asset-holding variables
 	private static var idleAnim:Image;
 	private static var bumpSound:Sfx;
+	private static var damagedSound:Sfx;
 	
 	private static var assetsInitialized:Bool = false; 
 	
@@ -46,6 +47,9 @@ class Player extends MovingActor
 	// Tells if the character is sliding on water/ice
 	private var sliding:Bool = false; 
 	
+	private var invincible:Bool = false;
+	private var invincibilityCountdown:Int;
+	
 
 	public function new(x:Int, y:Int)
 	{
@@ -55,9 +59,11 @@ class Player extends MovingActor
 		moveSpeed = 4;
 		
 		setHitbox(32, 32);
+		type = "player";
 		
 		if( assetsInitialized == false ){
 			bumpSound = new Sfx("audio/bump.mp3");
+			damagedSound = new Sfx("audio/playerDamaged.mp3");
 			idleAnim = new Image("graphics/goodfriend.png");
 			assetsInitialized = true;
 		}
@@ -73,10 +79,41 @@ class Player extends MovingActor
 	//            PLAYER  ACTIONS            //
 	///////////////////////////////////////////
 	
+	// takeDamage()
+	//
+	// Deals damage to the player & activates 30 frames of invincibility
 	
 	public function takeDamage(damage:Int){
-		scenes.GameScene.GM.damagePlayer(damage);
-		//Play an injury animation & sound effect here.
+		if( !invincible ){
+			scenes.GameScene.GM.damagePlayer(damage);
+			damagedSound.play(.4);
+			//Play an injury animation here.
+			
+			turnInvincible(30);
+		}
+	}
+	
+	
+	// turnInvincible( numOfIFrames:Int )
+	//
+	// Prevents the player from taking damage for a number of frames.
+	
+	private function turnInvincible( numOfIFrames:Int ){
+		invincible = true;
+		invincibilityCountdown = numOfIFrames;
+	}
+	
+	
+	// invincibilityDecay
+	// 
+	// Decrements invincibility, and checks if it should be removed.
+	// Called at the start of every update() function.
+	
+	private function invincibilityDecay(){
+		if(invincibilityCountdown > 0) { invincibilityCountdown--; }
+		else if( invincible && invincibilityCountdown <= 0 ){
+			invincible = false;
+		}
 	}
 	
 	
@@ -320,7 +357,8 @@ class Player extends MovingActor
 	
 	public override function update()
 	{	
-
+		invincibilityDecay();
+	
 		checkInputs();
 		setInputPrecedence();
 	
