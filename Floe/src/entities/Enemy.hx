@@ -23,16 +23,16 @@ class Enemy extends MovingActor
 
 	private var size:Int;
 
-	private var attackDamage:Int;
+	public var attackDamage:Int;
 
-	maxEndurance:Int;
-	currentEndurance:Int;
+	private var maxEndurance:Int;
+	private var currentEndurance:Int;
 	
 	private var restTime:Int;
 	private var restCountdown:Int = 0;
 
 	private var recalcTime:Int;
-	private var recalcCountDown:Int = 0;
+	private var recalcCountdown:Int = 0;
 
 	private var destinationX:Int;
 	private var destinationY:Int;
@@ -98,7 +98,7 @@ class Enemy extends MovingActor
 	
 	private function calcDestination(){
 		recalcCountdown = recalcTime;
-		setDestDistances;
+		setDestDistances();
 	};
 	
 	
@@ -125,10 +125,10 @@ class Enemy extends MovingActor
 	// Should be called after finishing a move or calling calcDestination.
 	
 	private function setDestDistances(){
-		destDistanceX = destinationX - x;
-		destDistanceY = destinationY - y;
+		destDistanceX = cast(destinationX - x, Int);
+		destDistanceY = cast(destinationY - y, Int);
 		
-		if ( destDistanceX == 0 and destDistanceY = 0 ){
+		if ( destDistanceX == 0 && destDistanceY == 0 ){
 			atDestination = true;
 		}
 		else{
@@ -246,7 +246,7 @@ class Enemy extends MovingActor
 		if ( originalMoveDimension == Y ){
 			pickXDirection();
 		}
-		if ( originalMoveDirection == X ){
+		if ( originalMoveDimension == X ){
 			pickYDirection();
 		}
 	}
@@ -257,13 +257,22 @@ class Enemy extends MovingActor
 	//            ENEMY  MOVEMENT            //
 	///////////////////////////////////////////
 	
+	// startMovement()
+	//
+	// Overrides MovingActor's startMovement
+	// makes moving decrease the enemy's currentEndurance
 	
-	startMovement(){
+	private override function startMovement(){
 		currentEndurance--;
 		super.startMovement();
 	}
 	
-	continueMovement(){
+	// continueMovement()
+	//
+	// Overrides MovingActor's continueMovement
+	// makes moving decrease the enemy's currentEndurance
+	
+	private override function continueMovement(){
 		currentEndurance--;
 		super.continueMovement();
 	}
@@ -381,3 +390,5 @@ class Enemy extends MovingActor
 		super.update();
 
 	}
+
+}

@@ -298,6 +298,11 @@ class Player extends MovingActor
 		stopMovement();
 	}
 	
+	private override function sampleEnemyCollision( e:Entity ){
+		stopMovement();
+		takeDamage(cast(e, SampleEnemy).attackDamage);
+	}
+	
 	
 	
 	///////////////////////////////////////////
