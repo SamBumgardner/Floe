@@ -30,7 +30,7 @@ class GameOverSplash extends Entity{
 		graphic = new Image("graphics/gameOver.png");
 		
 		gameOverTag = new Sfx("audio/got.mp3");
-		gameOverTag.play(.5);
+		gameOverTag.play(HXP.engine.musicVolume);
 		
 		scoreInfo = new Text("Your score was: " + cast(HXP.scene, scenes.GameOver).GM.getScore(), 70, 410);
 		scoreInfo.setTextProperty("size", 32);

@@ -86,7 +86,7 @@ class Player extends MovingActor
 	public function takeDamage(damage:Int){
 		if( !invincible ){
 			scenes.GameScene.GM.damagePlayer(damage);
-			damagedSound.play(.4);
+			damagedSound.play(HXP.engine.sfxVolume * 2);
 			//Play an injury animation here.
 			
 			turnInvincible(60);
@@ -334,7 +334,7 @@ class Player extends MovingActor
 	
 	private override function obstacleCollision( e:Entity ){
 		if( sliding == true || pressedThisFrame == true ){
-			bumpSound.play(.2);
+			bumpSound.play(HXP.engine.sfxVolume);
 		}
 		stopMovement();
 	}
