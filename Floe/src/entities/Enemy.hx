@@ -21,7 +21,7 @@ class Enemy extends MovingActor
 	
 
 	private var size:Int;
-	private static var tileSize:Int = 32;
+
 	
 	public var attackDamage:Int;
 

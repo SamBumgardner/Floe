@@ -34,8 +34,9 @@ class MovingActor extends Entity {
 	
 	private var inputBlocked:Bool = false; // True if the character is mid-move
 
+	private var tileSize:Int = 32;
 	
-	// Values for these are passed in as parameters from the child class.
+	// Values for these are set by the child class
 	
 	private var frameDelay:Int; 	// The number of frames a single move takes after the initial step. 
 	private var moveSpeed:Int; 		// The number of pixels moved per frame.
@@ -101,27 +102,27 @@ class MovingActor extends Entity {
 		switch currentMove{
 			case Left: {
 				// Checks 1px left of actor for collision with actorType entities
-				var e:Entity = collideTypes(actorTypes, x - 1, y); 
+				var e:Entity = collideTypes(actorTypes, x - tileSize, y); 
 				
 				attemptCollision(e);
 			}
 			case Right: {
 				// Checks 1px to the right
-				var e:Entity = collideTypes(actorTypes, x + 1, y); 
+				var e:Entity = collideTypes(actorTypes, x + tileSize, y); 
 				
 				attemptCollision(e);
 			
 			}
 			case Up: {
 				// Checks 1px above
-				var e:Entity = collideTypes(actorTypes, x, y - 1); 
+				var e:Entity = collideTypes(actorTypes, x, y - tileSize); 
 				
 				attemptCollision(e);
 			
 			}
 			case Down: {
 				// Checks 1px below
-				var e:Entity = collideTypes(actorTypes, x, y + 1); 
+				var e:Entity = collideTypes(actorTypes, x, y + tileSize); 
 				
 				attemptCollision(e);
 			}
