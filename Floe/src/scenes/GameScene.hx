@@ -16,6 +16,7 @@ package scenes;
 import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
 import entities.Player;
+import entities.SampleEnemy;
 import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
@@ -71,15 +72,26 @@ class GameScene extends Scene
 			if(HXP.random > .1){
 				add(new WaterTile(placeX, placeY));
 				numOfTiles -= 1;
+				
+				if(HXP.random < .05){
+					add(new SampleEnemy(placeX, placeY));
+				}
 			}
 			else{
 				if(HXP.random > .5){
 					add(new GroundTile(placeX, placeY));
+					
+					if(HXP.random < .1){
+						add(new SampleEnemy(placeX, placeY));
+					}
 				}
 				else{
 					add(new Obstacle(placeX, placeY));
 				}
 			}
+			
+			
+			
 			placeX += 32;
 			if(placeX > 32 * dimensionX){
 				placeX = 32;
