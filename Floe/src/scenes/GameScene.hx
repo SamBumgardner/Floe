@@ -16,6 +16,7 @@ package scenes;
 import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
 import entities.Player;
+import entities.SampleEnemy;
 import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
@@ -34,6 +35,8 @@ class GameScene extends Scene
 	
 	//Use a single boolean variable to check if the static assets have been set up.
 	private static var staticAssetSetup:Bool = false;
+	
+	public var PC:Player;
 	
 	public function new(?gameManager:GameManager) //leading ? means optional parameter.
 	{
@@ -64,22 +67,38 @@ class GameScene extends Scene
 		
 		var numOfTiles = 60; //controls number of water tiles initially placed.
 		
-		var PC = new Player(playerX, playerY);
+		var enemyCount = 0;
+		
+		
+		PC = new Player(playerX, playerY);
 		add(PC);
 		
 		while(numOfTiles > 0){
 			if(HXP.random > .1){
 				add(new WaterTile(placeX, placeY));
 				numOfTiles -= 1;
+				
+				if(HXP.random < .05 && enemyCount < 3){
+					add(new SampleEnemy(placeX, placeY));
+					enemyCount++;
+				}
 			}
 			else{
 				if(HXP.random > .5){
 					add(new GroundTile(placeX, placeY));
+					
+					if(HXP.random < .1 && enemyCount < 3){
+						add(new SampleEnemy(placeX, placeY));
+						enemyCount++;
+					}
 				}
 				else{
 					add(new Obstacle(placeX, placeY));
 				}
 			}
+			
+			
+			
 			placeX += 32;
 			if(placeX > 32 * dimensionX){
 				placeX = 32;
@@ -95,7 +114,7 @@ class GameScene extends Scene
 		HXP.console.log(["Level is loading..."]);
 		
 		if(!musicPlaying){
-			music.loop();
+			music.loop(HXP.engine.musicVolume);
 			musicPlaying = true;
 		}
 		

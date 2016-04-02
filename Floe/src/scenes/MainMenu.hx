@@ -23,7 +23,7 @@ class MainMenu extends Scene
 		
 		
 		music = new Sfx("audio/bgm.mp3");
-		music.loop();
+		music.loop(HXP.engine.musicVolume);
 		
 		addGraphic(new Image("graphics/mainMenu.png"), 2);
 		addGraphic(new Image("graphics/playGameButton.png"), 1, 278, 380);

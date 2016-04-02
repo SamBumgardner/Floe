@@ -16,6 +16,9 @@ import entities.GameManager;
 class Main extends Engine
 {
 
+	public var musicVolume:Float = .5;
+	public var sfxVolume:Float = .25;
+
 	override public function init()
 	{
 #if debug

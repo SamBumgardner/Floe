@@ -22,13 +22,9 @@ class Player extends MovingActor
 	// Graphic/Audio asset-holding variables
 	private static var idleAnim:Image;
 	private static var bumpSound:Sfx;
+	private static var damagedSound:Sfx;
 	
 	private static var assetsInitialized:Bool = false; 
-	
-	
-	//These are child class-specific variables passed in to the super() constructor.
-	private static var frame_delay:Int 	= 7; // The number of frames a single move takes after the initial step. 
-	private static var move_speed:Int 	= 4; // The number of pixels moved per frame.
 	
 	
 	// Used to tell how recently a direction key was pressed, 
@@ -51,15 +47,23 @@ class Player extends MovingActor
 	// Tells if the character is sliding on water/ice
 	private var sliding:Bool = false; 
 	
+	private var invincible:Bool = false;
+	private var invincibilityCountdown:Int;
+	
 
 	public function new(x:Int, y:Int)
 	{
-	
-		super(x, y, frame_delay, move_speed);
+		super(x, y);
+		
+		frameDelay = 7;
+		moveSpeed = 4;
+		
 		setHitbox(32, 32);
+		type = "player";
 		
 		if( assetsInitialized == false ){
 			bumpSound = new Sfx("audio/bump.mp3");
+			damagedSound = new Sfx("audio/playerDamaged.mp3");
 			idleAnim = new Image("graphics/goodfriend.png");
 			assetsInitialized = true;
 		}
@@ -75,10 +79,45 @@ class Player extends MovingActor
 	//            PLAYER  ACTIONS            //
 	///////////////////////////////////////////
 	
+	// takeDamage()
+	//
+	// Deals damage to the player & activates 30 frames of invincibility
 	
 	public function takeDamage(damage:Int){
-		scenes.GameScene.GM.damagePlayer(damage);
-		//Play an injury animation & sound effect here.
+		if( !invincible ){
+			scenes.GameScene.GM.damagePlayer(damage);
+			damagedSound.play(HXP.engine.sfxVolume * 2);
+			//Play an injury animation here.
+			
+			turnInvincible(60);
+		}
+	}
+	
+	
+	// turnInvincible( numOfIFrames:Int )
+	//
+	// Prevents the player from taking damage for a number of frames.
+	
+	private function turnInvincible( numOfIFrames:Int ){
+		invincible = true;
+		invincibilityCountdown = numOfIFrames;
+		
+		//HXP.console.log(["The player is now invincible!"]);
+	}
+	
+	
+	// invincibilityDecay
+	// 
+	// Decrements invincibility, and checks if it should be removed.
+	// Called at the start of every update() function.
+	
+	private function invincibilityDecay(){
+		if(invincibilityCountdown > 0) { invincibilityCountdown--; }
+		else if( invincible && invincibilityCountdown <= 0 ){
+			invincible = false;
+			
+			//HXP.console.log(["The player is no longer invincible."]);
+		}
 	}
 	
 	
@@ -295,9 +334,14 @@ class Player extends MovingActor
 	
 	private override function obstacleCollision( e:Entity ){
 		if( sliding == true || pressedThisFrame == true ){
-			bumpSound.play(.2);
+			bumpSound.play(HXP.engine.sfxVolume);
 		}
 		stopMovement();
+	}
+	
+	private override function sampleEnemyCollision( e:Entity ){
+		stopMovement();
+		takeDamage(cast(e, SampleEnemy).attackDamage);
 	}
 	
 	
@@ -317,7 +361,8 @@ class Player extends MovingActor
 	
 	public override function update()
 	{	
-
+		invincibilityDecay();
+	
 		checkInputs();
 		setInputPrecedence();
 	

@@ -34,8 +34,9 @@ class MovingActor extends Entity {
 	
 	private var inputBlocked:Bool = false; // True if the character is mid-move
 
+	private var tileSize:Int = 32;
 	
-	// Values for these are passed in as parameters from the child class.
+	// Values for these are set by the child class
 	
 	private var frameDelay:Int; 	// The number of frames a single move takes after the initial step. 
 	private var moveSpeed:Int; 		// The number of pixels moved per frame.
@@ -44,7 +45,7 @@ class MovingActor extends Entity {
 	// Arrays of types used for checking collisions
 	
 	private static var backgroundTypes = ["groundTile", "waterTile"];
-	private static var actorTypes = ["obstacle"];
+	private static var actorTypes = ["obstacle", "player", "sampleEnemy"];
 
 	
 	// Contains references to collision functions.
@@ -54,21 +55,20 @@ class MovingActor extends Entity {
 	
 	
 	
-	public function new(x:Int, y:Int, fd:Int, ms:Int)
+	public function new(x:Int, y:Int)
 	{
 		// call the entity constructor so we can access entity's fields
 		super(x, y);
 		
-		// Assign the variables passed in from child class
-		frameDelay = fd;
-		moveSpeed  = ms;
 		
 		// map of references to functions.
 		collisionFunctions = [ 
 		
-		"obstacle" => obstacleCollision,
-		"waterTile" => waterTileCollision,
-		"groundTile" => groundTileCollision
+		"obstacle" 		=> obstacleCollision,
+		"waterTile"		=> waterTileCollision,
+		"groundTile"	=> groundTileCollision,
+		"player" 		=> playerCollision,
+		"sampleEnemy"	=> sampleEnemyCollision
 
 		]; 
 	}
@@ -76,7 +76,7 @@ class MovingActor extends Entity {
 	
 	
 	///////////////////////////////////////////
-	//            ACTOR MOVEMENT            //
+	//            ACTOR  MOVEMENT            //
 	///////////////////////////////////////////
 	
 	// attemptCollision(e:Entity)
@@ -102,27 +102,27 @@ class MovingActor extends Entity {
 		switch currentMove{
 			case Left: {
 				// Checks 1px left of actor for collision with actorType entities
-				var e:Entity = collideTypes(actorTypes, x - 1, y); 
+				var e:Entity = collideTypes(actorTypes, x - tileSize, y); 
 				
 				attemptCollision(e);
 			}
 			case Right: {
 				// Checks 1px to the right
-				var e:Entity = collideTypes(actorTypes, x + 1, y); 
+				var e:Entity = collideTypes(actorTypes, x + tileSize, y); 
 				
 				attemptCollision(e);
 			
 			}
 			case Up: {
 				// Checks 1px above
-				var e:Entity = collideTypes(actorTypes, x, y - 1); 
+				var e:Entity = collideTypes(actorTypes, x, y - tileSize); 
 				
 				attemptCollision(e);
 			
 			}
 			case Down: {
 				// Checks 1px below
-				var e:Entity = collideTypes(actorTypes, x, y + 1); 
+				var e:Entity = collideTypes(actorTypes, x, y + tileSize); 
 				
 				attemptCollision(e);
 			}
@@ -151,7 +151,7 @@ class MovingActor extends Entity {
 		inputBlocked = true; // The actor cannot change direction until they have finished the move.
 		frameCountdown = frameDelay;
 		
-		return null; // Required by haxe's compiler (since there's a return statement for None.
+		return null; // Required by haxe's compiler (since there's a return statement for None)
 		
 	};
 	
@@ -239,5 +239,9 @@ class MovingActor extends Entity {
 	// Override them in the child class to get the desired behavior.
 	
 	private function obstacleCollision( e:Entity ){}
+	
+	private function playerCollision( e:Entity ){}
+	
+	private function sampleEnemyCollision( e:Entity ){}
 
 }
