@@ -1,9 +1,6 @@
 package entities;
 
 import com.haxepunk.Entity;
-import com.haxepunk.graphics.Image;
-import com.haxepunk.Sfx;
-import entities.WaterTile;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
 
@@ -133,6 +130,9 @@ class Enemy extends MovingActor
 		
 		if ( destDistanceX == 0 and destDistanceY = 0 ){
 			atDestination = true;
+		}
+		else{
+			atDestination = false;
 		}
 	}
 	
