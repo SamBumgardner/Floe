@@ -54,14 +54,11 @@ class MovingActor extends Entity {
 	
 	
 	
-	public function new(x:Int, y:Int, fd:Int, ms:Int)
+	public function new(x:Int, y:Int)
 	{
 		// call the entity constructor so we can access entity's fields
 		super(x, y);
 		
-		// Assign the variables passed in from child class
-		frameDelay = fd;
-		moveSpeed  = ms;
 		
 		// map of references to functions.
 		collisionFunctions = [ 

@@ -52,10 +52,10 @@ class Enemy extends MovingActor
 	private var originalMoveDimension:Dimension;
 	
 
-	public function new(x:Int, y:Int, frame_delay:Int, move_speed:Int)
+	public function new(x:Int, y:Int)
 	{
 	
-		super(x, y, frame_delay, move_speed);
+		super(x, y);
 		setHitbox(32, 32);
 		
 	

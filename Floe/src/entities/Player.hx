@@ -26,11 +26,6 @@ class Player extends MovingActor
 	private static var assetsInitialized:Bool = false; 
 	
 	
-	//These are child class-specific variables passed in to the super() constructor.
-	private static var frame_delay:Int 	= 7; // The number of frames a single move takes after the initial step. 
-	private static var move_speed:Int 	= 4; // The number of pixels moved per frame.
-	
-	
 	// Used to tell how recently a direction key was pressed, 
 	// relative to the other priority variables.
 	private var leftPriority:Int 	= 0; 
@@ -54,8 +49,11 @@ class Player extends MovingActor
 
 	public function new(x:Int, y:Int)
 	{
-	
-		super(x, y, frame_delay, move_speed);
+		super(x, y);
+		
+		frameDelay = 7;
+		moveSpeed = 4;
+		
 		setHitbox(32, 32);
 		
 		if( assetsInitialized == false ){
