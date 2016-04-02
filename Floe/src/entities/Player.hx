@@ -89,7 +89,7 @@ class Player extends MovingActor
 			damagedSound.play(.4);
 			//Play an injury animation here.
 			
-			turnInvincible(30);
+			turnInvincible(60);
 		}
 	}
 	
@@ -101,6 +101,8 @@ class Player extends MovingActor
 	private function turnInvincible( numOfIFrames:Int ){
 		invincible = true;
 		invincibilityCountdown = numOfIFrames;
+		
+		//HXP.console.log(["The player is now invincible!"]);
 	}
 	
 	
@@ -113,6 +115,8 @@ class Player extends MovingActor
 		if(invincibilityCountdown > 0) { invincibilityCountdown--; }
 		else if( invincible && invincibilityCountdown <= 0 ){
 			invincible = false;
+			
+			//HXP.console.log(["The player is no longer invincible."]);
 		}
 	}
 	
