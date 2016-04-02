@@ -42,12 +42,14 @@ class Enemy extends MovingActor
 	private var atDestination:Bool;
 	private var acceptableDestDistance:Int;
 	
+	private var originalMoveDimension:Dimension;
 	private var tiebreakerDimension:Dimension  = X;
 	private var tiebreakerDirectionX:Direction = Right;
 	private var tiebreakerDirectionY:Direction = Down;
 	
+	// Should be set to true to show a movement did not achieve anything.
+	// Is used in child class' collision functions.
 	private var moveWasBlocked:Bool = false;
-	private var originalMoveDimension:Dimension;
 	
 
 	public function new(x:Int, y:Int)
@@ -382,13 +384,13 @@ class Enemy extends MovingActor
 					if( currentMove != None ){
 						checkNextStep();
 						
-						if( currentMove == None ){ 
+						if( currentMove == None && moveWasBlocked ){ 
 						// --- First attempted move was blocked, try again in a different direction ---
 						
 							selectOtherDirection();
 							checkNextStep();
 							
-							if( currentMove == None ){
+							if( currentMove == None && moveWasBlocked ){
 							// --- Both moves failed ---
 								cannotMove();
 							}
@@ -404,6 +406,7 @@ class Enemy extends MovingActor
 		}
 
 		recalcCountdown--;
+		moveWasBlocked = false;
 		
 		super.update();
 

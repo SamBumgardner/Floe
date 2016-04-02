@@ -38,7 +38,7 @@ class SampleEnemy extends Enemy
 		maxEndurance = 32; // moves two times before resting.
 		restTime = 60;	   // rests for 60 frames.
 		attackDamage = 1;
-		acceptableDestDistance = 1;
+		acceptableDestDistance = 0;
 
 		
 		// Set hitbox size and the collision type
@@ -73,6 +73,9 @@ class SampleEnemy extends Enemy
 	private override function calcDestination(){
 		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
 		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+		
+		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
+		
 		super.calcDestination();
 	};
 	
@@ -114,6 +117,7 @@ class SampleEnemy extends Enemy
 	// Prevent the sampleEnemy from moving into it.
 	
 	private override function obstacleCollision( e:Entity ){
+		moveWasBlocked = true;
 		stopMovement();
 	}
 	
@@ -124,6 +128,7 @@ class SampleEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		stopMovement();
+		cast(e, Player).takeDamage(attackDamage);
 	}
 	
 	
@@ -132,6 +137,7 @@ class SampleEnemy extends Enemy
 	// Prevent the sampleEnemy from moving into it.
 	
 	private override function sampleEnemyCollision( e:Entity ){
+		moveWasBlocked = true;
 		stopMovement();
 	}
 	
