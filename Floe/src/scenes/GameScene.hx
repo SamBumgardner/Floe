@@ -67,6 +67,7 @@ class GameScene extends Scene
 		
 		var numOfTiles = 60; //controls number of water tiles initially placed.
 		
+		var enemyCount = 0;
 		
 		
 		PC = new Player(playerX, playerY);
@@ -77,16 +78,18 @@ class GameScene extends Scene
 				add(new WaterTile(placeX, placeY));
 				numOfTiles -= 1;
 				
-				if(HXP.random < .05){
+				if(HXP.random < .05 && enemyCount < 3){
 					add(new SampleEnemy(placeX, placeY));
+					enemyCount++;
 				}
 			}
 			else{
 				if(HXP.random > .5){
 					add(new GroundTile(placeX, placeY));
 					
-					if(HXP.random < .1){
+					if(HXP.random < .1 && enemyCount < 3){
 						add(new SampleEnemy(placeX, placeY));
+						enemyCount++;
 					}
 				}
 				else{
