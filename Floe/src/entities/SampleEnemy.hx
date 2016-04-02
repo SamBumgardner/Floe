@@ -5,6 +5,7 @@ import com.haxepunk.graphics.Image;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
+import scenes.GameScene; //Needed to store the reference to the player.
 
 import com.haxepunk.HXP;
 
@@ -20,6 +21,8 @@ class SampleEnemy extends Enemy
 	private static var idleAnim:Image;
 	
 	private static var assetsInitialized:Bool = false; 
+	
+	private var currentScene:GameScene; 
 
 
 	public function new(x:Int, y:Int)
@@ -47,6 +50,7 @@ class SampleEnemy extends Enemy
 		}
 		
 		graphic = idleAnim;
+		currentScene = cast(HXP.scene, GameScene);
 		
 	}
 	
@@ -65,8 +69,8 @@ class SampleEnemy extends Enemy
 	// Sets the destinationX and destinationY
 	
 	private override function calcDestination(){
-		destinationX = 128;
-		destinationY = 128;
+		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
+		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
 		super.calcDestination();
 	};
 	

@@ -36,6 +36,8 @@ class GameScene extends Scene
 	//Use a single boolean variable to check if the static assets have been set up.
 	private static var staticAssetSetup:Bool = false;
 	
+	public var PC:Player;
+	
 	public function new(?gameManager:GameManager) //leading ? means optional parameter.
 	{
 		super();
@@ -65,7 +67,9 @@ class GameScene extends Scene
 		
 		var numOfTiles = 60; //controls number of water tiles initially placed.
 		
-		var PC = new Player(playerX, playerY);
+		
+		
+		PC = new Player(playerX, playerY);
 		add(PC);
 		
 		while(numOfTiles > 0){

@@ -341,7 +341,7 @@ class Enemy extends MovingActor
 		if ( restCountdown <= 0 ){
 		// --- enemy is not resting ---
 		
-			if( recalcCountdown == 0 ){
+			if( recalcCountdown < 0 ){
 				calcDestination();
 			}
 			
@@ -387,6 +387,8 @@ class Enemy extends MovingActor
 			restCountdown--;
 		}
 
+		recalcCountdown--;
+		
 		super.update();
 
 	}
