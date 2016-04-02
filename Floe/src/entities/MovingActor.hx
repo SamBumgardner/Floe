@@ -76,7 +76,7 @@ class MovingActor extends Entity {
 	
 	
 	///////////////////////////////////////////
-	//            ACTOR MOVEMENT            //
+	//            ACTOR  MOVEMENT            //
 	///////////////////////////////////////////
 	
 	// attemptCollision(e:Entity)
@@ -151,7 +151,7 @@ class MovingActor extends Entity {
 		inputBlocked = true; // The actor cannot change direction until they have finished the move.
 		frameCountdown = frameDelay;
 		
-		return null; // Required by haxe's compiler (since there's a return statement for None.
+		return null; // Required by haxe's compiler (since there's a return statement for None)
 		
 	};
 	
