@@ -95,7 +95,7 @@ class GameScene extends Scene
 		HXP.console.log(["Level is loading..."]);
 		
 		if(!musicPlaying){
-			music.loop();
+			music.loop(.5);
 			musicPlaying = true;
 		}
 		
