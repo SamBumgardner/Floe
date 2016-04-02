@@ -20,9 +20,9 @@ class Enemy extends MovingActor
 	///////////////////////////////////////////
 	
 
-
 	private var size:Int;
-
+	private static var tileSize:Int = 32;
+	
 	public var attackDamage:Int;
 
 	private var maxEndurance:Int;
@@ -40,6 +40,7 @@ class Enemy extends MovingActor
 	private var destDistanceX:Int;
 	private var destDistanceY:Int;
 	private var atDestination:Bool;
+	private var acceptableDestDistance:Int;
 	
 	private var tiebreakerDimension:Dimension  = X;
 	private var tiebreakerDirectionX:Direction = Right;
@@ -99,7 +100,25 @@ class Enemy extends MovingActor
 	private function calcDestination(){
 		recalcCountdown = recalcTime;
 		setDestDistances();
-	};
+	}
+	
+	
+	// checkIfAtDestination( acceptableDistance:Int )
+	//
+	// Where acceptableDistance is a distance, in number of tiles.
+	//
+	// Checks if the enemy is "close enough" to its destination to treat
+	// atDestination as true.
+	
+	private function checkIfAtDestination( maxDist:Int ){
+		
+		if ( Math.sqrt(Math.pow(destDistanceX, 2) + Math.pow(destDistanceY, 2) ) <= maxDist * tileSize ){
+			atDestination = true;
+		}
+		else{
+			atDestination = false;
+		}
+	}
 	
 	
 	// cannotMove()
@@ -128,12 +147,7 @@ class Enemy extends MovingActor
 		destDistanceX = cast(destinationX - x, Int);
 		destDistanceY = cast(destinationY - y, Int);
 		
-		if ( destDistanceX == 0 && destDistanceY == 0 ){
-			atDestination = true;
-		}
-		else{
-			atDestination = false;
-		}
+		checkIfAtDestination(acceptableDestDistance);
 	}
 	
 	
@@ -201,8 +215,10 @@ class Enemy extends MovingActor
 	private function tiebreakDimensions(){
 		switch tiebreakerDimension{
 				case X: {	pickXDirection();
+							originalMoveDimension = X;
 							tiebreakerDimension = Y;}
 				case Y:	{	pickYDirection();
+							originalMoveDimension = Y;
 							tiebreakerDimension = X;}
 			}
 	}
@@ -220,12 +236,12 @@ class Enemy extends MovingActor
 			currentMove = None;
 		}
 		else if ( Math.abs(destDistanceX) > Math.abs(destDistanceY) ){
-		
+			originalMoveDimension = X;
 			pickXDirection();
 		
 		}
 		else if	( Math.abs(destDistanceX) < Math.abs(destDistanceY) ){
-		
+			originalMoveDimension = Y;
 			pickYDirection();
 		
 		}

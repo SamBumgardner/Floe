@@ -29,7 +29,8 @@ class SampleEnemy extends Enemy
 	{
 		super(x, y);
 		
-		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, and attackDamage
+		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
+		// and acceptableDestDistance
 		
 		frameDelay = 15; 
 		moveSpeed = 2;
@@ -37,6 +38,7 @@ class SampleEnemy extends Enemy
 		maxEndurance = 32; // moves two times before resting.
 		restTime = 60;	   // rests for 60 frames.
 		attackDamage = 1;
+		acceptableDestDistance = 1;
 
 		
 		// Set hitbox size and the collision type
