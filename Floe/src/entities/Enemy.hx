@@ -184,13 +184,13 @@ class Enemy extends MovingActor
 	// tiebreakY to the other Y direction.
 	
 	private function tiebreakY(){
-	currentMove = tiebreakerDirectionX;
+	currentMove = tiebreakerDirectionY;
 		
-		if( tiebreakerDirectionX == Left ) {
-			tiebreakerDirectionX = Right;
+		if( tiebreakerDirectionX == Up ) {
+			tiebreakerDirectionX = Down;
 		}
 		else{
-			tiebreakerDirectionX = Left;
+			tiebreakerDirectionY = Up;
 		}
 	}
 	
@@ -262,7 +262,7 @@ class Enemy extends MovingActor
 		if ( originalMoveDimension == Y ){
 			pickXDirection();
 		}
-		if ( originalMoveDimension == X ){
+		else if ( originalMoveDimension == X ){
 			pickYDirection();
 		}
 	}
