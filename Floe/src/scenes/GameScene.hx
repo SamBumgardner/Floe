@@ -26,8 +26,14 @@ import entities.GameManager;
 import com.haxepunk.Sfx;
 
 
-class GameScene extends Scene
-{
+class GameScene extends Scene {
+
+
+	///////////////////////////////////////////
+	//          DATA INITIALIZATION          //
+	///////////////////////////////////////////
+
+
 	//declare static entities 
 	private static var music:Sfx;
 	public  static var GM:GameManager;
@@ -55,59 +61,105 @@ class GameScene extends Scene
 		
 	}
 	
+
+	///////////////////////////////////////////
+	//           lEVEL  GENERATION           //
+	///////////////////////////////////////////	
+	
+	
+	// generateLevel()
+	//
+	// Procedurally generates level using HaxePunk's seeded RNG.
+	
 	private function generateLevel(){
-		var dimensionX = 10; // max width of the generated level area.
-		//var dimensionY = 8;   not used at the moment.
 		
-		var placeX = 32; //Starting X & Y position for placing tiles.
-		var placeY = 32;
+		var tileSize = 32;
 		
-		var playerX = 0; //Player's starting X & Y position.
-		var playerY = 0;
+		var originX = 0;
+		var originY = tileSize * 2;
 		
-		var numOfTiles = 60; //controls number of water tiles initially placed.
+		var maxX = tileSize * 19;
+		var maxY = tileSize * 17;
 		
-		var enemyCount = 0;
 		
+		var placeX = originX; 
+		var placeY = originY;
+		
+		var playerX = tileSize * 10; // Player's starting X & Y position.
+		var playerY = tileSize * 16;
+		
+		
+		var enemyCount = 0; // Counts number of enemies placed in the level.
+		var maxEnemies = 3;
 		
 		PC = new Player(playerX, playerY);
 		add(PC);
 		
-		while(numOfTiles > 0){
-			if(HXP.random > .1){
-				add(new WaterTile(placeX, placeY));
-				numOfTiles -= 1;
+		
+		while( placeY <= maxY ){
+			while( placeX <= maxX ){
+			
+				if( placeX == originX || placeY == originY || 
+					placeX == maxX || placeY == maxY){
 				
-				if(HXP.random < .05 && enemyCount < 3){
-					add(new SampleEnemy(placeX, placeY));
-					enemyCount++;
+					add(new Obstacle(placeX, placeY));
+					
+					placeX += tileSize;
+					continue;
 				}
-			}
-			else{
-				if(HXP.random > .5){
+				
+				if( placeX == originX + tileSize || placeY == originY + tileSize || 
+					placeX == maxX - tileSize || placeY == maxY - tileSize){
+				
 					add(new GroundTile(placeX, placeY));
 					
-					if(HXP.random < .1 && enemyCount < 3){
+					placeX += tileSize;
+					continue;
+				}
+			
+			
+				if(HXP.random > .1){
+					add(new WaterTile(placeX, placeY));
+
+					
+					if(HXP.random < .05 && enemyCount < maxEnemies){
 						add(new SampleEnemy(placeX, placeY));
 						enemyCount++;
 					}
 				}
 				else{
-					add(new Obstacle(placeX, placeY));
+					if(HXP.random > .5){
+						add(new GroundTile(placeX, placeY));
+						
+						if(HXP.random < .1 && enemyCount < maxEnemies){
+							add(new SampleEnemy(placeX, placeY));
+							enemyCount++;
+						}
+					}
+					else{
+						add(new Obstacle(placeX, placeY));
+					}
 				}
+			
+				placeX += tileSize;
 			}
-			
-			
-			
-			placeX += 32;
-			if(placeX > 32 * dimensionX){
-				placeX = 32;
-				placeY +=32;
-			}
+			placeX = 0;
+			placeY += tileSize;
 		}
 		
 		HXP.console.log(["Level has been generated!"]);
 	}
+	
+	
+	
+	///////////////////////////////////////////
+	//            LEVEL START/END            //
+	///////////////////////////////////////////
+	
+	
+	// begin()
+	//
+	// Called when Main sets an instance of GameScene as the current scene.
 	
 	public override function begin()
 	{
@@ -124,13 +176,19 @@ class GameScene extends Scene
 		
 	}
 	
+	
+	// end()
+	//
+	// Called automatically when a level is finished.
+	
 	public override function end(){
-	
 		removeAll();
-	
 	}
 	
-	//Called when going to the gameOver scene, and not the next level.
+	
+	// gameOver()
+	//
+	// Called when going to the gameOver scene, and not the next level.
 	// Stops the looping music.
 	// Returns the GameManager object for the gameOver scene to use.
 	
