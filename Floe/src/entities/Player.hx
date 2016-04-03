@@ -47,6 +47,9 @@ class Player extends MovingActor
 	// Tells if the character is sliding on water/ice
 	private var sliding:Bool = false; 
 	
+	// Is used to make sure the "bump" sound plays at the proper times.
+	private var hasPlayedBumpSound:Bool = false;
+	
 	private var invincible:Bool = false;
 	private var invincibilityCountdown:Int;
 	
@@ -287,6 +290,15 @@ class Player extends MovingActor
 		sliding = false;
 	};
 	
+	// startMovement()
+	//
+	// Overrides MovingActor's stopMovement() to make bumpNoises play at appropriate times.
+	
+	private override function startMovement(){
+		if(currentMove != None){hasPlayedBumpSound = false;}
+		super.startMovement();
+	}
+	
 	
 	
 	///////////////////////////////////////////
@@ -333,8 +345,9 @@ class Player extends MovingActor
 	// play a sound to alert the user that their movement was prevented.
 	
 	private override function obstacleCollision( e:Entity ){
-		if( sliding == true || pressedThisFrame == true ){
+		if( sliding == true || pressedThisFrame == true || hasPlayedBumpSound == false ){
 			bumpSound.play(HXP.engine.sfxVolume);
+			hasPlayedBumpSound = true;
 		}
 		stopMovement();
 	}
