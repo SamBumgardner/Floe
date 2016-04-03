@@ -26,10 +26,10 @@ class MainMenu extends Scene
 		music.loop(HXP.engine.musicVolume);
 		
 		addGraphic(new Image("graphics/mainMenu.png"), 2);
-		addGraphic(new Image("graphics/playGameButton.png"), 1, 278, 380);
-		addGraphic(new Image("graphics/howToPlayButton.png"), 1, 278, 430);
-		addGraphic(new Image("graphics/randomSeedButton.png"), 1, 278, 480);
-		addGraphic(new Image("graphics/creditsButton.png"), 1, 278, 530);
+		addGraphic(new Image("graphics/playGameButton.png"), 1, 280, 380);
+		addGraphic(new Image("graphics/howToPlayButton.png"), 1, 280, 430);
+		addGraphic(new Image("graphics/randomSeedButton.png"), 1, 280, 480);
+		addGraphic(new Image("graphics/creditsButton.png"), 1, 280, 530);
 		
 		add(new MenuSelector(310, 388));
 		
