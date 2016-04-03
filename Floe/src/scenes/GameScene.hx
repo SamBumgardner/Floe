@@ -106,6 +106,8 @@ class GameScene extends Scene {
 		// to be placed horizontally between obstacles in the lake.
 		var minimumSpaceBetweenObstacles = 2;
 		var tilesSinceLastObstacle = 0;
+		var RocksInPreviousRow = [];
+		var RocksInCurrentRow = [];
 		
 		PC = new Player(playerX, playerY);
 		add(PC);
@@ -142,7 +144,11 @@ class GameScene extends Scene {
 					}
 				}
 				else{
-					if(HXP.random > .5 || tilesSinceLastObstacle < minimumSpaceBetweenObstacles){
+					if(	HXP.random > .90 || tilesSinceLastObstacle < minimumSpaceBetweenObstacles ||
+						RocksInPreviousRow.indexOf(placeX) != -1 || 
+						RocksInPreviousRow.indexOf(placeX + tileSize) != -1 ||
+						RocksInPreviousRow.indexOf(placeX - tileSize) != -1 ){
+						
 						add(new GroundTile(placeX, placeY));
 						tilesSinceLastObstacle++;
 						
@@ -154,11 +160,14 @@ class GameScene extends Scene {
 					else{
 						add(new Obstacle(placeX, placeY, "rock"));
 						tilesSinceLastObstacle = 0;
+						RocksInCurrentRow.push(placeX);
 					}
 				}
 			
 				placeX += tileSize;
 			}
+			RocksInPreviousRow = RocksInCurrentRow.copy();
+			RocksInCurrentRow = [];
 			placeX = 0;
 			placeY += tileSize;
 		}

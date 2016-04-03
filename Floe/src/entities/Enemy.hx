@@ -189,7 +189,7 @@ class Enemy extends MovingActor
 	currentMove = tiebreakerDirectionY;
 		
 		if( tiebreakerDirectionX == Up ) {
-			tiebreakerDirectionX = Down;
+			tiebreakerDirectionY = Down;
 		}
 		else{
 			tiebreakerDirectionY = Up;
