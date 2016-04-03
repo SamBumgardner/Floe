@@ -185,6 +185,12 @@ class MenuSelector extends Entity
 		
 		super.update();
 	}
+	
+	public function destroy(){
+		flash.Lib.current.stage.removeEventListener(
+                flash.events.KeyboardEvent.KEY_DOWN, keyDown
+		);
+	}
 		
 
 }
