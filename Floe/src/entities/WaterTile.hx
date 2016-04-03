@@ -60,7 +60,7 @@ class WaterTile extends Tile {
 		
 		//Merged numOfNeighbors functionality into this function.
 		
-		/*Going to use this to implement a hacky sort of water-freezing solution. 
+		/*
 			Recursively check number of  neighbors. 
 			keep adding neighbors -1 (can't count neighbor you came from). 
 			Probably need to use ids to ensure we don't double count, although if our freeze threshold is 3, we don't need to.
@@ -68,46 +68,9 @@ class WaterTile extends Tile {
 		
 		var shouldFreeze = true;
 		
-		var w1:Entity = collide("waterTile", x + 16, y);
-		var w2:Entity = collide("waterTile", x - 16, y);
-		var w3:Entity = collide("waterTile", x, y + 16);
-		var w4:Entity = collide("waterTile", x, y - 16);
-		if (w1 != null)
-		{
-			var w1:WaterTile = cast(w1, WaterTile);
-			
-			if(!w1.isFrozen()){
-				shouldFreeze = false;
-			}
-			
-		}
-		if (w2 != null)
-		{
-			var w2:WaterTile = cast(w2, WaterTile);
-			
-			if(!w2.isFrozen()){
-				shouldFreeze = false;
-			}
-			
-		}
-		if (w3 != null)
-		{
-			var w3:WaterTile = cast(w3, WaterTile);
-			
-			if(!w3.isFrozen()){
-				shouldFreeze = false;
-			}
-			
-		}
-		if (w4 != null)
-		{
-			var w4:WaterTile = cast(w4, WaterTile);
-			
-			if(!w4.isFrozen()){
-				shouldFreeze = false;
-			}
-			
-		}
+
+		//Insert some actual code here.
+		
 		if (shouldFreeze){
 			scenes.GameScene.GM.addScore(10); //Double points for doing autofreezing.
 			freeze();
