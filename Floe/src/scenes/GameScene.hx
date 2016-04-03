@@ -66,11 +66,14 @@ class GameScene extends Scene {
 	//           lEVEL  GENERATION           //
 	///////////////////////////////////////////	
 	
-	// placeBorderObstacles()
+	// addEnemy( x:Int, y:Int )
+	//
+	// Picks an enemy type, then adds that enemy to location (x, y)
+	//
+	// There's only one enemy type at the moment, so it's rather basic.
 	
-	private function placeBorderObstacles()
-	{
-		
+	private function addEnemy( x:Int, y:Int ){
+		add( new SampleEnemy(x, y) );
 	}
 	
 	
@@ -99,13 +102,18 @@ class GameScene extends Scene {
 		var enemyCount = 0; // Counts number of enemies placed in the level.
 		var maxEnemies = 3;
 		
+		// To ensure all levels can be completed, we require 2+ non-obstacle tiles
+		// to be placed horizontally between obstacles in the lake.
+		var minimumSpaceBetweenObstacles = 2;
+		var tilesSinceLastObstacle = 0;
+		
 		PC = new Player(playerX, playerY);
 		add(PC);
 		
 		
 		while( placeY <= maxY ){
 			while( placeX <= maxX ){
-			
+				
 				if( placeX == originX || placeY == originY || 
 					placeX == maxX || placeY == maxY){
 				
@@ -124,27 +132,28 @@ class GameScene extends Scene {
 					continue;
 				}
 			
-			
-				if(HXP.random > .1){
+				if(HXP.random > .15){
 					add(new WaterTile(placeX, placeY));
-
+					tilesSinceLastObstacle++;
 					
 					if(HXP.random < .05 && enemyCount < maxEnemies){
-						add(new SampleEnemy(placeX, placeY));
+						addEnemy(placeX, placeY);
 						enemyCount++;
 					}
 				}
 				else{
-					if(HXP.random > .5){
+					if(HXP.random > .5 || tilesSinceLastObstacle < minimumSpaceBetweenObstacles){
 						add(new GroundTile(placeX, placeY));
+						tilesSinceLastObstacle++;
 						
 						if(HXP.random < .1 && enemyCount < maxEnemies){
-							add(new SampleEnemy(placeX, placeY));
+							addEnemy(placeX, placeY);
 							enemyCount++;
 						}
 					}
 					else{
 						add(new Obstacle(placeX, placeY, "rock"));
+						tilesSinceLastObstacle = 0;
 					}
 				}
 			
