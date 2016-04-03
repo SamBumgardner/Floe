@@ -66,6 +66,13 @@ class GameScene extends Scene {
 	//           lEVEL  GENERATION           //
 	///////////////////////////////////////////	
 	
+	// placeBorderObstacles()
+	
+	private function placeBorderObstacles()
+	{
+		
+	}
+	
 	
 	// generateLevel()
 	//
@@ -102,7 +109,7 @@ class GameScene extends Scene {
 				if( placeX == originX || placeY == originY || 
 					placeX == maxX || placeY == maxY){
 				
-					add(new Obstacle(placeX, placeY));
+					add(new Obstacle(placeX, placeY, "border"));
 					
 					placeX += tileSize;
 					continue;
@@ -137,7 +144,7 @@ class GameScene extends Scene {
 						}
 					}
 					else{
-						add(new Obstacle(placeX, placeY));
+						add(new Obstacle(placeX, placeY, "rock"));
 					}
 				}
 			
