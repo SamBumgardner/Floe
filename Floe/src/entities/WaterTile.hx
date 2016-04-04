@@ -201,7 +201,7 @@ class WaterTile extends Tile {
 	// either counting up to the threshold, or running out of water tiles.
 	
 	private function checkUnfrozenNeighbors( parentNeighbors:Int, parentDirection:Direction){
-		HXP.console.log(["checkUnfrozenNeighbors was called on: ", x, y]);
+
 		
 		beenChecked = true;
 		
@@ -229,7 +229,7 @@ class WaterTile extends Tile {
 				if( checkNeighbor( e ) ){
 					if( (cast e).beenChecked == false ){
 						(cast e).beenChecked = true;
-						HXP.console.log(["WaterTile at ", e.x, " ", e.y, " was checked."]);
+						
 						
 						neighborWaterTiles.push( e );
 						neighborWaterTilesDirections.push(direction);
@@ -238,9 +238,6 @@ class WaterTile extends Tile {
 						if( numOfNeighbors >= minimumUnfrozen){
 						return numOfNeighbors;
 						}
-					}
-					else{
-						HXP.console.log(["But", e.x, e.y, "had already been Checked"]);
 					}
 				}
 			}
@@ -293,13 +290,12 @@ class WaterTile extends Tile {
 		var parentDirection:Direction = None;
 	
 
-				if( checkUnfrozenNeighbors( 0, None ) < minimumUnfrozen ){ 
-					HXP.console.log(["failed!"]);
+				if( checkUnfrozenNeighbors( 1, None ) < minimumUnfrozen ){ 
 					recursiveDontFreeze();
 					recursiveFreeze(); 
 					
 				}
-				else{HXP.console.log(["Tile at", x, y, "passed!"]);
+				else{
 					recursiveDontFreeze();
 				}
 			
