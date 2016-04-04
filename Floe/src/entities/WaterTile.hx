@@ -28,7 +28,7 @@ class WaterTile extends Tile {
 	static private var graphicInit:Bool = false;
 	static public var size:Int = 32;
 	private var frozen:Bool = false;
-	private static var minimumUnfrozen:Int = 10;
+	private static var minimumUnfrozen:Int = 4;
 
 	public var beenChecked:Bool = false;
 	
