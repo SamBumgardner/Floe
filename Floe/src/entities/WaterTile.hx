@@ -23,11 +23,19 @@ import entities.MovingActor; //This is just for the Direction enum
 
 
 class WaterTile extends Tile {
+
+	///////////////////////////////////////////
+	//          DATA INITIALIZATION          //
+	///////////////////////////////////////////
+	
+	// For initializing assets
 	static public var commonImage:Image;
 	static public var commonFrozenImage:Image;
 	static private var graphicInit:Bool = false;
+	
 	static public var size:Int = 32;
 	private var frozen:Bool = false;
+	
 	private static var minimumUnfrozen:Int = 4;
 
 	public var beenChecked:Bool = false;
@@ -47,14 +55,28 @@ class WaterTile extends Tile {
 		graphic = commonImage;
 		
 		scenes.GameScene.GM.waterAdded();
-		
-		
-
 	}
 	
 	
-	// does callback function to every adjacent water tile.
-	// Callbacks must take an entity and a direction as arguments.
+	///////////////////////////////////////////
+	//             WATER ACTIONS             //
+	///////////////////////////////////////////
+	
+	
+	// callOnAllWaterNeighbors(callBack:Entity->Direction->Void, ?parentDirection:Direction)
+	//
+	// There were several cases where a function needed to be applied to all water tiles
+	// adjacent to the current water tile.
+	// 
+	// This function takes a function as a parameter, and applies to every adjacent water tile.
+	// Callbacks must take an entity and a direction as arguments, even if they don't use them.
+	//
+	// The parentDirection parameter can be used to specify which neighboring tile called this on
+	// them, so they won't try to call backwards while doing recursion.
+	//
+	// The "parenting direction" passed into the callback is the direction from the targeted neighbor
+	// back to the current water tile. It's prevents wasteful backward iterations during recursion.
+	
 	
 	private function callOnAllWaterNeighbors(callBack:Entity->Direction->Void, ?parentDirection:Direction){
 		
@@ -86,11 +108,20 @@ class WaterTile extends Tile {
 	}
 	
 	
+	// isFrozen()
+	//
+	// Getter for the frozen variable, which is a Bool.
+	
 	public function isFrozen()
 	{
 		return frozen;
 	}
 	
+	
+	// freeze()
+	//
+	// Called when Player walks over a water tile.
+	// forces adjacent tiles to check if they should automatically freeze.
 	
 	public function freeze()
 	{
@@ -103,6 +134,12 @@ class WaterTile extends Tile {
 		(cast e).autoFreezeCheck();} );
 		
 	}
+	
+	
+	// chainFreeze()
+	//
+	// Called by tiles that are recursively freezing.
+	// These score extra points, and also can't trigger further recursion.
 	
 	public function chainFreeze()
 	{
@@ -144,12 +181,24 @@ class WaterTile extends Tile {
 	
 	// checkUnfrozenNeighbors( parentNeighbors:Int, parentDirection:Direction)
 	//
-	// Loops over the Direction enum to go through adjacent tiles. Pretty cool stuff.
+	// First half is almost exactly like callOnAllWaterNeighbors(), but temporary data structures
+	// were involved that meant the whole loop thing had to be re-coded here.
+	// 
+	// It first counts its number of unfrozen neighbors that haven't already been counted in this step.
+	// Then it calls this function recursively on those unfrozen neighbors.
+	// Neighbors that have been counted already  get beenChecked set to true.
 	//
+	// If it counts neighbors equal to or greater than the freezing threshold, or if it runs out
+	// of unchecked neighbors to count, it returns the total it found.
+	// Which will cascade back to the original caller. 
+ 	//
 	// starts with parent's neighbors, adds 1 for each unfrozen child, then recursively calls for children to add their number of neighbors.
 	// if the number of neighbors ever exceeds minimumUnfrozen, you break out and return num_of_neighbors.
-	
-	// When parents receive children number back, have to subtract their own number, then add it to their total.
+	// Each "original caller" adds up its neighbors numbers, again returning if it has enough neighbors,
+	// or it has already added up the return values of all of its neighbors.
+	//
+	// The ultimate return value is the number of interconnected water tiles that were counted before 
+	// either counting up to the threshold, or running out of water tiles.
 	
 	private function checkUnfrozenNeighbors( parentNeighbors:Int, parentDirection:Direction){
 		HXP.console.log(["checkUnfrozenNeighbors was called on: ", x, y]);
@@ -232,6 +281,13 @@ class WaterTile extends Tile {
 	///////////////////////////////////////////
 	
 	
+	// autoFreezeCheck()
+	//
+	// Calls checkUnfrozenNeighbors().
+	// If the result is less than the freezeThreshold then the tiles freeze.
+	//
+	// recursiveResetChecked is run regardless, to prepare water tiles for the
+	// next round of counting.
 	
 	public function autoFreezeCheck(){	
 		var parentDirection:Direction = None;
@@ -251,6 +307,11 @@ class WaterTile extends Tile {
 	}
 	
 	
+	// recursiveFreeze( ?parentDirection:Direction )
+	//
+	// Takes parentDirection as an optionalParameter. The first time it isn't needed,
+	// But it is used in subsequent calls to ensure that callOnAllWaterNeighbors
+	// Doesn't move backward during its recursion.
 	
 	private function recursiveFreeze( ?parentDirection:Direction ){
 		chainFreeze();
@@ -264,15 +325,14 @@ class WaterTile extends Tile {
 		);
 	}
 	
+	// recursiveDontFreeze( ?parentDirection:Direction )
+	//
+	// Same as recursiveFreeze, but resets the beenChecked variables instead of freezing.
+	
 	private function recursiveDontFreeze( ?parentDirection:Direction ){
 		if(beenChecked == true){
-			//HXP.console.log(["WaterTile at ", x, " ", y, " was reset."]);
-		
-			HXP.console.log(["WaterTile at ", x, " ", y, " was reset."]);
+
 			beenChecked = false;
-			
-			
-			
 		
 			callOnAllWaterNeighbors(
 				function(e:Entity, parentingDirection:Direction){
