@@ -22,3 +22,10 @@ Put .swf files here.
 * Obstacles are added to levels during level generation.
 * Sound effect for bumping into obstacles was added.
 * Fixed a sound bug with the game over screen.
+
+### Demo03.swf
+* Implemented advanced freezing algorithm.
+* Improved player input parsing.
+* Improved level generation.
+* Implemented enemy movement logic.
+* Created first sample enemy.
