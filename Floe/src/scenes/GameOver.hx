@@ -1,12 +1,5 @@
 package scenes;
 
-/* A public field that isn't in Scene is declared at line 20, to reference the GM object.
- *
- * If we wanted we could just pass the score in instead of the whole game manager object,
- *	but this seemed like an easy catch-all of information for now.
- *
- *
-*/
 
 import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;

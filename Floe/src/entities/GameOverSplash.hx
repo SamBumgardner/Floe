@@ -1,13 +1,5 @@
 package entities;
 
-/* GameOverSplash casts HXP.scene to scenes.GameOver to access the public field GM at:
- *
- * 	Line 35
- *
- *
- *
- *
-*/
 
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
