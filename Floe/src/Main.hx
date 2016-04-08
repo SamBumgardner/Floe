@@ -2,15 +2,6 @@ import com.haxepunk.Engine;
 import com.haxepunk.Scene;
 import com.haxepunk.HXP;
 
-/* Main.hx casts HXP.scene to GameScene to access not-overridden public functions at:
- * 
- * 	Line 70, where it needs t ocall GameScene.GameOver();
- *  
- *  Honestly, I don't need a separate GameOver function, but I wanted to try having an
- *    alternative function that is called to end the scene when there won't be another
- *    GameScene following.
-*/
-
 import entities.GameManager;
 
 class Main extends Engine

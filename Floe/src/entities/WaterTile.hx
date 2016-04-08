@@ -1,14 +1,5 @@
 package entities;
-
-/* WaterTile interacts with GameScene's static variable GM at the following lines:
- * 
- * 	Line 39 in the freeze() function
- *  Line 87 in the autoFreeze() function
- * 
- * 
-*/
 	  
- 
 
 import entities.Tile;
 import com.haxepunk.graphics.Image;

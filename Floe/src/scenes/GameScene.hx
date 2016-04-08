@@ -1,18 +1,5 @@
 package scenes;
 
-/* Where to find the non-overloaded public functions and static things:
- *	Game Manager stuff:
- * 		I declare the game manager as a public static variable at line 31.
- * 		A GameManager can optionally be passed in as a parameter to new. 
- *		It's assigned value in new() at line 45
- *
- * 	GameOver stuff:
- *		public function GameOver is set up at line 116
- * 
- */
-
-
-
 import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
 import entities.Player;
@@ -63,7 +50,7 @@ class GameScene extends Scene {
 	
 
 	///////////////////////////////////////////
-	//           lEVEL  GENERATION           //
+	//           LEVEL  GENERATION           //
 	///////////////////////////////////////////	
 	
 	// addEnemy( x:Int, y:Int )
