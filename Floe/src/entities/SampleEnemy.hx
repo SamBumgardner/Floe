@@ -1,7 +1,7 @@
 package entities;
 
 import com.haxepunk.Entity;
-import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
@@ -18,9 +18,8 @@ class SampleEnemy extends Enemy
 	
 	
 	// Graphic asset-holding variables
-	private static var idleAnim:Image;
 	
-	private static var assetsInitialized:Bool = false; 
+	private static var assetsInitialized:Bool = false;
 	
 	private var currentScene:GameScene; 
 
@@ -47,11 +46,21 @@ class SampleEnemy extends Enemy
 		type = "sampleEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/sampleEnemy.png");
+			//Not used at the moment.
 			assetsInitialized = true;
 		}
+		sprite = new Spritemap("graphics/DefaultAnimationPlaceholder.png", 32, 32);
+		sprite.add("upIdle", [3], 3, true); 
+		sprite.add("leftIdle", [1], 3, true);
+		sprite.add("downIdle", [4], 3, true);
+		sprite.add("rightIdle", [2], 3, true);
+		sprite.add("upMove", [7], 1, true); 
+		sprite.add("leftMove", [5], 3, true);
+		sprite.add("downMove", [8], 3, true);
+		sprite.add("rightMove", [6], 3, true);
 		
-		graphic = idleAnim;
+		sprite.play("downIdle");
+		graphic = sprite;
 		currentScene = cast(HXP.scene, GameScene);
 		
 	}

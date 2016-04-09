@@ -68,12 +68,23 @@ class Player extends MovingActor
 		if( assetsInitialized == false ){
 			bumpSound = new Sfx("audio/bump.mp3");
 			damagedSound = new Sfx("audio/playerDamaged.mp3");
-			idleAnim = new Image("graphics/goodfriend.png");
+			
 			assetsInitialized = true;
 		}
 		
-		graphic = idleAnim;
+		sprite = new Spritemap("graphics/DefaultAnimationPlaceholder.png", 32, 32);
+		sprite.add("upIdle", [3], 3, true); 
+		sprite.add("leftIdle", [1], 3, true);
+		sprite.add("downIdle", [4], 3, true);
+		sprite.add("rightIdle", [2], 3, true);
+		sprite.add("upMove", [7], 1, true); 
+		sprite.add("leftMove", [5], 3, true);
+		sprite.add("downMove", [8], 3, true);
+		sprite.add("rightMove", [6], 3, true);
 		
+		sprite.play("downIdle");
+		
+		graphic = sprite;
 		
 	}
 	
