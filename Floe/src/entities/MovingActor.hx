@@ -45,7 +45,7 @@ class MovingActor extends Entity {
 	// Arrays of types used for checking collisions
 	
 	private static var backgroundTypes = ["groundTile", "waterTile"];
-	private static var actorTypes = ["obstacle", "player", "sampleEnemy"];
+	private static var actorTypes = ["obstacle", "player", "sampleEnemy", "fireEnemy"];
 
 	
 	// Contains references to collision functions.
@@ -68,7 +68,8 @@ class MovingActor extends Entity {
 		"waterTile"		=> waterTileCollision,
 		"groundTile"	=> groundTileCollision,
 		"player" 		=> playerCollision,
-		"sampleEnemy"	=> sampleEnemyCollision
+		"sampleEnemy"	=> sampleEnemyCollision,
+		"fireEnemy"		=> fireEnemyCollision
 
 		]; 
 	}
@@ -243,5 +244,7 @@ class MovingActor extends Entity {
 	private function playerCollision( e:Entity ){}
 	
 	private function sampleEnemyCollision( e:Entity ){}
+	
+	private function fireEnemyCollision( e:Entity ) {}
 
 }

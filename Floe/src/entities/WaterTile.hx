@@ -126,6 +126,12 @@ class WaterTile extends Tile {
 		
 	}
 	
+	public function thaw(){
+		graphic = commonImage;
+		frozen = false;
+		scenes.GameScene.GM.waterThawed();
+	}
+	
 	
 	// chainFreeze()
 	//

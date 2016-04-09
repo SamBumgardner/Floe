@@ -24,6 +24,10 @@ class GameManager extends Entity{
 		unfrozenWaterCount++;
 	}
 	
+	public function waterThawed(){
+		unfrozenWaterCount++;
+	}
+	
 	//Called by WaterTile as part of its freeze() function
 	public function waterFrozen(){
 		unfrozenWaterCount--;

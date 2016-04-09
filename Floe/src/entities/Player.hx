@@ -357,6 +357,11 @@ class Player extends MovingActor
 		takeDamage(cast(e, SampleEnemy).attackDamage);
 	}
 	
+	private override function fireEnemyCollision( e:Entity ){
+		takeDamage(cast(e, FireEnemy).attackDamage);
+		scene.remove(cast(e, FireEnemy));
+	}
+	
 	
 	
 	///////////////////////////////////////////
