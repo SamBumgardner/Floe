@@ -102,19 +102,19 @@ class FireEnemy extends Enemy
 			specialLoad++;
 			if(specialLoad % 5 == 0){
 				w.thaw();
-				var tempX:Int = (-1);
-				while(tempX < 2){
-					var tempY:Int = (-1);
-					while(tempY < 2){
+				var tempX:Int = (-32);
+				while(tempX < 64){
+					var tempY:Int = (-32);
+					while(tempY < 64){
 						e = w.collide("waterTile", x + tempX, y + tempY);
 						if( e != null ){
 							if( (cast e).isFrozen() == true){
 								(cast e).thaw();
 							}
 						}
-						tempY++;
+						tempY += 32;
 					}
-					tempX++;
+					tempX += 32;
 				}
 				
 				//this section was my attempt at hard coding the parts that wont freeze//

@@ -26,6 +26,7 @@ class GameManager extends Entity{
 	
 	public function waterThawed(){
 		unfrozenWaterCount++;
+		HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
 	}
 	
 	//Called by WaterTile as part of its freeze() function
