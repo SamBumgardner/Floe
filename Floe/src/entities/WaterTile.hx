@@ -26,6 +26,7 @@ class WaterTile extends Tile {
 	
 	static public var size:Int = 32;
 	private var frozen:Bool = false;
+	private var beenFrozen:Bool = false;
 	
 	private static var minimumUnfrozen:Int = 4;
 
@@ -118,6 +119,10 @@ class WaterTile extends Tile {
 	{
 		graphic = commonFrozenImage;
 		frozen = true;
+		if(beenFrozen == false){
+			beenFrozen = true;
+			scenes.GameScene.GM.addScore(10);
+		}
 		scenes.GameScene.GM.waterFrozen();
 		
 		callOnAllWaterNeighbors( function(e:Entity, unused:Direction){
@@ -142,7 +147,10 @@ class WaterTile extends Tile {
 	{
 		graphic = commonFrozenImage;
 		frozen = true;
-		scenes.GameScene.GM.addScore(10); // This won't be the final implementation for awarding extra points on chainfreeze
+		if(beenFrozen == false){
+			beenFrozen = true;
+			scenes.GameScene.GM.addScore(20); // This won't be the final implementation for awarding extra points on chainfreeze
+		}
 		scenes.GameScene.GM.waterFrozen();
 	}
 	

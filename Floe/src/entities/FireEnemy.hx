@@ -39,7 +39,7 @@ class FireEnemy extends Enemy
 		restTime = 60;	   // rests for 60 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
-		specialLoad = 5;
+		specialLoad = 5;   // counter for when ice melts
 
 		
 		// Set hitbox size and the collision type
@@ -103,6 +103,8 @@ class FireEnemy extends Enemy
 			if(specialLoad % 5 == 0){
 				w.thaw();
 				var tempX:Int = (-32);
+				
+				//This section melts the surrounding tiles//
 				while(tempX < 64){
 					var tempY:Int = (-32);
 					while(tempY < 64){
@@ -116,28 +118,6 @@ class FireEnemy extends Enemy
 					}
 					tempX += 32;
 				}
-				
-				//this section was my attempt at hard coding the parts that wont freeze//
-				/*
-				e = w.collide("waterTile", x-1, y-1);
-				if( e != null ){
-					if( (cast e).isFrozen() == true){
-						(cast e).thaw();
-					}
-				}
-				
-				e = w.collide("waterTile", x+1, y-1);
-				if( e != null ){
-					if( (cast e).isFrozen() == true){
-						(cast e).thaw();
-					}
-				}
-				e = w.collide("waterTile", x-1, y+1);
-				if( e != null ){
-					if( (cast e).isFrozen() == true){
-						(cast e).thaw();
-					}
-				}*/
 			}
 		}
 	}

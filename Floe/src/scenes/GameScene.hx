@@ -61,7 +61,13 @@ class GameScene extends Scene {
 	// There's only one enemy type at the moment, so it's rather basic.
 	
 	private function addEnemy( x:Int, y:Int ){
-		add( new FireEnemy(x, y) );
+		if(HXP.random % .1 < .05){
+			add( new SampleEnemy(x, y) );
+		}
+		
+		else{
+			add( new FireEnemy(x, y) );
+		}
 	}
 	
 	
@@ -88,7 +94,7 @@ class GameScene extends Scene {
 		
 		
 		var enemyCount = 0; // Counts number of enemies placed in the level.
-		var maxEnemies = 1;
+		var maxEnemies = 3;
 		
 		// To ensure all levels can be completed, we require 2+ non-obstacle tiles
 		// to be placed horizontally between obstacles in the lake.
