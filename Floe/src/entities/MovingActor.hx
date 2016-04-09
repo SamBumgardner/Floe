@@ -8,6 +8,7 @@ package entities;
 
 import com.haxepunk.Entity;
 import com.haxepunk.HXP;
+import com.haxepunk.graphics.Spritemap;
 
 
 enum Direction {
@@ -28,7 +29,10 @@ class MovingActor extends Entity {
 	///////////////////////////////////////////
 
 	
-	private var currentMove:Direction = None; //Tracks direction of movement.
+	private var currentMove:Direction = None; // Tracks direction of movement.
+	private var currentFacing:Direction = Down; // Set in checkNextStep()
+	
+	private var shouldSetAnim:Bool = true;
 	
 	private var frameCountdown:Int = 0; // How many frames of movement are left in the current move
 	
@@ -53,6 +57,11 @@ class MovingActor extends Entity {
 	
 	private var collisionFunctions = new Map();
 	
+	// Used for first-time setup  of art assets.
+	// Child classes also need this, since static variables aren't inherited.
+	private static var assetsInitialized:Bool = false; 
+	private var sprite:Spritemap;
+	
 	
 	
 	public function new(x:Int, y:Int)
@@ -71,8 +80,60 @@ class MovingActor extends Entity {
 		"sampleEnemy"	=> sampleEnemyCollision
 
 		]; 
+		
+		if( assetsInitialized == false ){
+			assetsInitialized = true;
+		}
 	}
 	
+	
+	///////////////////////////////////////////
+	//            ACTOR ANIMATION            //
+	///////////////////////////////////////////
+	
+	// setMoveAnimation()
+	//
+	// Sets the actor's animation to the moving animation that matches
+	// their current direction, unless shouldSetAnim is false, or 
+	// currentDirection is None.
+	//
+	// Called in startMovement()
+	
+	private function setMoveAnimation(){
+		
+		if(shouldSetAnim == true){
+			switch currentMove{
+				case Left: 	sprite.play("leftMove", false, false);
+				case Right: sprite.play("rightMove", false, false);
+				case Up: 	sprite.play("upMove", false, false);
+				case Down:	sprite.play("downMove", false, false);
+				
+				case None: {} //Does nothing
+			}
+		}
+	}
+	
+	
+	// setIdleAnimation()
+	//
+	// Sets the actor's animation to the idle version of  that matches
+	// their currentFacing, unless shouldSetAnim is false.
+	//
+	// Called in stopMovement()
+	
+	private function setIdleAnimation(){
+	
+		if(shouldSetAnim == true){
+			switch currentFacing{
+				case Left: 	sprite.play("leftIdle", false, false);
+				case Right: sprite.play("rightIdle", false, false);
+				case Up: 	sprite.play("upIdle", false, false);
+				case Down:	sprite.play("downIdle", false, false);
+				
+				case None: {} //Does nothing
+			}
+		}
+	}
 	
 	
 	///////////////////////////////////////////
@@ -86,9 +147,7 @@ class MovingActor extends Entity {
 	
 	private function attemptCollision(e:Entity){
 		if( e != null ){
-		
 			(collisionFunctions[e.type])(e); //call that object's collision function.	
-		
 		}
 	}
 	
@@ -103,27 +162,27 @@ class MovingActor extends Entity {
 			case Left: {
 				// Checks 1px left of actor for collision with actorType entities
 				var e:Entity = collideTypes(actorTypes, x - tileSize, y); 
-				
+				currentFacing = currentMove;
 				attemptCollision(e);
 			}
 			case Right: {
 				// Checks 1px to the right
 				var e:Entity = collideTypes(actorTypes, x + tileSize, y); 
-				
+				currentFacing = currentMove;
 				attemptCollision(e);
 			
 			}
 			case Up: {
 				// Checks 1px above
 				var e:Entity = collideTypes(actorTypes, x, y - tileSize); 
-				
+				currentFacing = currentMove;
 				attemptCollision(e);
 			
 			}
 			case Down: {
 				// Checks 1px below
 				var e:Entity = collideTypes(actorTypes, x, y + tileSize); 
-				
+				currentFacing = currentMove;
 				attemptCollision(e);
 			}
 			
@@ -147,7 +206,7 @@ class MovingActor extends Entity {
 			
 			case None: return null; // exits function early, skips setting other variables
 		}
-		
+		setMoveAnimation();
 		inputBlocked = true; // The actor cannot change direction until they have finished the move.
 		frameCountdown = frameDelay;
 		
@@ -205,6 +264,8 @@ class MovingActor extends Entity {
 		if(frameCountdown > 0){
 			HXP.console.log(["ERROR: stopMovement was called while frameCountdown > 0"]);
 		}
+		
+		setIdleAnimation();
 		
 		currentMove = None;
 		inputBlocked = false;
