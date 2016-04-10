@@ -121,6 +121,11 @@ class SampleEnemy extends Enemy
 		stopMovement();
 	}
 	
+	private override function borderCollision( e:Entity ){
+		moveWasBlocked = true;
+		stopMovement();
+	}
+	
 	
 	// playerCollision( e:Entity )
 	//

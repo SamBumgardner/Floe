@@ -352,6 +352,14 @@ class Player extends MovingActor
 		stopMovement();
 	}
 	
+	private override function borderCollision( e:Entity ){
+		if( sliding == true || pressedThisFrame == true || hasPlayedBumpSound == false ){
+			bumpSound.play(HXP.engine.sfxVolume);
+			hasPlayedBumpSound = true;
+		}
+		stopMovement();
+	}
+	
 	private override function sampleEnemyCollision( e:Entity ){
 		stopMovement();
 		takeDamage(cast(e, SampleEnemy).attackDamage);

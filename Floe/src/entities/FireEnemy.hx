@@ -36,10 +36,12 @@ class FireEnemy extends Enemy
 		moveSpeed = 2;
 		recalcTime = 120;
 		maxEndurance = 16; // moves once before resting.
-		restTime = 60;	   // rests for 60 frames.
+		restTime = 20;	   // rests for 60 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
-		specialLoad = 5;   // counter for when ice melts
+		specialLoad = 6;   // counter for when ice melts
+		moveSet = 0;
+		moveCycleCount = 0;
 
 		
 		// Set hitbox size and the collision type
@@ -69,15 +71,9 @@ class FireEnemy extends Enemy
 	
 	// calcDestination()
 	//
-	// Sets the destinationX and destinationY
+	// Not needed for this enemy
 	
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
-		
-		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
-		
-		super.calcDestination();
 	};
 	
 	
@@ -86,14 +82,14 @@ class FireEnemy extends Enemy
 	//    BACKGROUND COLLISION FUNCTIONS     //
 	///////////////////////////////////////////
 	
-	// These functions will be called when SampleEnemy finishes moving onto a tile.
+	// These functions will be called when FireEnemy finishes moving onto a tile.
 	// They should set in motion any behavior that occurs after landing on that particular tile,
 	// e.g. move again while on a water tile, or stop when on a ground tile.
 	
 	
 	// waterTileCollision( e:Entity )
 	//
-	// SampleEnemy's movement ends.
+	// FireEnemy's movement ends.
 	
 	private override function waterTileCollision( e:Entity ){
 		stopMovement();
@@ -124,7 +120,7 @@ class FireEnemy extends Enemy
 	
 	// groundTileCollision( e:Entity )
 	//
-	// SampleEnemy's movement ends.
+	// fireEnemy's movement ends.
 	
 	private override function groundTileCollision( e:Entity ){
 		stopMovement();
@@ -138,9 +134,13 @@ class FireEnemy extends Enemy
 	
 	// obstacleCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
-	
+	// Prevent the fireEnemy from moving into it.
 	private override function obstacleCollision( e:Entity ){
+		//moveWasBlocked = true;
+		//stopMovement();
+	}
+	
+	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
@@ -148,17 +148,17 @@ class FireEnemy extends Enemy
 	
 	// playerCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the fireEnemy from moving into it.
 	
 	private override function playerCollision( e:Entity ){
 		cast(e, Player).takeDamage(attackDamage);
-		//scene.remove(this)
+		scene.remove(this);
 	}
 	
 	
-	// sampleEnemyCollision( e:Entity )
+	// fireEnemyCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the fireEnemy from moving into it.
 	
 	private override function fireEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
@@ -170,14 +170,201 @@ class FireEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
+	private override function selectDirection(){
+		if(moveCycleCount % 8 < 2 || moveCycleCount % 8 == 7){
+			moveCycleCount++;
+			checkGround();
+			if(moveWasBlocked == false){
+				if(moveSet % 4 == 0){
+					currentMove = Up;
+				}
+				else if(moveSet % 4 == 1){
+					currentMove = Left;
+				}
+				else if(moveSet % 4 == 2){
+					currentMove = Down;
+				}
+				else{
+					currentMove = Right;
+				}
+			}
+			else{
+				moveWasBlocked = true;
+				currentMove = None;
+				moveSet++;
+			}
+		}
 	
+		else if(moveCycleCount % 8 == 2 || moveCycleCount % 8 == 3){
+			moveCycleCount++;
+			if(moveWasBlocked == false){
+				if(moveSet % 4 == 0){
+					currentMove = Left;
+				}
+				else if(moveSet % 4 == 1){
+					currentMove = Down;
+				}
+				else if(moveSet % 4 == 2){
+					currentMove = Right;
+				}
+				else{
+				currentMove = Up;
+				}
+			}
+			else{
+				moveWasBlocked = true;
+				currentMove = None;
+				moveSet++;
+			}
+		}
+
+		else if(moveCycleCount % 8 == 4 || moveCycleCount % 8 == 5){
+			moveCycleCount++;
+			if(moveWasBlocked == false){
+				if(moveSet % 4 == 0){
+					currentMove = Down;
+				}
+				else if(moveSet % 4 == 1){
+					currentMove = Right;
+				}
+				else if(moveSet % 4 == 2){
+					currentMove = Up;
+				}
+				else{
+					currentMove = Left;
+				}
+			}
+			else{
+				moveWasBlocked = true;
+				currentMove = None;
+				moveSet++;
+			}
+		}
+
+		else{
+			moveCycleCount++;
+			if(moveWasBlocked == false){
+				if(moveSet % 4 == 0){
+					currentMove = Right;
+				}
+				else if(moveSet % 4 == 1){
+					currentMove = Up;
+				}
+				else if(moveSet % 4 == 2){
+					currentMove = Left;
+				}
+				else{
+					currentMove = Down;
+				}
+			}
+			else{
+				moveWasBlocked = true;
+				currentMove = None;
+				moveSet++;
+			}
+		}
+	}
+
+	private override function selectOtherDirection(){
+		if(moveCycleCount % 8 < 2 || moveCycleCount % 8 == 7){
+			moveCycleCount++;
+			checkGround();
+			if(moveWasBlocked == false){
+				if(moveSet % 4 == 0){
+					currentMove = Up;
+				}
+				else if(moveSet % 4 == 1){
+					currentMove = Left;
+				}
+				else if(moveSet % 4 == 2){
+					currentMove = Down;
+				}
+				else{
+					currentMove = Right;
+				}
+			}
+			else{
+				moveWasBlocked = true;
+				currentMove = None;
+				moveSet++;
+			}
+		}
+	
+		else if(moveCycleCount % 8 == 2 || moveCycleCount % 8 == 3){
+			moveCycleCount++;
+			if(moveWasBlocked == false){
+				if(moveSet % 4 == 0){
+					currentMove = Left;
+				}
+				else if(moveSet % 4 == 1){
+					currentMove = Down;
+				}
+				else if(moveSet % 4 == 2){
+					currentMove = Right;
+				}
+				else{
+				currentMove = Up;
+				}
+			}
+			else{
+				moveWasBlocked = true;
+				currentMove = None;
+				moveSet++;
+			}
+		}
+
+		else if(moveCycleCount % 8 == 4 || moveCycleCount % 8 == 5){
+			moveCycleCount++;
+			if(moveWasBlocked == false){
+				if(moveSet % 4 == 0){
+					currentMove = Down;
+				}
+				else if(moveSet % 4 == 1){
+					currentMove = Right;
+				}
+				else if(moveSet % 4 == 2){
+					currentMove = Up;
+				}
+				else{
+					currentMove = Left;
+				}
+			}
+			else{
+				moveWasBlocked = true;
+				currentMove = None;
+				moveSet++;
+			}
+		}
+
+		else{
+			moveCycleCount++;
+			if(moveWasBlocked == false){
+				if(moveSet % 4 == 0){
+					currentMove = Right;
+				}
+				else if(moveSet % 4 == 1){
+					currentMove = Up;
+				}
+				else if(moveSet % 4 == 2){
+					currentMove = Left;
+				}
+				else{
+					currentMove = Down;
+				}
+			}
+			else{
+				moveWasBlocked = true;
+				currentMove = None;
+				moveSet++;
+			}
+		}
+	}
 	
 	
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
-	//The Sample Enemy simply uses Enemy's update function.
+	//The fire Enemy simply uses Enemy's update function.
 
 }

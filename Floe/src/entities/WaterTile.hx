@@ -79,7 +79,7 @@ class WaterTile extends Tile {
 		
 			if (direction == None || direction == parentDirection) { continue; }
 			else{
-			
+				
 				switch direction{
 					case Up:	{e = collide("waterTile", x, y - size);
 								 parentingDirection = Down;}
@@ -145,6 +145,11 @@ class WaterTile extends Tile {
 	
 	public function chainFreeze()
 	{
+		var e:Entity = collideTypes("fireEnemy", x, y);
+		if(collide("fireEnemy", x, y) != null){
+			scene.remove(cast(e, FireEnemy));
+		}
+		
 		graphic = commonFrozenImage;
 		frozen = true;
 		if(beenFrozen == false){

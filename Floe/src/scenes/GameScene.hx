@@ -9,6 +9,7 @@ import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
 import entities.Obstacle;
+import entities.Border;
 import entities.GameManager;
 
 import com.haxepunk.Sfx;
@@ -113,7 +114,7 @@ class GameScene extends Scene {
 				if( placeX == originX || placeY == originY || 
 					placeX == maxX || placeY == maxY){
 				
-					add(new Obstacle(placeX, placeY, "border"));
+					add(new Border(placeX, placeY, "border"));
 					
 					placeX += tileSize;
 					continue;

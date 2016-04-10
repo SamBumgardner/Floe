@@ -25,6 +25,8 @@ class Enemy extends MovingActor
 	
 	public var attackDamage:Int;
 	public var specialLoad:Int = 0;
+	public var moveCycleCount:Int = 0;
+	public var moveSet:Int = 0;
 
 	private var maxEndurance:Int;
 	private var currentEndurance:Int;
