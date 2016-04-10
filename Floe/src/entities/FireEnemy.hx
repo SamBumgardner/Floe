@@ -171,7 +171,7 @@ class FireEnemy extends Enemy
 	
 	
 	private override function selectDirection(){
-		if(moveCycleCount % 8 < 2 || moveCycleCount % 8 == 7){
+		if(moveCycleCount % 10 < 4){
 			moveCycleCount++;
 			checkGround();
 			if(moveWasBlocked == false){
@@ -195,7 +195,7 @@ class FireEnemy extends Enemy
 			}
 		}
 	
-		else if(moveCycleCount % 8 == 2 || moveCycleCount % 8 == 3){
+		else if(moveCycleCount % 10 > 3 && moveCycleCount % 10 < 7){
 			moveCycleCount++;
 			if(moveWasBlocked == false){
 				if(moveSet % 4 == 0){
@@ -218,7 +218,7 @@ class FireEnemy extends Enemy
 			}
 		}
 
-		else if(moveCycleCount % 8 == 4 || moveCycleCount % 8 == 5){
+		else if(moveCycleCount % 10 == 7 || moveCycleCount % 10 == 8){
 			moveCycleCount++;
 			if(moveWasBlocked == false){
 				if(moveSet % 4 == 0){
@@ -266,7 +266,7 @@ class FireEnemy extends Enemy
 	}
 
 	private override function selectOtherDirection(){
-		if(moveCycleCount % 8 < 2 || moveCycleCount % 8 == 7){
+		if(moveCycleCount % 10 < 4){
 			moveCycleCount++;
 			checkGround();
 			if(moveWasBlocked == false){
@@ -290,7 +290,7 @@ class FireEnemy extends Enemy
 			}
 		}
 	
-		else if(moveCycleCount % 8 == 2 || moveCycleCount % 8 == 3){
+		else if(moveCycleCount % 10 > 3 && moveCycleCount % 10 < 7){
 			moveCycleCount++;
 			if(moveWasBlocked == false){
 				if(moveSet % 4 == 0){
@@ -313,7 +313,7 @@ class FireEnemy extends Enemy
 			}
 		}
 
-		else if(moveCycleCount % 8 == 4 || moveCycleCount % 8 == 5){
+		else if(moveCycleCount % 10 == 7 || moveCycleCount % 10 == 8){
 			moveCycleCount++;
 			if(moveWasBlocked == false){
 				if(moveSet % 4 == 0){
