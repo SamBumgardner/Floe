@@ -5,7 +5,7 @@ import com.haxepunk.graphics.Image;
 
 import com.haxepunk.HXP; //for debug;
 
-class Obstacle extends Tile {
+class Border extends Tile {
 
 	//A child of Tile needs its own copy of the static vars it will use 
 	static public var rockImage:Image;
@@ -15,17 +15,17 @@ class Obstacle extends Tile {
 	public override function new(x:Int, y:Int, picture:String){
 		super(x,y);
 		if(!graphicInit) {
-			Obstacle.rockImage = new Image("graphics/groundRock.png");
-			//Obstacle.borderImage = new Image("graphics/rock.png");
+			//Obstacle.rockImage = new Image("graphics/groundRock.png");
+			Border.borderImage = new Image("graphics/rock.png");
 			graphicInit = true;
 		}
 		
-		//if( picture == "border" ){
-		//	graphic = borderImage;
-		//}
-		if( picture == "rock" ){
-			graphic = rockImage;
+		if( picture == "border" ){
+			graphic = borderImage;
 		}
-		type = "obstacle";
+		//else if( picture == "rock" ){
+		//	graphic = rockImage;
+		//}
+		type = "border";
 	}	
 }
