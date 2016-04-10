@@ -119,7 +119,7 @@ class MovingActor extends Entity {
 	// Sets the actor's animation to the idle version of  that matches
 	// their currentFacing, unless shouldSetAnim is false.
 	//
-	// Called in stopMovement()
+	// Called in child classes after Actor is guaranteed to be stopped.
 	
 	private function setIdleAnimation(){
 	
@@ -264,8 +264,6 @@ class MovingActor extends Entity {
 		if(frameCountdown > 0){
 			HXP.console.log(["ERROR: stopMovement was called while frameCountdown > 0"]);
 		}
-		
-		setIdleAnimation();
 		
 		currentMove = None;
 		inputBlocked = false;

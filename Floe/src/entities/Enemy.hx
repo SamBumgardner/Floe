@@ -84,6 +84,7 @@ class Enemy extends MovingActor
 	// and/or sound effects.
 	
 	private function rest(){
+		setIdleAnimation();
 		restCountdown = restTime;
 		currentEndurance = maxEndurance;
 	};

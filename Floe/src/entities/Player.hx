@@ -216,6 +216,7 @@ class Player extends MovingActor
 		// No input is active
 		if( horizontalMove == 0 && verticalMove == 0 ){ 
 			currentMove = None;
+			setIdleAnimation();
 		}
 		
 		// Both a vertical and horizontal input are active
@@ -361,6 +362,7 @@ class Player extends MovingActor
 			bumpSound.play(HXP.engine.sfxVolume);
 			hasPlayedBumpSound = true;
 		}
+		setIdleAnimation();
 		stopMovement();
 	}
 	
