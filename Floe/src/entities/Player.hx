@@ -21,9 +21,10 @@ class Player extends MovingActor
 	///////////////////////////////////////////
 	
 	// Graphic/Audio asset-holding variables
-	private static var idleAnim:Image;
 	private static var bumpSound:Sfx;
 	private static var damagedSound:Sfx;
+	private var interruptedAnimation:String = "";
+	private var animationCountdown:Int = 0;
 	
 	private static var assetsInitialized:Bool = false; 
 	
@@ -61,6 +62,7 @@ class Player extends MovingActor
 		
 		frameDelay = 7;
 		moveSpeed = 4;
+		layer = -1;
 		
 		setHitbox(32, 32);
 		type = "player";
@@ -72,19 +74,25 @@ class Player extends MovingActor
 			assetsInitialized = true;
 		}
 		
-		sprite = new Spritemap("graphics/DefaultAnimationPlaceholder.png", 32, 32);
-		sprite.add("upIdle", [3], 3, true); 
-		sprite.add("leftIdle", [1], 3, true);
-		sprite.add("downIdle", [4], 3, true);
-		sprite.add("rightIdle", [2], 3, true);
-		sprite.add("upMove", [7], 1, true); 
-		sprite.add("leftMove", [5], 3, true);
-		sprite.add("downMove", [8], 3, true);
-		sprite.add("rightMove", [6], 3, true);
+		sprite = new Spritemap("graphics/sheet.png", 64, 64);
+		sprite.add("upIdle", [1], 1, true); 
+		sprite.add("leftIdle", [7], 1, true);
+		sprite.add("downIdle", [0], 1, true);
+		sprite.add("rightIdle", [2], 1, true);
+		sprite.add("upMove", [15,1,16,1], 6, true); 
+		sprite.add("leftMove", [8,7,9,7], 6, true);
+		sprite.add("downMove", [10,0,11,0], 6, true);
+		sprite.add("rightMove", [3,2,4,2], 6, true);
+		sprite.add("upHurt", [19], 1, true);
+		sprite.add("leftHurt", [17], 1, true);		
+		sprite.add("downHurt", [118], 1, true);
+		sprite.add("rightHurt", [20], 1, true);
 		
 		sprite.play("downIdle");
 		
 		graphic = sprite;
+		graphic.x = -16;
+		graphic.y = -32;
 		
 	}
 	
@@ -100,11 +108,17 @@ class Player extends MovingActor
 	
 	public function takeDamage(damage:Int){
 		if( !invincible ){
-			scenes.GameScene.GM.damagePlayer(damage);
 			damagedSound.play(HXP.engine.sfxVolume * 2);
-			//Play an injury animation here.
-			
+			switch currentFacing{
+				case Left: 	interruptAnim("leftHurt");
+				case Right: interruptAnim("rightHurt");
+				case Up: 	interruptAnim("upHurt");
+				case Down:	interruptAnim("downHurt");
+				case None: {}
+			}
 			turnInvincible(60);
+			
+			scenes.GameScene.GM.damagePlayer(damage);
 		}
 	}
 	
@@ -135,6 +149,37 @@ class Player extends MovingActor
 		}
 	}
 	
+	
+	///////////////////////////////////////////
+	//            PLAYER ANIMATION           //
+	///////////////////////////////////////////
+	
+	
+	// interruptAnim(newAnim:String)
+	//
+	// Stores the current animation in an instance variable, and
+	// plays the passed in animation.
+	// Called in takeDamage()
+	
+	private function interruptAnim(newAnim:String){
+		interruptedAnimation = sprite.currentAnim;
+		shouldSetAnim = false;
+		animationCountdown = 4;
+		sprite.play(newAnim);
+	}
+	
+	
+	// resumeAnim()
+	//
+	// Resumed an interrupted animation.
+	// Called in update()
+	
+	private function resumeAnim(){
+		if( shouldSetAnim == true ){
+			sprite.play(interruptedAnimation, false, false);
+			interruptedAnimation = "";
+		}
+	}
 	
 	
 	///////////////////////////////////////////
@@ -389,6 +434,10 @@ class Player extends MovingActor
 	public override function update()
 	{	
 		invincibilityDecay();
+		
+		if( interruptedAnimation != "" ){
+			resumeAnim();
+		}
 	
 		checkInputs();
 		setInputPrecedence();
@@ -423,7 +472,13 @@ class Player extends MovingActor
 			
 		if (Input.pressed(Key.D)){ takeDamage(1);}
 	
-		
+	
+		if( animationCountdown <= 0 ){
+			shouldSetAnim = true;
+		}
+		else{
+			animationCountdown--;
+		}
 		
 		super.update();
 	}
