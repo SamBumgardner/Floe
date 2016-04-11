@@ -139,7 +139,7 @@ class ZombieFlyManEnemy extends Enemy
 		stopMovement();
 		cast(e, Player).cursePlayer(60);
 		health--;
-		if (health == 2){
+		if (health == 12){
 			graphic = new Image("graphics/ZombieFlyManWeak.png");
 		}
 		else if (health <= 0){
