@@ -5,6 +5,7 @@ import com.haxepunk.Scene;
 import entities.Player;
 import entities.SampleEnemy;
 import entities.FireEnemy;
+import entities.ZombieFlyManEnemy;
 import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
@@ -62,12 +63,17 @@ class GameScene extends Scene {
 	// There's only one enemy type at the moment, so it's rather basic.
 	
 	private function addEnemy( x:Int, y:Int ){
-		if(HXP.random % .1 < .05){
+		var rand = HXP.random % .5;
+		if(rand < .1){
 			add( new SampleEnemy(x, y) );
 		}
 		
-		else{
+		else if (rand < .2){
 			add( new FireEnemy(x, y) );
+		}
+		
+		else if (rand < .5){
+			add( new ZombieFlyManEnemy(x, y) );
 		}
 	}
 	
