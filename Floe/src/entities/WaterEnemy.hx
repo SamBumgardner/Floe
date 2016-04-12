@@ -85,7 +85,7 @@ class WaterEnemy extends Enemy
 		if (submerged){
 			timeLeftSubmerged--;
 			if (timeLeftSubmerged <= 0){
-				emerge(150);
+				emerge(125);
 			}
 		}
 		else if (!submerged){
@@ -107,19 +107,17 @@ class WaterEnemy extends Enemy
 	
 	
 	// waterTileCollision( e:Entity )
-	//
-	// SampleEnemy's movement ends.
-	
+	// For frozen water tile beneath enemy:
+	// If the enemy is underwater, trap and kill it. Else thaw the water tile.
+
 	private override function waterTileCollision( e:Entity ){
-		stopMovement();
-	}
-	
-	// groundTileCollision( e:Entity )
-	//
-	// SampleEnemy's movement ends.
-	
-	private override function groundTileCollision( e:Entity ){
-		stopMovement();
+		var w:WaterTile = cast(e, WaterTile);
+		if (w.isFrozen() && submerged){
+			scene.remove(this);
+		}
+		else if (w.isFrozen() && !submerged){
+			w.thaw();
+		}
 	}
 	
 	
