@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class ZombieFlyManEnemy extends Enemy
+class WaterEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -24,7 +24,9 @@ class ZombieFlyManEnemy extends Enemy
 	
 	private var currentScene:GameScene;
 	
-	public var health = 15;
+	public var submerged = false;
+	private var timeLeftSubmerged = 0;
+	private var timeLeftEmerged = 100;
 
 
 	public function new(x:Int, y:Int)
@@ -35,21 +37,21 @@ class ZombieFlyManEnemy extends Enemy
 		// and acceptableDestDistance
 		
 		frameDelay = 15; 
-		moveSpeed = 2;
+		moveSpeed = 0;
 		recalcTime = 120;
-		maxEndurance = 32; // moves two times before resting.
-		restTime = 120;	   // rests for 60 frames.
-		attackDamage = 2;
+		maxEndurance = 0; // moves two times before resting.
+		restTime = 60;	   // rests for 60 frames.
+		attackDamage = 1;
 		acceptableDestDistance = 0;
 
 		
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "zombieFlyManEnemy";
+		type = "waterEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/ZombieFlyManEnemy.png");
+			idleAnim = new Image("graphics/waterEnemy.png");
 			assetsInitialized = true;
 		}
 		
@@ -67,28 +69,33 @@ class ZombieFlyManEnemy extends Enemy
 	// It serves as a catch-all for methods that aren't strictly related to movement,
 	// collisions, or direction selection.
 	
-	
-	// calcDestination()
-	//
-	// Sets the destinationX and destinationY
-	
-	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
-		
-		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
-		
-		super.calcDestination();
-	};
-	
-	// This function randomizes the enemy's endurance upon resting
-	private override function rest(){
-		maxEndurance = (Std.random(3) + 1) * 96;
-		restCountdown = restTime;
-		currentEndurance = maxEndurance;
+	private function submerge(timeToSubmerge:Int){
+		timeLeftSubmerged = 100;
+		submerged = true;
+		graphic = new Image("graphics/water.png");
 	}
 	
+	private function emerge(timeToEmerge:Int){
+		timeLeftEmerged = 100;
+		submerged = false;
+		graphic = new Image("graphics/waterEnemy.png");
+	}
 	
+	private function stateDecay(){
+		if (submerged){
+			timeLeftSubmerged--;
+			if (timeLeftSubmerged <= 0){
+				emerge(100);
+			}
+		}
+		else if (!submerged){
+			timeLeftEmerged--;
+			if (timeLeftEmerged <= 0){
+				submerge(100);
+			}
+		}
+	}
+		
 	
 	///////////////////////////////////////////
 	//    BACKGROUND COLLISION FUNCTIONS     //
@@ -130,37 +137,23 @@ class ZombieFlyManEnemy extends Enemy
 		stopMovement();
 	}
 	
+	private override function borderCollision( e:Entity ){
+		moveWasBlocked = true;
+		stopMovement();
+	}
+	
 	
 	// playerCollision( e:Entity )
 	//
 	// Prevent the sampleEnemy from moving into it.
 	
 	private override function playerCollision( e:Entity ){
-		stopMovement();
-		cast(e, Player).cursePlayer(60);	// flip player controls
-		health--;
-		if (health == 12){
-			graphic = new Image("graphics/ZombieFlyManWeak.png");
+		if (!submerged){
+			stopMovement();
+			cast(e, Player).takeDamage(attackDamage);
 		}
-		else if (health <= 0){
-			scene.remove(this);
-		}
-	}
+	}	
 	
-	
-	// sampleEnemyCollision( e:Entity )
-	//
-	// Prevent the sampleEnemy from moving into it.
-	
-	private override function sampleEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
-	private override function zombieFlyManEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
@@ -175,7 +168,10 @@ class ZombieFlyManEnemy extends Enemy
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
-	//The Sample Enemy simply uses Enemy's update function.
+	public override function update(){
+		// enemy does not move, so all we need to do is toggle 'submerged'
+		stateDecay();
+	}
 
 
 

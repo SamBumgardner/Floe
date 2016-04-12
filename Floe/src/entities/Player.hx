@@ -164,7 +164,7 @@ class Player extends MovingActor
 		horizontalMove = 0;
 		verticalMove = 0;
 		
-		if (cursed){
+		if (cursed){	// if curse, flip controls
 			if (Input.check(Key.LEFT)){		horizontalMove++; }		
 			if (Input.check(Key.RIGHT)){ 	horizontalMove--; }	
 			if (Input.check(Key.UP)){    	verticalMove++;   }	
@@ -411,6 +411,13 @@ class Player extends MovingActor
 		cursePlayer(60);
 	}
 	
+	private override function waterEnemyCollision( e:Entity ){
+		var enemy = cast(e, WaterEnemy);
+		if (!enemy.submerged){
+			stopMovement();
+			takeDamage(enemy.attackDamage);
+		}
+	}
 	
 	
 	///////////////////////////////////////////

@@ -6,6 +6,7 @@ import entities.Player;
 import entities.SampleEnemy;
 import entities.FireEnemy;
 import entities.ZombieFlyManEnemy;
+import entities.WaterEnemy;
 import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
@@ -138,6 +139,10 @@ class GameScene extends Scene {
 				if(HXP.random > .15){
 					add(new WaterTile(placeX, placeY));
 					tilesSinceLastObstacle++;
+					if (HXP.random > .95 && enemyCount < maxEnemies){
+						add( new WaterEnemy(placeX, placeY));
+						enemyCount++;
+					}
 					
 					if(HXP.random < .05 && enemyCount < maxEnemies){
 						addEnemy(placeX, placeY);
