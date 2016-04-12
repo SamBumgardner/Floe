@@ -70,13 +70,13 @@ class WaterEnemy extends Enemy
 	// collisions, or direction selection.
 	
 	private function submerge(timeToSubmerge:Int){
-		timeLeftSubmerged = 100;
+		timeLeftSubmerged = timeToSubmerge;
 		submerged = true;
 		graphic = new Image("graphics/water.png");
 	}
 	
 	private function emerge(timeToEmerge:Int){
-		timeLeftEmerged = 100;
+		timeLeftEmerged = timeToEmerge;
 		submerged = false;
 		graphic = new Image("graphics/waterEnemy.png");
 	}
@@ -85,13 +85,13 @@ class WaterEnemy extends Enemy
 		if (submerged){
 			timeLeftSubmerged--;
 			if (timeLeftSubmerged <= 0){
-				emerge(100);
+				emerge(150);
 			}
 		}
 		else if (!submerged){
 			timeLeftEmerged--;
 			if (timeLeftEmerged <= 0){
-				submerge(100);
+				submerge(50);
 			}
 		}
 	}
@@ -149,8 +149,10 @@ class WaterEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		if (!submerged){
-			stopMovement();
 			cast(e, Player).takeDamage(attackDamage);
+		}
+		else if (submerged){
+			scene.remove(this);
 		}
 	}	
 	

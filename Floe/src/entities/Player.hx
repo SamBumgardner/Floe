@@ -417,6 +417,9 @@ class Player extends MovingActor
 			stopMovement();
 			takeDamage(enemy.attackDamage);
 		}
+		else if (enemy.submerged){
+			scene.remove(enemy);
+		}
 	}
 	
 	
