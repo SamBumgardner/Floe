@@ -9,7 +9,7 @@ class GroundTile extends Tile
 {
 	static public var commonImage:Image;
 	static private var graphicInit:Bool = false;
-
+	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);

@@ -20,11 +20,11 @@ class GameOver extends Scene
 	public override function begin()
 	{
 		HXP.console.log(["GameOver Scene executed!"]);
-
+		
 		add(GM);
-
+		
 		add(new GameOverSplash(0,0));
-
+		
 	}
 	public override function end(){
 		removeAll();

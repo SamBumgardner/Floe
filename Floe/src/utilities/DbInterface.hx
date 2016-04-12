@@ -25,13 +25,13 @@ class DbInterface{
 	public function sendDataToDb(initials:String, score:Int) {
 		this.dataToSend.initials = initials;
 		this.dataToSend.score = score;
-
+		
 		//prepare the request
 		var req:URLRequest = new URLRequest("scoreDump.php");
 		req.method = URLRequestMethod.POST;
 		req.contentType = "application/x-www-form-urlencoded";
 		req.data = this.dataToSend;
-
+		
 		//send the request
 		var sender:URLLoader = new URLLoader();
 		sender.load(req);
