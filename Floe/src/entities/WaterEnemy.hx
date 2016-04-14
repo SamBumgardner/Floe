@@ -27,6 +27,7 @@ class WaterEnemy extends Enemy
 	public var submerged = false;
 	private var timeLeftSubmerged = 0;
 	private var timeLeftEmerged = 100;
+	public var canEmerge = true; // set to false when something is on top of it
 
 
 	public function new(x:Int, y:Int)
@@ -84,7 +85,7 @@ class WaterEnemy extends Enemy
 	private function stateDecay(){
 		if (submerged){
 			timeLeftSubmerged--;
-			if (timeLeftSubmerged <= 0){
+			if (canEmerge && timeLeftSubmerged <= 0){
 				emerge(125);
 			}
 		}
@@ -171,6 +172,18 @@ class WaterEnemy extends Enemy
 	public override function update(){
 		// enemy does not move, so all we need to do is toggle 'submerged'
 		stateDecay();
+		
+		// check for enemies on top of the waterEnemy
+		var actors = ["fireEnemy", "zombieFlyManEnemy", "sampleEnemy", "player"];
+		var canEmergeTest:Bool = true;
+		for (actor in actors){
+			if (collide(actor, x, y) != null){
+				// if something's on top of the water enemy, prevent emergence
+				canEmergeTest = false;
+				break;
+			}
+		}
+		canEmerge = canEmergeTest;
 	}
 
 

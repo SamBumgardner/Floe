@@ -165,6 +165,11 @@ class FireEnemy extends Enemy
 		stopMovement();
 	}
 	
+	private override function waterEnemyCollision( e:Entity ){
+		moveWasBlocked = true;
+		stopMovement();
+	}
+	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
 	///////////////////////////////////////////
