@@ -54,6 +54,7 @@ class MenuSelector extends Entity
 		//I'm not quite sure how enums work in Haxe, but using it would be better, I think.
 	
 		if(moveDisabled){
+      // Back out of current menu
 			switch currentPos{
 				case 2: removeInfographic();
 				case 3: removeSeedSelection();
@@ -62,7 +63,7 @@ class MenuSelector extends Entity
 		}
 		else{
 			menuSelect.play(.5);
-			
+			// Start selected option
 			switch currentPos{
 				case 1: HXP.engine.startGame(userSeed);
 				case 2: displayInfographic();
