@@ -25,6 +25,7 @@ class MenuSelector extends Entity
 	
 	private var currentPos:Int; //Used to determine what to do when the player presses spacebar
 	private var numOfPos:Int; //Used to determine the boundaries of MenuSelector's movement.
+	private var tempPos:Int; //Temporary variable to hold MenuSelector's attempted movement.
 
 	public function new( x:Int, y:Int )
   {
@@ -155,17 +156,21 @@ class MenuSelector extends Entity
 	
 	public override function update()
 	{
+		// Check for user input: UP, DOWN
 		if (Input.pressed(Key.UP)){ verticalMove--; }
 		if (Input.pressed(Key.DOWN)){ verticalMove++; }
-	
-		if(!moveDisabled && ((verticalMove == -1 && currentPos != 1) || (verticalMove == 1 && currentPos != numOfPos))){
+		tempPos = currentPos + verticalMove; // Calculate the next move location
+
+    // If selector can move and location is valid, move the selector and play a SFX.
+		if(!moveDisabled && (0 < tempPos) && (tempPos <= numOfPos)){
 			moveBy(0, verticalMove * moveDistance);
-			currentPos += verticalMove;
+			currentPos = tempPos;
 			
 			menuMove.play(.5);
 		}
 		verticalMove = 0;
 		
+		// Check for user input: SPACE, ENTER
 		if(Input.pressed(Key.SPACE) || Input.pressed(Key.ENTER)){
 			selectOption();
 		}
