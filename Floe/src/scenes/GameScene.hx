@@ -2,6 +2,9 @@ package scenes;
 
 import com.haxepunk.HXP; //for debug
 import com.haxepunk.Scene;
+import com.haxepunk.utils.Key;
+import com.haxepunk.utils.Input;
+import com.haxepunk.Entity;
 import entities.Player;
 import entities.SampleEnemy;
 import entities.Tile;
@@ -30,6 +33,10 @@ class GameScene extends Scene {
 	private static var staticAssetSetup:Bool = false;
 	
 	public var PC:Player;
+	
+	// Used for pausing/unpausing the game.
+	private var entitiesInLevel = [];
+	private var gamePaused:Bool = false;
 	
 	public function new(?gameManager:GameManager) //leading ? means optional parameter.
 	{
@@ -184,10 +191,11 @@ class GameScene extends Scene {
 		
 		add(GM);
 		
+		//entitiesInLevel = new Array();
 		generateLevel();
+		getAll(entitiesInLevel);
 		
 	}
-	
 	
 	// end()
 	//
@@ -208,4 +216,54 @@ class GameScene extends Scene {
 		music.stop();
 		return GM;
 	}
+	
+	
+	///////////////////////////////////////////
+	//          PAUSE/UNPAUSE  GAME          //
+	///////////////////////////////////////////
+	
+	// pauseGame()
+	//
+	// Iterates through list of entities in the scene, and sets active to false.
+	// Will also bring up the pause menu.
+	//
+	// WARNING: probably has problems if entities are removed from the scene.
+
+	private function pauseGame(){
+		for( entity in entitiesInLevel ){
+			entity.active = false;
+		}
+		HXP.console.log(["Paused the game!"]);
+	}
+	
+	// unpauseGame()
+	//
+	// Reverses the actions of pauseGame.
+	
+	private function unpauseGame(){
+		for( entity in entitiesInLevel ){
+			entity.active = true;
+		}
+		HXP.console.log(["Unpaused the game!"]);
+	}
+	
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////	
+	
+	public override function update(){
+		if(Input.pressed(Key.ESCAPE)){
+			if( !gamePaused ){
+				gamePaused = true;
+				pauseGame();
+			}
+			else{
+				gamePaused = false;
+				unpauseGame();
+			}
+		}
+		
+		super.update();
+	}
+	
 }
