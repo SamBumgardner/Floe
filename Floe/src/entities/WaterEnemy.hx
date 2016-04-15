@@ -107,21 +107,6 @@ class WaterEnemy extends Enemy
 	// e.g. move again while on a water tile, or stop when on a ground tile.
 	
 	
-	// waterTileCollision( e:Entity )
-	// For frozen water tile beneath enemy:
-	// If the enemy is underwater, trap and kill it. Else thaw the water tile.
-
-	private override function waterTileCollision( e:Entity ){
-		var w:WaterTile = cast(e, WaterTile);
-		if (w.isFrozen() && submerged){
-			scene.remove(this);
-		}
-		else if (w.isFrozen() && !submerged){
-			w.thaw();
-		}
-	}
-	
-	
 	///////////////////////////////////////////
 	//       MOVE COLLISION FUNCTIONS        //
 	///////////////////////////////////////////
