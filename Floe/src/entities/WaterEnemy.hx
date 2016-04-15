@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class SampleEnemy extends Enemy
+class WaterEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -18,11 +18,17 @@ class SampleEnemy extends Enemy
 	
 	
 	// Graphic asset-holding variables
-	private static var idleAnim:Image;
+	private var idleAnim:Image;
 	
 	private static var assetsInitialized:Bool = false; 
 	
-	private var currentScene:GameScene; 
+	private var currentScene:GameScene;
+	
+	public var submerged = false;
+	private var timeLeftSubmerged = 0;
+	private var timeLeftEmerged = 100;
+	private var initialSubmergeTime = Std.random(200);
+	private var initialSubmergeComplete = false;
 
 
 	public function new(x:Int, y:Int)
@@ -33,9 +39,9 @@ class SampleEnemy extends Enemy
 		// and acceptableDestDistance
 		
 		frameDelay = 15; 
-		moveSpeed = 2;
+		moveSpeed = 0;
 		recalcTime = 120;
-		maxEndurance = 32; // moves two times before resting.
+		maxEndurance = 0; // moves two times before resting.
 		restTime = 60;	   // rests for 60 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
@@ -44,13 +50,12 @@ class SampleEnemy extends Enemy
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "sampleEnemy";
+		type = "waterEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/sampleEnemy.png");
 			assetsInitialized = true;
 		}
-		
+		idleAnim = new Image("graphics/waterEnemy.png");
 		graphic = idleAnim;
 		currentScene = cast(HXP.scene, GameScene);
 		
@@ -65,21 +70,47 @@ class SampleEnemy extends Enemy
 	// It serves as a catch-all for methods that aren't strictly related to movement,
 	// collisions, or direction selection.
 	
+	private function submerge(timeToSubmerge:Int){
+		timeLeftSubmerged = timeToSubmerge;
+		submerged = true;
+		graphic.visible = false;
+	}
 	
-	// calcDestination()
-	//
-	// Sets the destinationX and destinationY
+	private function emerge(timeToEmerge:Int){
+		timeLeftEmerged = timeToEmerge;
+		submerged = false;
+		graphic.visible = true;
+	}
 	
-	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+	private function emergeTest(){
+        var actors = ["zombieFlyManEnemy", "sampleEnemy", "player"];
+        var canEmergeTest:Bool = true;
+        HXP.console.log(["Testing for collisions at", x, y]);
+        if (collideTypes(actors, x, y) != null){
+            // if something's on top of the water enemy, prevent emergence
+            HXP.console.log(["There's something above me at", x, y]);
+            canEmergeTest = false;
+        }
+        return canEmergeTest;
+    }
+	
+	private function stateDecay(){
+		if (submerged){
+			timeLeftSubmerged--;
+			if (timeLeftSubmerged <= 0){
+				if (emergeTest()){
+					emerge(200);
+				}
+			}
+		}
+		else if (!submerged){
+			timeLeftEmerged--;
+			if (timeLeftEmerged <= 0){
+				submerge(200);
+			}
+		}
+	}
 		
-		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
-		
-		super.calcDestination();
-	};
-	
-	
 	
 	///////////////////////////////////////////
 	//    BACKGROUND COLLISION FUNCTIONS     //
@@ -90,73 +121,11 @@ class SampleEnemy extends Enemy
 	// e.g. move again while on a water tile, or stop when on a ground tile.
 	
 	
-	// waterTileCollision( e:Entity )
-	//
-	// SampleEnemy's movement ends.
-	
-	private override function waterTileCollision( e:Entity ){
-		stopMovement();
-	}
-	
-	// groundTileCollision( e:Entity )
-	//
-	// SampleEnemy's movement ends.
-	
-	private override function groundTileCollision( e:Entity ){
-		stopMovement();
-	}
-	
-	
 	///////////////////////////////////////////
 	//       MOVE COLLISION FUNCTIONS        //
 	///////////////////////////////////////////
+	// *- unnecessary for stationary enemy -*
 	
-	
-	// obstacleCollision( e:Entity )
-	//
-	// Prevent the sampleEnemy from moving into it.
-	
-	private override function obstacleCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
-	private override function borderCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
-	
-	// playerCollision( e:Entity )
-	//
-	// Prevent the sampleEnemy from moving into it.
-	
-	private override function playerCollision( e:Entity ){
-		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
-	}
-	
-	
-	// sampleEnemyCollision( e:Entity )
-	//
-	// Prevent the sampleEnemy from moving into it.
-	
-	private override function sampleEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
-	private override function zombieFlyManEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
-	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
-			moveWasBlocked = true;
-			stopMovement();
-		}
-	}
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
@@ -171,7 +140,10 @@ class SampleEnemy extends Enemy
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
-	//The Sample Enemy simply uses Enemy's update function.
+	public override function update(){
+		// enemy does not move, so all we need to do is toggle 'submerged'
+		stateDecay();		
+	}
 
 
 

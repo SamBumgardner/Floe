@@ -146,8 +146,12 @@ class WaterTile extends Tile {
 	public function chainFreeze()
 	{
 		var e:Entity = collideTypes("fireEnemy", x, y);
+		var w:Entity = collideTypes("waterEnemy", x, y);
 		if(collide("fireEnemy", x, y) != null){
 			scene.remove(cast(e, FireEnemy));
+		}
+		else if(collide("waterEnemy", x, y) != null){
+			scene.remove(cast(w, WaterEnemy));
 		}
 		
 		graphic = commonFrozenImage;
