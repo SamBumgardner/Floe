@@ -35,7 +35,7 @@ class GameScene extends Scene {
 	public var PC:Player;
 	
 	// Used for pausing/unpausing the game.
-	private var entitiesInLevel = [];
+	private var entitiesInLevel:Array<Entity> = [];
 	private var gamePaused:Bool = false;
 	
 	public function new(?gameManager:GameManager) //leading ? means optional parameter.
@@ -191,10 +191,8 @@ class GameScene extends Scene {
 		
 		add(GM);
 		
-		//entitiesInLevel = new Array();
-		generateLevel();
-		getAll(entitiesInLevel);
 		
+		generateLevel();
 	}
 	
 	// end()
@@ -226,10 +224,15 @@ class GameScene extends Scene {
 	//
 	// Iterates through list of entities in the scene, and sets active to false.
 	// Will also bring up the pause menu.
-	//
-	// WARNING: probably has problems if entities are removed from the scene.
+
 
 	private function pauseGame(){
+		
+		// --- first-time setup ---
+		if( entitiesInLevel.length == 0 ){
+			getAll(entitiesInLevel);
+		}
+		
 		for( entity in entitiesInLevel ){
 			entity.active = false;
 		}
