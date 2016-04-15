@@ -18,7 +18,7 @@ class WaterEnemy extends Enemy
 	
 	
 	// Graphic asset-holding variables
-	private static var idleAnim:Image;
+	private var idleAnim:Image;
 	
 	private static var assetsInitialized:Bool = false; 
 	
@@ -27,7 +27,8 @@ class WaterEnemy extends Enemy
 	public var submerged = false;
 	private var timeLeftSubmerged = 0;
 	private var timeLeftEmerged = 100;
-	public var canEmerge = true; // set to false when something is on top of it
+	private var initialSubmergeTime = Std.random(200);
+	private var initialSubmergeComplete = false;
 
 
 	public function new(x:Int, y:Int)
@@ -52,10 +53,9 @@ class WaterEnemy extends Enemy
 		type = "waterEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/waterEnemy.png");
 			assetsInitialized = true;
 		}
-		
+		idleAnim = new Image("graphics/waterEnemy.png");
 		graphic = idleAnim;
 		currentScene = cast(HXP.scene, GameScene);
 		
@@ -82,17 +82,31 @@ class WaterEnemy extends Enemy
 		graphic.visible = true;
 	}
 	
+	private function emergeTest(){
+        var actors = ["zombieFlyManEnemy", "sampleEnemy", "player"];
+        var canEmergeTest:Bool = true;
+        HXP.console.log(["Testing for collisions at", x, y]);
+        if (collideTypes(actors, x, y) != null){
+            // if something's on top of the water enemy, prevent emergence
+            HXP.console.log(["There's something above me at", x, y]);
+            canEmergeTest = false;
+        }
+        return canEmergeTest;
+    }
+	
 	private function stateDecay(){
 		if (submerged){
 			timeLeftSubmerged--;
-			if (canEmerge && timeLeftSubmerged <= 0){
-				emerge(125);
+			if (timeLeftSubmerged <= 0){
+				if (emergeTest()){
+					emerge(200);
+				}
 			}
 		}
 		else if (!submerged){
 			timeLeftEmerged--;
 			if (timeLeftEmerged <= 0){
-				submerge(50);
+				submerge(200);
 			}
 		}
 	}
@@ -110,35 +124,7 @@ class WaterEnemy extends Enemy
 	///////////////////////////////////////////
 	//       MOVE COLLISION FUNCTIONS        //
 	///////////////////////////////////////////
-	
-	
-	// obstacleCollision( e:Entity )
-	//
-	// Prevent the sampleEnemy from moving into it.
-	
-	private override function obstacleCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
-	private override function borderCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
-	
-	// playerCollision( e:Entity )
-	//
-	// Prevent the sampleEnemy from moving into it.
-	
-	private override function playerCollision( e:Entity ){
-		if (!submerged){
-			cast(e, Player).takeDamage(attackDamage);
-		}
-		else if (submerged){
-			scene.remove(this);
-		}
-	}	
+	// *- unnecessary for stationary enemyn -*
 	
 	
 	///////////////////////////////////////////
@@ -156,19 +142,7 @@ class WaterEnemy extends Enemy
 
 	public override function update(){
 		// enemy does not move, so all we need to do is toggle 'submerged'
-		stateDecay();
-		
-		// check for enemies on top of the waterEnemy
-		var actors = ["fireEnemy", "zombieFlyManEnemy", "sampleEnemy", "player"];
-		var canEmergeTest:Bool = true;
-		for (actor in actors){
-			if (collide(actor, x, y) != null){
-				// if something's on top of the water enemy, prevent emergence
-				canEmergeTest = false;
-				break;
-			}
-		}
-		canEmerge = canEmergeTest;
+		stateDecay();		
 	}
 
 
