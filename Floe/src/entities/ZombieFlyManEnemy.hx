@@ -163,8 +163,10 @@ class ZombieFlyManEnemy extends Enemy
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
+		if (cast(e, WaterEnemy).submerged == false){
+			moveWasBlocked = true;
+			stopMovement();
+		}
 	}
 	
 	///////////////////////////////////////////

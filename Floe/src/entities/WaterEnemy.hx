@@ -73,13 +73,13 @@ class WaterEnemy extends Enemy
 	private function submerge(timeToSubmerge:Int){
 		timeLeftSubmerged = timeToSubmerge;
 		submerged = true;
-		graphic = new Image("graphics/water.png");
+		graphic.visible = false;
 	}
 	
 	private function emerge(timeToEmerge:Int){
 		timeLeftEmerged = timeToEmerge;
 		submerged = false;
-		graphic = new Image("graphics/waterEnemy.png");
+		graphic.visible = true;
 	}
 	
 	private function stateDecay(){

@@ -146,6 +146,12 @@ class SampleEnemy extends Enemy
 		stopMovement();
 	}
 	
+	private override function waterEnemyCollision( e:Entity ){
+		if (cast(e, WaterEnemy).submerged == false){
+			moveWasBlocked = true;
+			stopMovement();
+		}
+	}
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
