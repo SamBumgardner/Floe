@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class SampleEnemy extends Enemy
+class ZombieFlyManEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -22,7 +22,9 @@ class SampleEnemy extends Enemy
 	
 	private static var assetsInitialized:Bool = false; 
 	
-	private var currentScene:GameScene; 
+	private var currentScene:GameScene;
+	
+	public var health = 15;
 
 
 	public function new(x:Int, y:Int)
@@ -36,18 +38,18 @@ class SampleEnemy extends Enemy
 		moveSpeed = 2;
 		recalcTime = 120;
 		maxEndurance = 32; // moves two times before resting.
-		restTime = 60;	   // rests for 60 frames.
-		attackDamage = 1;
+		restTime = 120;	   // rests for 60 frames.
+		attackDamage = 2;
 		acceptableDestDistance = 0;
 
 		
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "sampleEnemy";
+		type = "zombieFlyManEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/sampleEnemy.png");
+			idleAnim = new Image("graphics/ZombieFlyManEnemy.png");
 			assetsInitialized = true;
 		}
 		
@@ -78,6 +80,13 @@ class SampleEnemy extends Enemy
 		
 		super.calcDestination();
 	};
+	
+	// This function randomizes the enemy's endurance upon resting
+	private override function rest(){
+		maxEndurance = (Std.random(3) + 1) * 96;
+		restCountdown = restTime;
+		currentEndurance = maxEndurance;
+	}
 	
 	
 	
@@ -121,11 +130,6 @@ class SampleEnemy extends Enemy
 		stopMovement();
 	}
 	
-	private override function borderCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
 	
 	// playerCollision( e:Entity )
 	//
@@ -133,7 +137,14 @@ class SampleEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
+		cast(e, Player).cursePlayer(60);	// flip player controls
+		health--;
+		if (health == 12){
+			graphic = new Image("graphics/ZombieFlyManWeak.png");
+		}
+		else if (health <= 0){
+			scene.remove(this);
+		}
 	}
 	
 	
