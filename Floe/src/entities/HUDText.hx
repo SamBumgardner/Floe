@@ -15,5 +15,17 @@ class HUDText extends Entity {
 	// Constructor
 	public function new(x:Int, y:Int){
 		super(x, y);
+		addGraphic(textScore);
+		addGraphic(textLevel);
+	}
+	
+	// Function to update level text
+	public function updateLevel(levelText:String):Void{
+		textLevel.text = levelText;
+	}
+	
+	// Function to update score text
+	public function updateScore(scoreText:String):Void{
+		textScore = scoreText;
 	}
 }
