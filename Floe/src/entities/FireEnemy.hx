@@ -174,6 +174,10 @@ class FireEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
+	///////////////////////////////////////////
+	//            MOVEMENT FUNCTIONS         //
+	///////////////////////////////////////////
+	
 	private override function selectDirection(){
 		if(moveCycleCount % 10 < 4){
 			moveCycleCount++;

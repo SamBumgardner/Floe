@@ -407,7 +407,6 @@ class Player extends MovingActor
 	}
 	
 	private override function mistEnemyCollision( e:Entity ){
-		stopMovement();
 		cursePlayer(60);
 	}
 	

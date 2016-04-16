@@ -23,8 +23,6 @@ class MistEnemy extends Enemy
 	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene;
-	
-	public var health = 15;
 
 
 	public function new(x:Int, y:Int)
@@ -36,11 +34,11 @@ class MistEnemy extends Enemy
 		
 		frameDelay = 31; 
 		moveSpeed = 1;
-		recalcTime = 120;
-		maxEndurance = 32; // moves two times before resting.
-		restTime = 20;	   // rests for 60 frames.
+		recalcTime = 40;
+		maxEndurance = 64; // moves four times before resting.
+		restTime = 20;	   // rests for 20 frames.
 		attackDamage = 0;
-		acceptableDestDistance = 3;
+		acceptableDestDistance = 2;
 
 		
 		// Set hitbox size and the collision type
@@ -81,20 +79,22 @@ class MistEnemy extends Enemy
 		super.calcDestination();
 	};
 	
-	// This function randomizes the enemy's endurance upon resting
-	//private override function rest(){
-	//	maxEndurance = (Std.random(3) + 1) * 96;
-	//	restCountdown = restTime;
-	//	currentEndurance = maxEndurance;
-	//}
-	
-	
+	private override function checkIfAtDestination( maxDist:Int ){
+		
+		if ( (Math.sqrt(Math.pow(destDistanceX, 2) + Math.pow(destDistanceY, 2) ) <= maxDist * tileSize ) && (
+			destDistanceX == (currentScene.PC.x % 32) || destDistanceY == (currentScene.PC.y % 32)) ){
+			atDestination = true;
+		}
+		else{
+			atDestination = false;
+		}
+	}
 	
 	///////////////////////////////////////////
 	//    BACKGROUND COLLISION FUNCTIONS     //
 	///////////////////////////////////////////
 	
-	// These functions will be called when SampleEnemy finishes moving onto a tile.
+	// These functions will be called when MistEnemy finishes moving onto a tile.
 	// They should set in motion any behavior that occurs after landing on that particular tile,
 	// e.g. move again while on a water tile, or stop when on a ground tile.
 	
@@ -121,12 +121,12 @@ class MistEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	// obstacleCollision( e:Entity )
-	//
-	// Prevent the sampleEnemy from moving into it.
-	
 	private override function obstacleCollision( e:Entity ){
 	}
+	
+	// borderCollision( e:Entity )
+	//
+	// Prevent the mistEnemy from moving into it.
 	
 	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
@@ -135,29 +135,25 @@ class MistEnemy extends Enemy
 	
 	// playerCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// MistEnemy curses player.
 	
 	private override function playerCollision( e:Entity ){
-		stopMovement();
 		cast(e, Player).cursePlayer(60);	// flip player controls
-		//health--;
-		//if (health == 12){
-		//	graphic = new Image("graphics/ZombieFlyManWeak.png");
-		//}
-		//else if (health <= 0){
-		//	scene.remove(this);
-		//}
 	}
 	
 	
-	// sampleEnemyCollision( e:Entity )
+	// fireEnemyCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the mistEnemy from moving into it.
 	
 	private override function fireEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
+	
+	// mistEnemyCollision( e:Entity )
+	//
+	// Prevent the mistEnemy from moving into it.
 	
 	private override function mistEnemyCollision( e:Entity ){
 		moveWasBlocked = true;

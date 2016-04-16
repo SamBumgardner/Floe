@@ -35,8 +35,8 @@ class BorderEnemy extends Enemy
 		frameDelay = 15; 
 		moveSpeed = 2;
 		recalcTime = 120;
-		maxEndurance = 16; // moves two times before resting.
-		restTime = 30;	   // rests for 60 frames.
+		maxEndurance = 16; // moves one time before resting.
+		restTime = 30;	   // rests for 30 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
 		moveSet = 0;
@@ -73,12 +73,6 @@ class BorderEnemy extends Enemy
 	// Sets the destinationX and destinationY
 	
 	private override function calcDestination(){
-		//destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		//destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
-		
-		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
-		
-		//super.calcDestination();
 	};
 	
 	
@@ -87,7 +81,7 @@ class BorderEnemy extends Enemy
 	//    BACKGROUND COLLISION FUNCTIONS     //
 	///////////////////////////////////////////
 	
-	// These functions will be called when SampleEnemy finishes moving onto a tile.
+	// These functions will be called when BorderEnemy finishes moving onto a tile.
 	// They should set in motion any behavior that occurs after landing on that particular tile,
 	// e.g. move again while on a water tile, or stop when on a ground tile.
 	
@@ -116,12 +110,16 @@ class BorderEnemy extends Enemy
 	
 	// obstacleCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function obstacleCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
+	
+	// borderCollision( e:Entity )
+	//
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
@@ -140,7 +138,7 @@ class BorderEnemy extends Enemy
 	
 	// playerCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function playerCollision( e:Entity ){
 		moveSet += 2;
@@ -152,7 +150,7 @@ class BorderEnemy extends Enemy
 	
 	// sampleEnemyCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function sampleEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
@@ -160,6 +158,10 @@ class BorderEnemy extends Enemy
 		reverseEnemy = !reverseEnemy;
 		stopMovement();
 	}
+	
+	// borderEnemyCollision( e:Entity )
+	//
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function borderEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
@@ -173,15 +175,10 @@ class BorderEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
-	
 	
 	///////////////////////////////////////////
-	//            UPDATE FUNCTION            //
+	//            MOVEMENT FUNCTIONS         //
 	///////////////////////////////////////////
-
-	//The Sample Enemy simply uses Enemy's update function.
 
 	private override function selectDirection(){
 		if(moveSet % 4 == 0){
@@ -218,4 +215,10 @@ class BorderEnemy extends Enemy
 			currentMove = Up;
 		}
 	}
+	
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////
+
+	//The Border Enemy simply uses Enemy's update function.
 }
