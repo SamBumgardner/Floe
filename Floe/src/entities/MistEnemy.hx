@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class ZombieFlyManEnemy extends Enemy
+class MistEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -35,18 +35,18 @@ class ZombieFlyManEnemy extends Enemy
 		// and acceptableDestDistance
 		
 		frameDelay = 15; 
-		moveSpeed = 2;
+		moveSpeed = 1;
 		recalcTime = 120;
 		maxEndurance = 32; // moves two times before resting.
-		restTime = 120;	   // rests for 60 frames.
-		attackDamage = 2;
+		restTime = 20;	   // rests for 60 frames.
+		attackDamage = 0;
 		acceptableDestDistance = 0;
 
 		
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "zombieFlyManEnemy";
+		type = "mistEnemy";
 		
 		if( assetsInitialized == false ){
 			idleAnim = new Image("graphics/ZombieFlyManEnemy.png");
@@ -82,11 +82,11 @@ class ZombieFlyManEnemy extends Enemy
 	};
 	
 	// This function randomizes the enemy's endurance upon resting
-	private override function rest(){
-		maxEndurance = (Std.random(3) + 1) * 96;
-		restCountdown = restTime;
-		currentEndurance = maxEndurance;
-	}
+	//private override function rest(){
+	//	maxEndurance = (Std.random(3) + 1) * 96;
+	//	restCountdown = restTime;
+	//	currentEndurance = maxEndurance;
+	//}
 	
 	
 	
@@ -126,10 +126,12 @@ class ZombieFlyManEnemy extends Enemy
 	// Prevent the sampleEnemy from moving into it.
 	
 	private override function obstacleCollision( e:Entity ){
+	}
+	
+	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
-	
 	
 	// playerCollision( e:Entity )
 	//
@@ -138,13 +140,13 @@ class ZombieFlyManEnemy extends Enemy
 	private override function playerCollision( e:Entity ){
 		stopMovement();
 		cast(e, Player).cursePlayer(60);	// flip player controls
-		health--;
-		if (health == 12){
-			graphic = new Image("graphics/ZombieFlyManWeak.png");
-		}
-		else if (health <= 0){
-			scene.remove(this);
-		}
+		//health--;
+		//if (health == 12){
+		//	graphic = new Image("graphics/ZombieFlyManWeak.png");
+		//}
+		//else if (health <= 0){
+		//	scene.remove(this);
+		//}
 	}
 	
 	
@@ -152,22 +154,16 @@ class ZombieFlyManEnemy extends Enemy
 	//
 	// Prevent the sampleEnemy from moving into it.
 	
-	private override function sampleEnemyCollision( e:Entity ){
+	private override function fireEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
 	
-	private override function zombieFlyManEnemyCollision( e:Entity ){
+	private override function mistEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
 	
-	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
-			moveWasBlocked = true;
-			stopMovement();
-		}
-	}
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //

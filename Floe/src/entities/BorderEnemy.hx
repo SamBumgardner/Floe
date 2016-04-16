@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class SampleEnemy extends Enemy
+class BorderEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -39,15 +39,16 @@ class SampleEnemy extends Enemy
 		restTime = 60;	   // rests for 60 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
+		moveSet = 0;
 
 		
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "sampleEnemy";
+		type = "borderEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/sampleEnemy.png");
+			idleAnim = new Image("graphics/borderEnemy.png");
 			assetsInitialized = true;
 		}
 		
@@ -71,12 +72,12 @@ class SampleEnemy extends Enemy
 	// Sets the destinationX and destinationY
 	
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+		//destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
+		//destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
 		
 		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		
-		super.calcDestination();
+		//super.calcDestination();
 	};
 	
 	
@@ -123,6 +124,7 @@ class SampleEnemy extends Enemy
 	
 	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
+		moveSet++;
 		stopMovement();
 	}
 	
@@ -132,6 +134,7 @@ class SampleEnemy extends Enemy
 	// Prevent the sampleEnemy from moving into it.
 	
 	private override function playerCollision( e:Entity ){
+		moveSet += 2;
 		stopMovement();
 		cast(e, Player).takeDamage(attackDamage);
 	}
@@ -143,14 +146,14 @@ class SampleEnemy extends Enemy
 	
 	private override function sampleEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
+		moveSet += 2;
 		stopMovement();
 	}
 	
-	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
-			moveWasBlocked = true;
-			stopMovement();
-		}
+	private override function borderEnemyCollision( e:Entity ){
+		moveWasBlocked = true;
+		moveSet += 2;
+		stopMovement();
 	}
 	
 	///////////////////////////////////////////
@@ -168,7 +171,39 @@ class SampleEnemy extends Enemy
 
 	//The Sample Enemy simply uses Enemy's update function.
 
-
-
-
+	private override function selectDirection(){
+		if(moveSet % 4 == 0){
+			currentMove = Right;
+		}
+		
+		if(moveSet % 4 == 1){
+			currentMove = Down;
+		}
+		
+		if(moveSet % 4 == 2){
+			currentMove = Left;
+		}
+		
+		if(moveSet % 4 == 3){
+			currentMove = Up;
+		}
+	}
+	
+	private override function selectOtherDirection(){
+		if(moveSet % 4 == 0){
+			currentMove = Right;
+		}
+		
+		if(moveSet % 4 == 1){
+			currentMove = Down;
+		}
+		
+		if(moveSet % 4 == 2){
+			currentMove = Left;
+		}
+		
+		if(moveSet % 4 == 3){
+			currentMove = Up;
+		}
+	}
 }

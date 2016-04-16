@@ -45,7 +45,7 @@ class MovingActor extends Entity {
 	// Arrays of types used for checking collisions
 	
 	private static var backgroundTypes = ["groundTile", "waterTile"];
-	private static var actorTypes = ["obstacle", "border", "player", "sampleEnemy", "fireEnemy", "zombieFlyManEnemy", "waterEnemy"];
+	private static var actorTypes = ["obstacle", "border", "player", "sampleEnemy", "fireEnemy", "mistEnemy", "waterEnemy", "borderEnemy"];
 
 	
 	// Contains references to collision functions.
@@ -70,9 +70,10 @@ class MovingActor extends Entity {
 		"player" 		=> playerCollision,
 		"sampleEnemy"	=> sampleEnemyCollision,
 		"fireEnemy"		=> fireEnemyCollision,
-		"zombieFlyManEnemy" => zombieFlyManEnemyCollision,
-		"waterEnemy" => waterEnemyCollision,
-		"border"		=> borderCollision
+		"mistEnemy" 	=> mistEnemyCollision,
+		"waterEnemy" 	=> waterEnemyCollision,
+		"border"		=> borderCollision,
+		"borderEnemy"	=> borderEnemyCollision
 
 		]; 
 	}
@@ -244,16 +245,18 @@ class MovingActor extends Entity {
 	
 	private function obstacleCollision( e:Entity ){}
 	
+	private function borderCollision( e:Entity ){}
+	
 	private function playerCollision( e:Entity ){}
 	
 	private function sampleEnemyCollision( e:Entity ){}
 	
 	private function fireEnemyCollision( e:Entity ){}
 	
-	private function zombieFlyManEnemyCollision( e:Entity ){}
+	private function mistEnemyCollision( e:Entity ){}
 	
 	private function waterEnemyCollision( e:Entity ){}
 	
-	private function borderCollision( e:Entity ){}
+	private function borderEnemyCollision( e:Entity ){}
 
 }

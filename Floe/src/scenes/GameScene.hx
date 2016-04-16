@@ -5,8 +5,9 @@ import com.haxepunk.Scene;
 import entities.Player;
 import entities.SampleEnemy;
 import entities.FireEnemy;
-import entities.ZombieFlyManEnemy;
+import entities.MistEnemy;
 import entities.WaterEnemy;
+import entities.BorderEnemy;
 import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
@@ -70,11 +71,11 @@ class GameScene extends Scene {
 		}
 		
 		else if (rand < .2){
-			add( new FireEnemy(x, y) );
+			add( new BorderEnemy(x, y) );
 		}
 		
 		else if (rand < .5){
-			add( new ZombieFlyManEnemy(x, y) );
+			add( new MistEnemy(x, y) );
 		}
 	}
 	

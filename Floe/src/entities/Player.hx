@@ -50,7 +50,7 @@ class Player extends MovingActor
 	// Is used to make sure the "bump" sound plays at the proper times.
 	private var hasPlayedBumpSound:Bool = false;
 	
-	// Tells if user is cursed by Zombie Fly Man and for how much longer (steps)
+	// Tells if user is cursed by Mist and for how much longer (steps)
 	private var cursed = false;
 	private var curseLeft = 0;
 	
@@ -406,7 +406,7 @@ class Player extends MovingActor
 		scene.remove(cast(e, FireEnemy));
 	}
 	
-	private override function zombieFlyManEnemyCollision( e:Entity ){
+	private override function mistEnemyCollision( e:Entity ){
 		stopMovement();
 		cursePlayer(60);
 	}
@@ -422,6 +422,10 @@ class Player extends MovingActor
 		}
 	}
 	
+	private override function borderEnemyCollision( e:Entity ){
+		stopMovement();
+		takeDamage(cast(e, BorderEnemy).attackDamage);
+	}
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
