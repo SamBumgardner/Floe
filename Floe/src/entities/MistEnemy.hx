@@ -38,7 +38,7 @@ class MistEnemy extends Enemy
 		maxEndurance = 64; // moves four times before resting.
 		restTime = 20;	   // rests for 20 frames.
 		attackDamage = 0;
-		acceptableDestDistance = 2;
+		acceptableDestDistance = 3;
 
 		
 		// Set hitbox size and the collision type
@@ -138,7 +138,7 @@ class MistEnemy extends Enemy
 	// MistEnemy curses player.
 	
 	private override function playerCollision( e:Entity ){
-		cast(e, Player).cursePlayer(60);	// flip player controls
+		cast(e, Player).cursePlayer(300);	// flip player controls
 	}
 	
 	

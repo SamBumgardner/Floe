@@ -407,7 +407,7 @@ class Player extends MovingActor
 	}
 	
 	private override function mistEnemyCollision( e:Entity ){
-		cursePlayer(60);
+		cursePlayer(300);
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){

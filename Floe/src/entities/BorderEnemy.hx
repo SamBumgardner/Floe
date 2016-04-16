@@ -181,38 +181,76 @@ class BorderEnemy extends Enemy
 	///////////////////////////////////////////
 
 	private override function selectDirection(){
-		if(moveSet % 4 == 0){
-			currentMove = Right;
-		}
+		if(moveSet >= 0){
+			if(moveSet % 4 == 0){
+				currentMove = Right;
+			}
 		
-		if(moveSet % 4 == 1){
-			currentMove = Down;
-		}
+			if(moveSet % 4 == 1){
+				currentMove = Down;
+			}
 		
-		if(moveSet % 4 == 2){
-			currentMove = Left;
-		}
+			if(moveSet % 4 == 2){
+				currentMove = Left;
+			}
 		
-		if(moveSet % 4 == 3){
-			currentMove = Up;
+			if(moveSet % 4 == 3){
+				currentMove = Up;
+			}
+		}
+		else{
+			if((Math.abs(moveSet) + 2) % 4 == 0){
+				currentMove = Left;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 1){
+				currentMove = Down;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 2){
+				currentMove = Right;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 3){
+				currentMove = Up;
+			}
 		}
 	}
 	
 	private override function selectOtherDirection(){
-		if(moveSet % 4 == 0){
-			currentMove = Right;
-		}
+		if(moveSet >= 0){
+			if(moveSet % 4 == 0){
+				currentMove = Right;
+			}
 		
-		if(moveSet % 4 == 1){
-			currentMove = Down;
-		}
+			if(moveSet % 4 == 1){
+				currentMove = Down;
+			}
 		
-		if(moveSet % 4 == 2){
-			currentMove = Left;
-		}
+			if(moveSet % 4 == 2){
+				currentMove = Left;
+			}
 		
-		if(moveSet % 4 == 3){
-			currentMove = Up;
+			if(moveSet % 4 == 3){
+				currentMove = Up;
+			}
+		}
+		else{
+			if((Math.abs(moveSet) + 2) % 4 == 0){
+				currentMove = Left;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 1){
+				currentMove = Down;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 2){
+				currentMove = Right;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 3){
+				currentMove = Up;
+			}
 		}
 	}
 	
