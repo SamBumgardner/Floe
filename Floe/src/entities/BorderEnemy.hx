@@ -35,11 +35,12 @@ class BorderEnemy extends Enemy
 		frameDelay = 15; 
 		moveSpeed = 2;
 		recalcTime = 120;
-		maxEndurance = 32; // moves two times before resting.
-		restTime = 60;	   // rests for 60 frames.
+		maxEndurance = 16; // moves two times before resting.
+		restTime = 30;	   // rests for 60 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
 		moveSet = 0;
+		reverseEnemy = false;
 
 		
 		// Set hitbox size and the collision type
@@ -124,7 +125,15 @@ class BorderEnemy extends Enemy
 	
 	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
-		moveSet++;
+		
+		if(reverseEnemy == true){
+			moveSet--;
+		}
+		
+		if(reverseEnemy == false){
+			moveSet++;
+		}
+		
 		stopMovement();
 	}
 	
@@ -135,6 +144,7 @@ class BorderEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		moveSet += 2;
+		reverseEnemy = !reverseEnemy;
 		stopMovement();
 		cast(e, Player).takeDamage(attackDamage);
 	}
@@ -147,12 +157,14 @@ class BorderEnemy extends Enemy
 	private override function sampleEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		moveSet += 2;
+		reverseEnemy = !reverseEnemy;
 		stopMovement();
 	}
 	
 	private override function borderEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		moveSet += 2;
+		reverseEnemy = !reverseEnemy;
 		stopMovement();
 	}
 	

@@ -34,13 +34,13 @@ class MistEnemy extends Enemy
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
 		
-		frameDelay = 15; 
+		frameDelay = 31; 
 		moveSpeed = 1;
 		recalcTime = 120;
 		maxEndurance = 32; // moves two times before resting.
 		restTime = 20;	   // rests for 60 frames.
 		attackDamage = 0;
-		acceptableDestDistance = 0;
+		acceptableDestDistance = 3;
 
 		
 		// Set hitbox size and the collision type
