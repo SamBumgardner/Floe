@@ -10,7 +10,7 @@ import com.haxepunk.graphics.Image;
 class HUDHealth extends Entity
 {
 	// Initialize heart image
-	imgHeart = new Image("graphics/heart.png");
+	private var imgHeart = new Image("graphics/heart.png");
 
 	// Constructor
 	public function new(x:Int, y:Int){
