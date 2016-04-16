@@ -15,7 +15,6 @@ class Border extends Tile {
 	public override function new(x:Int, y:Int, picture:String){
 		super(x,y);
 		if(!graphicInit) {
-			//Obstacle.rockImage = new Image("graphics/groundRock.png");
 			Border.borderImage = new Image("graphics/rock.png");
 			graphicInit = true;
 		}
@@ -23,9 +22,6 @@ class Border extends Tile {
 		if( picture == "border" ){
 			graphic = borderImage;
 		}
-		//else if( picture == "rock" ){
-		//	graphic = rockImage;
-		//}
 		type = "border";
 	}	
 }
