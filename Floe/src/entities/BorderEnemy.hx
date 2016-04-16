@@ -36,7 +36,7 @@ class BorderEnemy extends Enemy
 		moveSpeed = 2;
 		recalcTime = 120;
 		maxEndurance = 16; // moves one time before resting.
-		restTime = 0;	   // rests for 30 frames.
+		restTime = 16;	   // rests for 30 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
 		moveSet = 0;
@@ -179,6 +179,11 @@ class BorderEnemy extends Enemy
 	///////////////////////////////////////////
 	//            MOVEMENT FUNCTIONS         //
 	///////////////////////////////////////////
+	
+	private override function cannotMove(){
+		restCountdown = restTime * 2;
+		currentEndurance = maxEndurance;
+	}
 
 	private override function selectDirection(){
 		if(moveSet >= 0){
