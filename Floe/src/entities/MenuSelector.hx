@@ -26,8 +26,7 @@ class MenuSelector extends Entity
 	private var currentPos:Int; //Used to determine what to do when the player presses spacebar
 	private var numOfPos:Int; //Used to determine the boundaries of MenuSelector's movement.
 
-	public function new( x:Int, y:Int )
-  {
+	public function new( x:Int, y:Int ){
 		super(x, y);
 		
 		// layer is implicitly 0
@@ -45,8 +44,7 @@ class MenuSelector extends Entity
 		keyboardListener();
 	}
 	
-	private function selectOption()
-  {
+	private function selectOption(){
 		// 1 = Play Game
 		// 2 = How To Play
 		// 3 = Set Random Seed
@@ -73,19 +71,16 @@ class MenuSelector extends Entity
 		}
 	}
 	
-	private function displayInfographic()
-  {
+	private function displayInfographic(){
 		popUp = scene.addGraphic( new Image("graphics/infographic.png"), -1);
 		moveDisabled = true;
 	}
-	private function removeInfographic()
-  {
+	private function removeInfographic(){
 		scene.remove(popUp);
 		moveDisabled = false;
 	}
 	
-	private function displaySeedSelection()
-  {
+	private function displaySeedSelection(){
 		userSeed = "";
 		displayUserSeed = new Text("", 300, 480, 0, 0);
 		displayUserSeed.setTextProperty("color", 0);
@@ -94,8 +89,7 @@ class MenuSelector extends Entity
 		txtReference = scene.addGraphic(displayUserSeed);
 		moveDisabled = true;
 	}
-	private function removeSeedSelection()
-  {
+	private function removeSeedSelection(){
 		scene.remove(popUp);
 		scene.remove(txtReference);
 		moveDisabled = false;
@@ -103,20 +97,17 @@ class MenuSelector extends Entity
 	
 	//The code below is kinda redundant now, but the infographic and credits behavior
 	// will likely diverge as the project approaches completion.
-	private function displayCredits()
-  {
+	private function displayCredits(){
 		popUp = scene.addGraphic( new Image("graphics/credits.png"), -1);
 		moveDisabled = true;
 	}
-	private function removeCredits()
-  {
+	private function removeCredits(){
 		scene.remove(popUp);
 		moveDisabled = false;
 	}
 	
 	/// Adapted from Byron's code for Vocabulistics.
-	function keyboardListener()
-  {
+	function keyboardListener(){
     // -- Listens for keyboard input --
      
     flash.Lib.current.stage.addEventListener(
@@ -124,8 +115,7 @@ class MenuSelector extends Entity
     );
   }
     
-  function keyDown(event: flash.events.KeyboardEvent)
-  {
+  function keyDown(event: flash.events.KeyboardEvent){
 		// -- handles numeric input --
 	
 		if(moveDisabled && currentPos == 3){
@@ -154,8 +144,7 @@ class MenuSelector extends Entity
 		}
   }
 	
-	public override function update()
-	{
+	public override function update(){
 		// Check for user input: UP, DOWN
 		if (Input.pressed(Key.UP)){ verticalMove--; }
 		if (Input.pressed(Key.DOWN)){ verticalMove++; }
