@@ -50,6 +50,10 @@ class GameManager extends Entity{
 		}
 	}
 	
+	public function getPlayerHealth() {
+		return playerHealth;
+	}
+	
 	//Called by various entities, increases score
 	public function addScore(points:Int){
 		totalScore += points;
