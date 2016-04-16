@@ -16,13 +16,9 @@ class Obstacle extends Tile {
 		super(x,y);
 		if(!graphicInit) {
 			Obstacle.rockImage = new Image("graphics/groundRock.png");
-			//Obstacle.borderImage = new Image("graphics/rock.png");
 			graphicInit = true;
 		}
 		
-		//if( picture == "border" ){
-		//	graphic = borderImage;
-		//}
 		if( picture == "rock" ){
 			graphic = rockImage;
 		}

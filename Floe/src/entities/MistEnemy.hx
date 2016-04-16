@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class ZombieFlyManEnemy extends Enemy
+class MistEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -23,8 +23,6 @@ class ZombieFlyManEnemy extends Enemy
 	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene;
-	
-	public var health = 15;
 
 
 	public function new(x:Int, y:Int)
@@ -34,19 +32,19 @@ class ZombieFlyManEnemy extends Enemy
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
 		
-		frameDelay = 15; 
-		moveSpeed = 2;
-		recalcTime = 120;
-		maxEndurance = 32; // moves two times before resting.
-		restTime = 120;	   // rests for 60 frames.
-		attackDamage = 2;
-		acceptableDestDistance = 0;
+		frameDelay = 31; 
+		moveSpeed = 1;
+		recalcTime = 40;
+		maxEndurance = 64; // moves four times before resting.
+		restTime = 20;	   // rests for 20 frames.
+		attackDamage = 0;
+		acceptableDestDistance = 3;
 
 		
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "zombieFlyManEnemy";
+		type = "mistEnemy";
 		
 		if( assetsInitialized == false ){
 			idleAnim = new Image("graphics/ZombieFlyManEnemy.png");
@@ -81,20 +79,22 @@ class ZombieFlyManEnemy extends Enemy
 		super.calcDestination();
 	};
 	
-	// This function randomizes the enemy's endurance upon resting
-	private override function rest(){
-		maxEndurance = (Std.random(3) + 1) * 96;
-		restCountdown = restTime;
-		currentEndurance = maxEndurance;
+	private override function checkIfAtDestination( maxDist:Int ){
+		
+		if ( (Math.sqrt(Math.pow(destDistanceX, 2) + Math.pow(destDistanceY, 2) ) <= maxDist * tileSize ) && (
+			destDistanceX == (currentScene.PC.x % 32) || destDistanceY == (currentScene.PC.y % 32)) ){
+			atDestination = true;
+		}
+		else{
+			atDestination = false;
+		}
 	}
-	
-	
 	
 	///////////////////////////////////////////
 	//    BACKGROUND COLLISION FUNCTIONS     //
 	///////////////////////////////////////////
 	
-	// These functions will be called when SampleEnemy finishes moving onto a tile.
+	// These functions will be called when MistEnemy finishes moving onto a tile.
 	// They should set in motion any behavior that occurs after landing on that particular tile,
 	// e.g. move again while on a water tile, or stop when on a ground tile.
 	
@@ -121,53 +121,45 @@ class ZombieFlyManEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	// obstacleCollision( e:Entity )
-	//
-	// Prevent the sampleEnemy from moving into it.
-	
 	private override function obstacleCollision( e:Entity ){
+	}
+	
+	// borderCollision( e:Entity )
+	//
+	// Prevent the mistEnemy from moving into it.
+	
+	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
-	
 	
 	// playerCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// MistEnemy curses player.
 	
 	private override function playerCollision( e:Entity ){
-		stopMovement();
-		cast(e, Player).cursePlayer(60);	// flip player controls
-		health--;
-		if (health == 12){
-			graphic = new Image("graphics/ZombieFlyManWeak.png");
-		}
-		else if (health <= 0){
-			scene.remove(this);
-		}
+		cast(e, Player).cursePlayer(300);	// flip player controls
 	}
 	
 	
-	// sampleEnemyCollision( e:Entity )
+	// fireEnemyCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the mistEnemy from moving into it.
 	
-	private override function sampleEnemyCollision( e:Entity ){
+	private override function fireEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
 	
-	private override function zombieFlyManEnemyCollision( e:Entity ){
+	// mistEnemyCollision( e:Entity )
+	//
+	// Prevent the mistEnemy from moving into it.
+	
+	private override function mistEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
 	
-	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
-			moveWasBlocked = true;
-			stopMovement();
-		}
-	}
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //

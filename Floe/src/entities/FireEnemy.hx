@@ -136,8 +136,6 @@ class FireEnemy extends Enemy
 	//
 	// Prevent the fireEnemy from moving into it.
 	private override function obstacleCollision( e:Entity ){
-		//moveWasBlocked = true;
-		//stopMovement();
 	}
 	
 	private override function borderCollision( e:Entity ){
@@ -165,11 +163,20 @@ class FireEnemy extends Enemy
 		stopMovement();
 	}
 	
+	private override function mistEnemyCollision( e:Entity ){
+		moveWasBlocked = true;
+		stopMovement();
+	}
+	
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
 	///////////////////////////////////////////
 	
+	
+	///////////////////////////////////////////
+	//            MOVEMENT FUNCTIONS         //
+	///////////////////////////////////////////
 	
 	private override function selectDirection(){
 		if(moveCycleCount % 10 < 4){
