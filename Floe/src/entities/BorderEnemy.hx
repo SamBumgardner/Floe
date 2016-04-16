@@ -36,7 +36,7 @@ class BorderEnemy extends Enemy
 		moveSpeed = 2;
 		recalcTime = 120;
 		maxEndurance = 16; // moves one time before resting.
-		restTime = 30;	   // rests for 30 frames.
+		restTime = 0;	   // rests for 30 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
 		moveSet = 0;
