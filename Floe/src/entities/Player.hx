@@ -52,6 +52,10 @@ class Player extends MovingActor
 	// Is used to make sure the "bump" sound plays at the proper times.
 	private var hasPlayedBumpSound:Bool = false;
 	
+	// Tells if user is cursed by Zombie Fly Man and for how much longer (steps)
+	private var cursed = false;
+	private var curseLeft = 0;
+	
 	private var invincible:Bool = false;
 	private var invincibilityCountdown:Int;
 	
@@ -149,6 +153,29 @@ class Player extends MovingActor
 		}
 	}
 	
+	// cursePlayer( numOfIFrames:Int )
+	//
+	// Reduces player moveSpeed from 4 to 1 for a number of frames
+	
+	public function cursePlayer( numOfIFrames:Int ){
+		cursed = true;
+		curseLeft = numOfIFrames;
+		
+		//HXP.console.log(["The player is ~CURSED~!"]);
+	}
+	
+	// curseDecay
+	//
+	// Decrements curse, and checks if it should be removed.
+	// Called at the start of every update() function.
+	
+	private function curseDecay(){
+		if (curseLeft > 0) { curseLeft--;}
+		else if (cursed && curseLeft <= 0){
+			cursed = false;
+		}
+	}
+	
 	
 	///////////////////////////////////////////
 	//            PLAYER ANIMATION           //
@@ -194,10 +221,19 @@ class Player extends MovingActor
 		horizontalMove = 0;
 		verticalMove = 0;
 		
-		if (Input.check(Key.LEFT)){		horizontalMove--; }		
-		if (Input.check(Key.RIGHT)){ 	horizontalMove++; }	
-		if (Input.check(Key.UP)){    	verticalMove--;   }	
-		if (Input.check(Key.DOWN)){		verticalMove++;   }
+		if (cursed){	// if curse, flip controls
+			if (Input.check(Key.LEFT)){		horizontalMove++; }		
+			if (Input.check(Key.RIGHT)){ 	horizontalMove--; }	
+			if (Input.check(Key.UP)){    	verticalMove++;   }	
+			if (Input.check(Key.DOWN)){		verticalMove--;   }
+		}
+		else{
+			if (Input.check(Key.LEFT)){		horizontalMove--; }		
+			if (Input.check(Key.RIGHT)){ 	horizontalMove++; }	
+			if (Input.check(Key.UP)){    	verticalMove--;   }	
+			if (Input.check(Key.DOWN)){		verticalMove++;   }
+		}
+		
 		
 	};
 	
@@ -411,11 +447,39 @@ class Player extends MovingActor
 		stopMovement();
 	}
 	
+	private override function borderCollision( e:Entity ){
+		if( sliding == true || pressedThisFrame == true || hasPlayedBumpSound == false ){
+			bumpSound.play(HXP.engine.sfxVolume);
+			hasPlayedBumpSound = true;
+		}
+		stopMovement();
+	}
+	
 	private override function sampleEnemyCollision( e:Entity ){
 		stopMovement();
 		takeDamage(cast(e, SampleEnemy).attackDamage);
 	}
 	
+	private override function fireEnemyCollision( e:Entity ){
+		takeDamage(cast(e, FireEnemy).attackDamage);
+		scene.remove(cast(e, FireEnemy));
+	}
+	
+	private override function zombieFlyManEnemyCollision( e:Entity ){
+		stopMovement();
+		cursePlayer(60);
+	}
+	
+	private override function waterEnemyCollision( e:Entity ){
+		var enemy = cast(e, WaterEnemy);
+		if (!enemy.submerged){
+			stopMovement();
+			takeDamage(enemy.attackDamage);
+		}
+		else if (enemy.submerged){
+			scene.remove(enemy);
+		}
+	}
 	
 	
 	///////////////////////////////////////////
@@ -434,11 +498,11 @@ class Player extends MovingActor
 	public override function update()
 	{	
 		invincibilityDecay();
-		
+		curseDecay();
 		if( interruptedAnimation != "" ){
 			resumeAnim();
 		}
-	
+
 		checkInputs();
 		setInputPrecedence();
 	

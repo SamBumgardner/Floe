@@ -1,14 +1,5 @@
 package entities;
-
-/* WaterTile interacts with GameScene's static variable GM at the following lines:
- * 
- * 	Line 39 in the freeze() function
- *  Line 87 in the autoFreeze() function
- * 
- * 
-*/
 	  
- 
 
 import entities.Tile;
 import com.haxepunk.graphics.Image;
@@ -35,6 +26,7 @@ class WaterTile extends Tile {
 	
 	static public var size:Int = 32;
 	private var frozen:Bool = false;
+	private var beenFrozen:Bool = false;
 	
 	private static var minimumUnfrozen:Int = 4;
 
@@ -87,7 +79,7 @@ class WaterTile extends Tile {
 		
 			if (direction == None || direction == parentDirection) { continue; }
 			else{
-			
+				
 				switch direction{
 					case Up:	{e = collide("waterTile", x, y - size);
 								 parentingDirection = Down;}
@@ -127,12 +119,22 @@ class WaterTile extends Tile {
 	{
 		graphic = commonFrozenImage;
 		frozen = true;
+		if(beenFrozen == false){
+			beenFrozen = true;
+			scenes.GameScene.GM.addScore(10);
+		}
 		scenes.GameScene.GM.waterFrozen();
 		
 		callOnAllWaterNeighbors( function(e:Entity, unused:Direction){
 		
 		(cast e).autoFreezeCheck();} );
 		
+	}
+	
+	public function thaw(){
+		graphic = commonImage;
+		frozen = false;
+		scenes.GameScene.GM.waterThawed();
 	}
 	
 	
@@ -143,9 +145,21 @@ class WaterTile extends Tile {
 	
 	public function chainFreeze()
 	{
+		var e:Entity = collideTypes("fireEnemy", x, y);
+		var w:Entity = collideTypes("waterEnemy", x, y);
+		if(collide("fireEnemy", x, y) != null){
+			scene.remove(cast(e, FireEnemy));
+		}
+		else if(collide("waterEnemy", x, y) != null){
+			scene.remove(cast(w, WaterEnemy));
+		}
+		
 		graphic = commonFrozenImage;
 		frozen = true;
-		scenes.GameScene.GM.addScore(10); // This won't be the final implementation for awarding extra points on chainfreeze
+		if(beenFrozen == false){
+			beenFrozen = true;
+			scenes.GameScene.GM.addScore(20); // This won't be the final implementation for awarding extra points on chainfreeze
+		}
 		scenes.GameScene.GM.waterFrozen();
 	}
 	

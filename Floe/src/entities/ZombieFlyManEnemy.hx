@@ -10,18 +10,18 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class SampleEnemy extends Enemy
+class ZombieFlyManEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
 	///////////////////////////////////////////
 	
 	
-	// Graphic asset-holding variables
+	private static var assetsInitialized:Bool = false; 
 	
-	private static var assetsInitialized:Bool = false;
+	private var currentScene:GameScene;
 	
-	private var currentScene:GameScene; 
+	public var health = 15;
 
 
 	public function new(x:Int, y:Int)
@@ -35,20 +35,20 @@ class SampleEnemy extends Enemy
 		moveSpeed = 2;
 		recalcTime = 120;
 		maxEndurance = 32; // moves two times before resting.
-		restTime = 60;	   // rests for 60 frames.
-		attackDamage = 1;
+		restTime = 120;	   // rests for 60 frames.
+		attackDamage = 2;
 		acceptableDestDistance = 0;
 
 		
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "sampleEnemy";
+		type = "zombieFlyManEnemy";
 		
 		if( assetsInitialized == false ){
-			//Not used at the moment.
 			assetsInitialized = true;
 		}
+		
 		sprite = new Spritemap("graphics/DefaultAnimationPlaceholder.png", 32, 32);
 		sprite.add("upIdle", [3], 3, true); 
 		sprite.add("leftIdle", [1], 3, true);
@@ -61,6 +61,7 @@ class SampleEnemy extends Enemy
 		
 		sprite.play("downIdle");
 		graphic = sprite;
+		
 		currentScene = cast(HXP.scene, GameScene);
 		
 	}
@@ -87,6 +88,12 @@ class SampleEnemy extends Enemy
 		
 		super.calcDestination();
 	};
+	
+	// This function randomizes the enemy's endurance upon resting
+	private override function rest(){
+		maxEndurance = (Std.random(3) + 1) * 96;
+		super.rest();
+	}
 	
 	
 	
@@ -130,11 +137,6 @@ class SampleEnemy extends Enemy
 		stopMovement();
 	}
 	
-	private override function borderCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
-	
 	
 	// playerCollision( e:Entity )
 	//
@@ -142,7 +144,14 @@ class SampleEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
+		cast(e, Player).cursePlayer(60);	// flip player controls
+		health--;
+		if (health == 12){
+			// do nothing
+		}
+		else if (health <= 0){
+			scene.remove(this);
+		}
 	}
 	
 	
