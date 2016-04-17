@@ -47,7 +47,7 @@ class GameScene extends Scene {
 	private var gamePaused:Bool = false;
 	
 	// Heads up display
-	private static var hud:HUD;
+	private var hud:HUD;
 	
 	public function new(?gameManager:GameManager) //leading ? means optional parameter.
 	{
@@ -63,8 +63,8 @@ class GameScene extends Scene {
 			music = new Sfx("audio/bgm.mp3");
 			staticAssetSetup = true;
 			pausedMenu = new PauseMenu();
-			hud = GameManager.hud;
 		}
+		hud = GameManager.hud;
 		
 	}
 	
