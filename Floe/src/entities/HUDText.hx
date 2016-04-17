@@ -9,8 +9,8 @@ import com.haxepunk.Entity;
 
 class HUDText extends Entity {
 	// Initialize text fields
-	//private var textScore = new Text("", 0, 0, 0, 0);
-	//private var textLevel = new Text("", 0, 0, 0, 0);
+	private var textScore = new Text("", 0, 0, 0, 0);
+	private var textLevel = new Text("", 0, 0, 0, 0);
 
 	// Constructor
 	public function new(x:Int, y:Int){
