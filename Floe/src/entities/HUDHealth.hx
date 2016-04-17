@@ -1,9 +1,10 @@
 // Description:  Displays one heart for each health of the player.
-// Note:  Should use 'playerHealth' from 'GameManager.hx' by using
-//   the new function 'getPlayerHealth()'. Or could get data from
-//   'HUD.hx'.
+// Note:  Accepts data through the setHealth() function.
 // TODO: Use 'healthMax' as a guardian, either in updateHealth()
 //   or in setHealth().
+// Q: How does does the HUD know when to display cursed hearts?
+//    Technically a stretch goal.
+// A:
 package entities;
 
 import com.haxepunk.Entity;
