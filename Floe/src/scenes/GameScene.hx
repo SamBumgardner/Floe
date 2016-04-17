@@ -18,6 +18,7 @@ import entities.Obstacle;
 import entities.Border;
 import entities.GameManager;
 import entities.PauseMenu;
+import entities.HUD;
 
 import com.haxepunk.Sfx;
 
@@ -45,6 +46,9 @@ class GameScene extends Scene {
 	private var entitiesInLevel:Array<Entity> = [];
 	private var gamePaused:Bool = false;
 	
+	// Heads up display
+	private static var hud:HUD;
+	
 	public function new(?gameManager:GameManager) //leading ? means optional parameter.
 	{
 		super();
@@ -59,6 +63,7 @@ class GameScene extends Scene {
 			music = new Sfx("audio/bgm.mp3");
 			staticAssetSetup = true;
 			pausedMenu = new PauseMenu();
+			hud = new HUD(0,0);
 		}
 		
 	}
@@ -223,6 +228,8 @@ class GameScene extends Scene {
 		
 		
 		generateLevel();
+		
+		add(hud);
 	}
 	
 	// end()

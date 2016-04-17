@@ -32,32 +32,32 @@ class HUDHealth extends Entity
 		// INSERT CODE HERE
 	}
 
-	public setHealth(health:Int){
+	public function setHealth(health:Int){
 		// Check if cursed, set appropriate hearts, then hide missing health.
 		// Set/Add current health
 		if(curse){
-			for (index in 0..health){
+			for (index in 0...health){
 				// TODO: Set/Add green heart image
-				;
+				
 			}
 		} else {
-			for (index in 0..health){
+			for (index in 0...health){
 				// TODO: Set/Add red heart image
-				;
+				
 			}
 		}
 		// Hide missing health
-		for (index in health..5){
+		for (index in health...5){
 			// TODO: Set/Add bg image
-			;
+			
 		}
 	}
 
-	public setCurse(isCursed:Boolean){
+	public function setCurse(isCursed:Bool){
 		curse = isCursed;
 	}
 
-	public toggleCurse(){
+	public function toggleCurse(){
 		curse = !curse;
 	}
 }

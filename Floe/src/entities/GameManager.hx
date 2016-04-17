@@ -8,14 +8,12 @@ package entities;
 
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
-import entities.HUD;
 
 class GameManager extends Entity{
 	
 	private var unfrozenWaterCount:Int 	= 0;
 	private var totalScore:Int 			= 0;
 	private var playerHealth:Int 		= 3;
-	private static var hud:HUD 			= new HUD(0,0);
 	
 	public function new(x:Int = 0, y:Int = 0){
 		super(x, y);
@@ -46,7 +44,6 @@ class GameManager extends Entity{
 	
 	public function damagePlayer(damage:Int){
 		playerHealth -= damage;
-		hud.updateHealth(playerHealth);
 		HXP.console.log(["Took ", damage, " damage! Only ", playerHealth, " health remaining."]);
 		if(playerHealth <= 0){
 			HXP.engine.gameOver();
@@ -60,11 +57,11 @@ class GameManager extends Entity{
 	//Called by various entities, increases score
 	public function addScore(points:Int){
 		totalScore += points;
-		hud.updateScore(totalScore);
 	}
 	
 	//Returns the player's score as an integer
 	public function getScore(){
 		return totalScore;
 	}
+
 }

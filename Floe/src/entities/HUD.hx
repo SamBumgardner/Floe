@@ -3,16 +3,16 @@ package entities;
 import com.haxepunk.Entity;
 import entities.HUDHealth;
 import com.haxepunk.graphics.Text;
-//import entities.HUDText;
 
 class HUD extends Entity {
-    private var health:HUDHealth = new HUDHealth();
-    //private var text:HUDText = new HUDText();
-    private var textScore = new Text("", 500, 0, 0, 0);
-	private var textLevel = new Text("", 290, 0, 0, 0);
+    private var health:HUDHealth = new HUDHealth(0,0);
+    private var textScore = new Text("score", 500, 0, 0, 0);
+	private var textLevel = new Text("level", 290, 0, 0, 0);
     
     public function new(x:Int, y:Int){
         super(x, y);
+		addGraphic(textScore);
+		addGraphic(textLevel);
     }
     
     public function updateScore(score:Int):Void{
