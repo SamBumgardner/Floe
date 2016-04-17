@@ -44,20 +44,20 @@ class HUDHealth extends Entity
 		// Check if cursed, set appropriate hearts, then hide missing health.
 		// Set/Add current health
 		if(curse){
-			for (index in 0...health){
+			for (index in 0...hp){
 				// TODO: Set/Add green heart image
 				// graphic[index] = new Image("graphics/heartGreen.png");
 				// graphic[index] = imgHeartGreen;
 			}
 		} else {
-			for (index in 0...health){
+			for (index in 0...hp){
 				// TODO: Set/Add red heart image
 				// graphic[index] = new Image("graphics/heart.png");
 				// graphic[index] = imgHeart;
 			}
 		}
 		// Hide missing health
-		for (index in health...5){
+		for (index in hp...5){
 			// TODO: Set/Add bg image
 			// graphic[index] = imgBG;
 		}
