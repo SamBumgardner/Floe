@@ -17,6 +17,7 @@ import entities.GroundTile;
 import entities.Obstacle;
 import entities.Border;
 import entities.GameManager;
+import entities.PauseMenu;
 
 import com.haxepunk.Sfx;
 
@@ -32,6 +33,7 @@ class GameScene extends Scene {
 	//declare static entities 
 	private static var music:Sfx;
 	public  static var GM:GameManager;
+	private static var pausedMenu:PauseMenu;
 	private static var musicPlaying:Bool = false;
 	
 	//Use a single boolean variable to check if the static assets have been set up.
@@ -56,6 +58,7 @@ class GameScene extends Scene {
 			//All entity and asset assignments for static variables go here.
 			music = new Sfx("audio/bgm.mp3");
 			staticAssetSetup = true;
+			pausedMenu = new PauseMenu();
 		}
 		
 	}
@@ -256,13 +259,16 @@ class GameScene extends Scene {
 	private function pauseGame(){
 		
 		// --- first-time setup ---
-		if( entitiesInLevel.length == 0 ){
-			getAll(entitiesInLevel);
-		}
-		
+
+		getAll(entitiesInLevel);
+
 		for( entity in entitiesInLevel ){
 			entity.active = false;
 		}
+		
+		music.stop();
+		add(pausedMenu);
+		
 		HXP.console.log(["Paused the game!"]);
 	}
 	
@@ -271,9 +277,17 @@ class GameScene extends Scene {
 	// Reverses the actions of pauseGame.
 	
 	private function unpauseGame(){
+		
+		remove( (cast pausedMenu) );
+		
 		for( entity in entitiesInLevel ){
 			entity.active = true;
 		}
+
+		entitiesInLevel.splice(0, entitiesInLevel.length);
+		
+		music.resume();
+		gamePaused = false;
 		HXP.console.log(["Unpaused the game!"]);
 	}
 	
@@ -286,10 +300,6 @@ class GameScene extends Scene {
 			if( !gamePaused ){
 				gamePaused = true;
 				pauseGame();
-			}
-			else{
-				gamePaused = false;
-				unpauseGame();
 			}
 		}
 		
