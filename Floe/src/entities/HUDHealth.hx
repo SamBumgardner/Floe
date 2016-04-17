@@ -33,17 +33,23 @@ class HUDHealth extends Entity
 	}
 
 	public setHealth(health:Int){
-		// TODO: Check if cursed,
-		//   then set current heart image string,
-		//   then set/add images.
-		for (index in 0..health){
-			if (index < health) {
-				// TODO: Set/Add heart image
-				;
-			} else {
-				// TODO: Set/Add bg image
+		// Check if cursed, set appropriate hearts, then hide missing health.
+		// Set/Add current health
+		if(curse){
+			for (index in 0..health){
+				// TODO: Set/Add green heart image
 				;
 			}
+		} else {
+			for (index in 0..health){
+				// TODO: Set/Add red heart image
+				;
+			}
+		}
+		// Hide missing health
+		for (index in health..5){
+			// TODO: Set/Add bg image
+			;
 		}
 	}
 
