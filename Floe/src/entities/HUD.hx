@@ -36,8 +36,8 @@ class HUD extends Entity {
         textLevel.text = "Lake " + Std.string(lakeID);
     }
     
-    public function updateHealth(health:Int):Void{
+    public function updateHealth(hp:Int):Void{
         // TODO: implement this method
-				health.updateHealth(health);
+				health.updateHealth(hp);
     }
 }

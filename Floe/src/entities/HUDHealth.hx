@@ -71,7 +71,7 @@ class HUDHealth extends Entity
 		curse = !curse;
 	}
 
-	public updateHealth(hp:Int):Void{
+	public function updateHealth(hp:Int):Void{
 		// Only update if currHealth will change.
 		if(currHealth != hp){
 			setHealth(hp);
