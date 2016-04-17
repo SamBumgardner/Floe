@@ -2,6 +2,8 @@
 // Note:  Should use 'playerHealth' from 'GameManager.hx' by using
 //   the new function 'getPlayerHealth()'. Or could get data from
 //   'HUD.hx'.
+// TODO: Use 'healthMax' as a guardian, either in updateHealth()
+//   or in setHealth().
 package entities;
 
 import com.haxepunk.Entity;
@@ -15,10 +17,15 @@ class HUDHealth extends Entity
 	private var imgHeart = new Image("graphics/heart.png");
 	private var imgHeartGreen = new Image("graphics/heartGreen.png");
 
-	// Initialize width, margin between hearts, and curse status.
+	// Initialize width and margin between hearts.
+	//   maximum displayable health, and curse status.
 	private var imgWidth:Int = 32;
 	private var imgMargin:Int = 4;
+
+	// Initialize current health, maximum displayable health, and curse status.
 	// curse:  While true, use 'imgHeartGreen'. While false, use 'imgHeart'.
+	private var currHealth:Int = 3;
+	private var healthMax:Int = 5;
 	private var curse:Bool = false;
 
 	// Constructor
@@ -33,7 +40,7 @@ class HUDHealth extends Entity
 		// INSERT CODE HERE
 	}
 
-	public function setHealth(health:Int){
+	private function setHealth(hp:Int){
 		// Check if cursed, set appropriate hearts, then hide missing health.
 		// Set/Add current health
 		if(curse){
@@ -62,5 +69,13 @@ class HUDHealth extends Entity
 
 	public function toggleCurse(){
 		curse = !curse;
+	}
+
+	public updateHealth(hp:Int):Void{
+		// Only update if currHealth will change.
+		if(currHealth != hp){
+			setHealth(hp);
+			currHealth = hp;
+		}
 	}
 }
