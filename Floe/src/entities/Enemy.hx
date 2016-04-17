@@ -27,6 +27,7 @@ class Enemy extends MovingActor
 	public var specialLoad:Int = 0;
 	public var moveCycleCount:Int = 0;
 	public var moveSet:Int = 0;
+	public var reverseEnemy:Bool;
 
 	private var maxEndurance:Int;
 	private var currentEndurance:Int;

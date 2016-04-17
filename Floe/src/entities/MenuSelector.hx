@@ -6,13 +6,10 @@ import com.haxepunk.graphics.Text;
 import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
 import com.haxepunk.Sfx;
-
 import com.haxepunk.HXP;
-
 
 class MenuSelector extends Entity
 {
-	
 	private var moveDisabled:Bool;
 	private var popUp:Entity; //Reference to an entity that will be removed later.
 	
@@ -45,8 +42,6 @@ class MenuSelector extends Entity
 		
 		userSeed = "";
 		keyboardListener();
-		
-	
 	}
 	
 	private function selectOption(){
@@ -57,6 +52,7 @@ class MenuSelector extends Entity
 		//I'm not quite sure how enums work in Haxe, but using it would be better, I think.
 	
 		if(moveDisabled){
+      // Back out of current menu
 			switch currentPos{
 				case 2: removeInfographic();
 				case 3: removeSeedSelection();
@@ -65,7 +61,7 @@ class MenuSelector extends Entity
 		}
 		else{
 			menuSelect.play(.5);
-			
+			// Start selected option
 			switch currentPos{
 				case 1: HXP.engine.startGame(userSeed);
 				case 2: displayInfographic();
@@ -73,11 +69,7 @@ class MenuSelector extends Entity
 				case 4: displayCredits();
 			}
 		}
-		
-	
 	}
-	
-	
 	
 	private function displayInfographic(){
 		popUp = scene.addGraphic( new Image("graphics/infographic.png"), -1);
@@ -103,10 +95,8 @@ class MenuSelector extends Entity
 		moveDisabled = false;
 	}
 	
-	
 	//The code below is kinda redundant now, but the infographic and credits behavior
 	// will likely diverge as the project approaches completion.
-	
 	private function displayCredits(){
 		popUp = scene.addGraphic( new Image("graphics/credits.png"), -1);
 		moveDisabled = true;
@@ -116,22 +106,16 @@ class MenuSelector extends Entity
 		moveDisabled = false;
 	}
 	
-	
-	
 	/// Adapted from Byron's code for Vocabulistics.
-	
-	function keyboardListener()
-    {
-           // -- Listens for keyboard input --
-           
-            flash.Lib.current.stage.addEventListener(
-                flash.events.KeyboardEvent.KEY_DOWN, keyDown
-            );
-        
-    }
+	function keyboardListener(){
+    // -- Listens for keyboard input --
+     
+    flash.Lib.current.stage.addEventListener(
+        flash.events.KeyboardEvent.KEY_DOWN, keyDown
+    );
+  }
     
-    function keyDown(event: flash.events.KeyboardEvent)
-    {
+  function keyDown(event: flash.events.KeyboardEvent){
 		// -- handles numeric input --
 	
 		if(moveDisabled && currentPos == 3){
@@ -158,27 +142,27 @@ class MenuSelector extends Entity
 				displayUserSeed.text = userSeed;   // update the input string display
 			}
 		}
-    }
+  }
 	
-	
-	
-	
-	public override function update()
-	{
-	
+	public override function update(){
+		// Check for user input: UP, DOWN
 		if (Input.pressed(Key.UP)){ verticalMove--; }
 		if (Input.pressed(Key.DOWN)){ verticalMove++; }
-	
-		if(!moveDisabled && ((verticalMove == -1 && currentPos != 1) || (verticalMove == 1 && currentPos != numOfPos))){
+    // Calculate the next move location
+		var tempPos:Int = currentPos + verticalMove;
+
+    // If selector can move and location is valid, move the selector and play a SFX.
+    if(!moveDisabled
+        && (0 != verticalMove)
+        && (0 < tempPos)
+        && (tempPos <= numOfPos)){
 			moveBy(0, verticalMove * moveDistance);
-			currentPos += verticalMove;
-			
+			currentPos = tempPos;
 			menuMove.play(.5);
-			
 		}
 		verticalMove = 0;
 		
-		
+		// Check for user input: SPACE, ENTER
 		if(Input.pressed(Key.SPACE) || Input.pressed(Key.ENTER)){
 			selectOption();
 		}
@@ -191,6 +175,4 @@ class MenuSelector extends Entity
                 flash.events.KeyboardEvent.KEY_DOWN, keyDown
 		);
 	}
-		
-
 }
