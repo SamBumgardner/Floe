@@ -6,7 +6,7 @@ import com.haxepunk.graphics.Text;
 
 class HUD extends Entity {
     private var health:HUDHealth = new HUDHealth(0,0);
-    private var textScore = new Text("000000000", 450, 0, 0, 0);
+    private var textScore = new Text("000000000", 460, 0, 0, 0);
 	private var textLevel = new Text("Lake 1", 260, 0, 0, 0);
     
     public function new(x:Int, y:Int){
