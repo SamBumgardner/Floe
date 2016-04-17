@@ -7,12 +7,12 @@ import com.haxepunk.graphics.Text;
 class HUD extends Entity {
     private var health:HUDHealth = new HUDHealth(0,0);
     private var textScore = new Text("score", 500, 0, 0, 0);
-	private var textLevel = new Text("level", 290, 0, 0, 0);
+    private var textLevel = new Text("level", 290, 0, 0, 0);
     
     public function new(x:Int, y:Int){
         super(x, y);
-		addGraphic(textScore);
-		addGraphic(textLevel);
+		    addGraphic(textScore);
+		    addGraphic(textLevel);
     }
     
     public function updateScore(score:Int):Void{
@@ -27,5 +27,6 @@ class HUD extends Entity {
     
     public function updateHealth(health:Int):Void{
         // TODO: implement this method
+				health.updateHealth(health);
     }
 }
