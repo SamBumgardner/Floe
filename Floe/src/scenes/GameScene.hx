@@ -226,10 +226,11 @@ class GameScene extends Scene {
 		
 		add(GM);
 		
-		
 		generateLevel();
 		
 		add(hud);
+		
+		hud.updateScore(GM.getScore());
 	}
 	
 	// end()

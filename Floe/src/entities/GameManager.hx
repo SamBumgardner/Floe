@@ -50,7 +50,8 @@ class GameManager extends Entity{
 		}
 	}
 	
-	public function getPlayerHealth() {
+	//Returns the player's health as an integer
+	public function getHealth() {
 		return playerHealth;
 	}
 	

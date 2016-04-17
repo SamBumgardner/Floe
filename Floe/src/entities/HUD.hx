@@ -6,18 +6,29 @@ import com.haxepunk.graphics.Text;
 
 class HUD extends Entity {
     private var health:HUDHealth = new HUDHealth(0,0);
-    private var textScore = new Text("score", 500, 0, 0, 0);
-	private var textLevel = new Text("level", 290, 0, 0, 0);
+    private var textScore = new Text("000000000", 450, 0, 0, 0);
+	private var textLevel = new Text("Lake 1", 260, 0, 0, 0);
     
     public function new(x:Int, y:Int){
         super(x, y);
+		
+		textScore.size = 30;
+		textScore.align = RIGHT;
+		textLevel.size = 30;
+		
+		
 		addGraphic(textScore);
 		addGraphic(textLevel);
     }
     
     public function updateScore(score:Int):Void{
         // add leading zeroes functionality, currently absent
-        textScore.text = Std.string(score);
+		var zeroes:String = "";
+		var scoreString:String = Std.string(score);
+		for (i in 0...(9-scoreString.length)){
+			zeroes += "0";
+		}
+        textScore.text = zeroes + scoreString;
     }
     
     public function updateLake(lakeID:Int):Void{
