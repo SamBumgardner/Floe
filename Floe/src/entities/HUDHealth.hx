@@ -9,13 +9,14 @@ import com.haxepunk.graphics.Image;
 
 class HUDHealth extends Entity
 {
-	// Initialize:  images, width, margins, and curse status.
+	// Initialize images.
 	// imgBG:  Same color as the background. Replaces hearts when at low health.
 	private var imgBG = new Image("graphics/bg_gray.png");
 	private var imgHeart = new Image("graphics/heart.png");
 	private var imgHeartGreen = new Image("graphics/heartGreen.png");
+
+	// Initialize width, margin between hearts, and curse status.
 	private var imgWidth:Int = 32;
-	// imgMargin:  Pixels of space between hearts.
 	private var imgMargin:Int = 4;
 	// curse:  While true, use 'imgHeartGreen'. While false, use 'imgHeart'.
 	private var curse:Bool = false;
@@ -38,18 +39,20 @@ class HUDHealth extends Entity
 		if(curse){
 			for (index in 0...health){
 				// TODO: Set/Add green heart image
-				
+				// graphic[index] = new Image("graphics/heartGreen.png");
+				// graphic[index] = imgHeartGreen;
 			}
 		} else {
 			for (index in 0...health){
 				// TODO: Set/Add red heart image
-				
+				// graphic[index] = new Image("graphics/heart.png");
+				// graphic[index] = imgHeart;
 			}
 		}
 		// Hide missing health
 		for (index in health...5){
 			// TODO: Set/Add bg image
-			
+			// graphic[index] = imgBG;
 		}
 	}
 
