@@ -63,7 +63,7 @@ class GameScene extends Scene {
 			music = new Sfx("audio/bgm.mp3");
 			staticAssetSetup = true;
 			pausedMenu = new PauseMenu();
-			hud = new HUD(0,0);
+			hud = GameManager.hud;
 		}
 		
 	}
@@ -226,10 +226,11 @@ class GameScene extends Scene {
 		
 		add(GM);
 		
-		
 		generateLevel();
 		
 		add(hud);
+		
+		hud.updateScore(GM.getScore());
 	}
 	
 	// end()
