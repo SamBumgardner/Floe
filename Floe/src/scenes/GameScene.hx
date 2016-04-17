@@ -8,8 +8,9 @@ import com.haxepunk.Entity;
 import entities.Player;
 import entities.SampleEnemy;
 import entities.FireEnemy;
-import entities.ZombieFlyManEnemy;
+import entities.MistEnemy;
 import entities.WaterEnemy;
+import entities.BorderEnemy;
 import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
@@ -72,16 +73,16 @@ class GameScene extends Scene {
 	
 	private function addEnemy( x:Int, y:Int ){
 		var rand = HXP.random % .5;
-		if(rand < .1){
+		if(rand < .15){
 			add( new SampleEnemy(x, y) );
 		}
 		
-		else if (rand < .2){
+		else if (rand < .3){
 			add( new FireEnemy(x, y) );
 		}
 		
-		else if (rand < .5){
-			add( new ZombieFlyManEnemy(x, y) );
+		else if (rand < .45){
+			add( new MistEnemy(x, y) );
 		}
 	}
 	
@@ -137,6 +138,13 @@ class GameScene extends Scene {
 				if( placeX == originX + tileSize || placeY == originY + tileSize || 
 					placeX == maxX - tileSize || placeY == maxY - tileSize){
 				
+					if( placeY == originY + tileSize ) {
+						if (HXP.random > .96 && enemyCount < maxEnemies){
+							add( new BorderEnemy(placeX, placeY));
+							enemyCount++;
+						}
+					}
+					
 					add(new GroundTile(placeX, placeY));
 					
 					placeX += tileSize;
@@ -146,7 +154,7 @@ class GameScene extends Scene {
 				if(HXP.random > .15){
 					add(new WaterTile(placeX, placeY));
 					tilesSinceLastObstacle++;
-					if (HXP.random > .95 && enemyCount < maxEnemies){
+					if (HXP.random > .99 && enemyCount < maxEnemies){
 						add( new WaterEnemy(placeX, placeY));
 						enemyCount++;
 					}

@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class SampleEnemy extends Enemy
+class BorderEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -35,19 +35,21 @@ class SampleEnemy extends Enemy
 		frameDelay = 15; 
 		moveSpeed = 2;
 		recalcTime = 120;
-		maxEndurance = 32; // moves two times before resting.
-		restTime = 60;	   // rests for 60 frames.
+		maxEndurance = 16; // moves one time before resting.
+		restTime = 16;	   // rests for 30 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
+		moveSet = 0;
+		reverseEnemy = false;
 
 		
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "sampleEnemy";
+		type = "borderEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/sampleEnemy.png");
+			idleAnim = new Image("graphics/borderEnemy.png");
 			assetsInitialized = true;
 		}
 		
@@ -71,12 +73,6 @@ class SampleEnemy extends Enemy
 	// Sets the destinationX and destinationY
 	
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
-		
-		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
-		
-		super.calcDestination();
 	};
 	
 	
@@ -85,7 +81,7 @@ class SampleEnemy extends Enemy
 	//    BACKGROUND COLLISION FUNCTIONS     //
 	///////////////////////////////////////////
 	
-	// These functions will be called when SampleEnemy finishes moving onto a tile.
+	// These functions will be called when BorderEnemy finishes moving onto a tile.
 	// They should set in motion any behavior that occurs after landing on that particular tile,
 	// e.g. move again while on a water tile, or stop when on a ground tile.
 	
@@ -114,24 +110,39 @@ class SampleEnemy extends Enemy
 	
 	// obstacleCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function obstacleCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
 	
+	// borderCollision( e:Entity )
+	//
+	// Prevent the borderEnemy from moving into it.
+	
 	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
+		
+		if(reverseEnemy == true){
+			moveSet--;
+		}
+		
+		if(reverseEnemy == false){
+			moveSet++;
+		}
+		
 		stopMovement();
 	}
 	
 	
 	// playerCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function playerCollision( e:Entity ){
+		moveSet += 2;
+		reverseEnemy = !reverseEnemy;
 		stopMovement();
 		cast(e, Player).takeDamage(attackDamage);
 	}
@@ -139,23 +150,24 @@ class SampleEnemy extends Enemy
 	
 	// sampleEnemyCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function sampleEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
+		moveSet += 2;
+		reverseEnemy = !reverseEnemy;
 		stopMovement();
 	}
+	
+	// borderEnemyCollision( e:Entity )
+	//
+	// Prevent the borderEnemy from moving into it.
 	
 	private override function borderEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
+		moveSet += 2;
+		reverseEnemy = !reverseEnemy;
 		stopMovement();
-	}
-	
-	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
-			moveWasBlocked = true;
-			stopMovement();
-		}
 	}
 	
 	///////////////////////////////////////////
@@ -163,17 +175,93 @@ class SampleEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
 	
+	///////////////////////////////////////////
+	//            MOVEMENT FUNCTIONS         //
+	///////////////////////////////////////////
 	
+	private override function cannotMove(){
+		restCountdown = restTime * 2;
+		currentEndurance = maxEndurance;
+	}
+
+	private override function selectDirection(){
+		if(moveSet >= 0){
+			if(moveSet % 4 == 0){
+				currentMove = Right;
+			}
+		
+			if(moveSet % 4 == 1){
+				currentMove = Down;
+			}
+		
+			if(moveSet % 4 == 2){
+				currentMove = Left;
+			}
+		
+			if(moveSet % 4 == 3){
+				currentMove = Up;
+			}
+		}
+		else{
+			if((Math.abs(moveSet) + 2) % 4 == 0){
+				currentMove = Left;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 1){
+				currentMove = Down;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 2){
+				currentMove = Right;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 3){
+				currentMove = Up;
+			}
+		}
+	}
+	
+	private override function selectOtherDirection(){
+		if(moveSet >= 0){
+			if(moveSet % 4 == 0){
+				currentMove = Right;
+			}
+		
+			if(moveSet % 4 == 1){
+				currentMove = Down;
+			}
+		
+			if(moveSet % 4 == 2){
+				currentMove = Left;
+			}
+		
+			if(moveSet % 4 == 3){
+				currentMove = Up;
+			}
+		}
+		else{
+			if((Math.abs(moveSet) + 2) % 4 == 0){
+				currentMove = Left;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 1){
+				currentMove = Down;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 2){
+				currentMove = Right;
+			}
+		
+			if((Math.abs(moveSet) + 2) % 4 == 3){
+				currentMove = Up;
+			}
+		}
+	}
 	
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
-	//The Sample Enemy simply uses Enemy's update function.
-
-
-
-
+	//The Border Enemy simply uses Enemy's update function.
 }
