@@ -20,7 +20,7 @@ class GameManager extends Entity{
 	
 	public function new(x:Int = 0, y:Int = 0){
 		super(x, y);
-		hud = new HUD(0,0);
+		hud = new HUD(0, 0, playerHealth);
 	}
 	
 	//Called by WaterTile upon construction
@@ -50,6 +50,7 @@ class GameManager extends Entity{
 	
 	public function damagePlayer(damage:Int){
 		playerHealth -= damage;
+		hud.updateHealth(playerHealth);
 		HXP.console.log(["Took ", damage, " damage! Only ", playerHealth, " health remaining."]);
 		if(playerHealth <= 0){
 			HXP.engine.gameOver();

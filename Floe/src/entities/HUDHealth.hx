@@ -38,7 +38,7 @@ class HUDHealth extends Entity
 	}
 
 	private function initialize():Void{
-		// INSERT CODE HERE
+		addGraphic(imgHeart);
 	}
 
 	private function setHealth(hp:Int){
