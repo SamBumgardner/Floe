@@ -48,9 +48,11 @@ class HUD extends Entity {
         textHealth.text = "x " + Std.string(hp);
     }
 	
+	/* ONLY IMPLEMENT WHEN ALL ELSE IS WORKING
 	public function setCurse(status:Bool){
 		if (status){
 			imgHeart = imgHeartGreen;
 		}
 	}
+	*/
 }
