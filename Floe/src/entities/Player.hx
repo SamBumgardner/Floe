@@ -210,6 +210,35 @@ class Player extends MovingActor
 		}
 	}
 	
+	// levelComplete()
+	//
+	// Stops movement and plays a victory animation.
+	
+	public function levelComplete(){
+		currentMove = None;
+		inputBlocked = true;
+		frameCountdown = 99;
+		sprite.play("victory", false, false);
+		
+		shouldSetAnim = false;
+		animationCountdown = 100;
+	}
+	
+	// levelComplete()
+	//
+	// Stops movement and plays a victory animation.
+	
+	public function levelFailed(){
+		currentMove = None;
+		inputBlocked = true;
+		frameCountdown = 99;
+		sprite.play("defeat", false, false);
+		
+		shouldSetAnim = false;
+		animationCountdown = 100;
+	}
+	
+	
 	
 	///////////////////////////////////////////
 	//             INPUT PARSING             //
