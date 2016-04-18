@@ -5,9 +5,9 @@ import com.haxepunk.graphics.Text;
 import com.haxepunk.graphics.Image;
 
 class HUD extends Entity {
-    private var textScore = new Text("000000000", 460, 0, 0, 0);
-    private var textLevel = new Text("Lake 1", 260, 0, 0, 0);
-	private var textHealth = new Text("x 3", 75, 20, 0, 0);
+    private var textScore = new Text("000000000", 470, 15, 0, 0);
+    private var textLevel = new Text("Lake 1", 260, 15, 0, 0);
+	private var textHealth = new Text("x 3", 75, 15, 0, 0);
 	
 	// Heart images
 	private var imgHeart = new Image("graphics/heart.png");
