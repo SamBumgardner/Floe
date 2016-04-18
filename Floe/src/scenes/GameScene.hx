@@ -234,17 +234,24 @@ class GameScene extends Scene {
 	}
 	
 	
-	// gameOver()
+	// endMusic()
 	//
 	// Called when going to the gameOver scene, and not the next level.
 	// Stops the looping music.
+
+	
+	public function endMusic(){
+		music.stop();
+	}
+	
+	// gameOver()
+	//
+	// Called when going to the gameOver scene, and not the next level.
 	// Returns the GameManager object for the gameOver scene to use.
 	
 	public function gameOver(){
-		music.stop();
 		return GM;
 	}
-	
 	
 	///////////////////////////////////////////
 	//          PAUSE/UNPAUSE  GAME          //
