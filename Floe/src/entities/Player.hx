@@ -91,6 +91,8 @@ class Player extends MovingActor
 		sprite.add("leftHurt", [17], 1, true);		
 		sprite.add("downHurt", [118], 1, true);
 		sprite.add("rightHurt", [20], 1, true);
+		sprite.add("victory", [5,6], 3, true);
+		sprite.add("defeat", [12,13,12,14,12], 3, false);
 		
 		sprite.play("downIdle");
 		
