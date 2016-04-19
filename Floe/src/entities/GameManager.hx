@@ -8,12 +8,15 @@ package entities;
 
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
+import entities.HUD;
 
 class GameManager extends Entity{
 	
 	private var unfrozenWaterCount:Int 	= 0;
 	private var totalScore:Int 			= 0;
 	private var playerHealth:Int 		= 3;
+	private var lake:Int				= 1;
+	public static var hud:HUD;
 	
 	private var waitTime:Int;
 	public var levelCompleted:Bool = false;
@@ -22,6 +25,7 @@ class GameManager extends Entity{
 	public function new(x:Int = 0, y:Int = 0){
 		super(x, y);
 		type = "manager";
+		hud = new HUD(0, 0, playerHealth);
 	}
 	
 	//Called by WaterTile upon construction
@@ -67,6 +71,7 @@ class GameManager extends Entity{
 	
 	public function damagePlayer(damage:Int){
 		playerHealth -= damage;
+		hud.updateHealth(playerHealth);
 		HXP.console.log(["Took ", damage, " damage! Only ", playerHealth, " health remaining."]);
 		if(playerHealth <= 0){
 			
@@ -92,15 +97,22 @@ class GameManager extends Entity{
 		}
 	}
 	
+	//Returns the player's health as an integer
+	public function getHealth() {
+		return playerHealth;
+	}
+	
 	//Called by various entities, increases score
 	public function addScore(points:Int){
 		totalScore += points;
+		hud.updateScore(totalScore);
 	}
 	
 	//Returns the player's score as an integer
 	public function getScore(){
 		return totalScore;
 	}
+
 	
 	public override function update(){
 		if( levelFailed == true ){
@@ -116,6 +128,8 @@ class GameManager extends Entity{
 			if (waitTime == 0){
 				levelCompleted = false;
 				HXP.engine.nextLevel();
+				lake++;
+				hud.updateLake(lake);
 			}
 			else{
 				waitTime--;
