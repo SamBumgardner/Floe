@@ -129,7 +129,7 @@ class Player extends MovingActor
 	
 	// cursePlayer( numOfIFrames:Int )
 	//
-	// Reduces player moveSpeed from 4 to 1 for a number of frames
+	// Flips player controls
 	
 	public function cursePlayer( numOfIFrames:Int ){
 		cursed = true;
