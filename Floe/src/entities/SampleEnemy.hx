@@ -33,10 +33,10 @@ class SampleEnemy extends Enemy
 		// and acceptableDestDistance
 		
 		frameDelay = 15; 
-		moveSpeed = 2;
+		moveSpeed = 10;
 		recalcTime = 120;
-		maxEndurance = 32; // moves two times before resting.
-		restTime = 60;	   // rests for 60 frames.
+		maxEndurance = 16; // moves one time before resting.
+		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
 
@@ -44,10 +44,10 @@ class SampleEnemy extends Enemy
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "sampleEnemy";
+		type = "LightningEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/sampleEnemy.png");
+			idleAnim = new Image("graphics/LightningEnemy.png");
 			assetsInitialized = true;
 		}
 		
