@@ -23,7 +23,7 @@ class HUD extends Entity {
 		super(x, y);
 
 		textScore.size = 30;
-		textScore.align = JUSTIFY;
+		textScore.align = RIGHT;
 		textLevel.size = 30;
 		textHealth.size = 30;
 
