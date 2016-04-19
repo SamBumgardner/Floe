@@ -18,6 +18,7 @@ import entities.Obstacle;
 import entities.Border;
 import entities.GameManager;
 import entities.PauseMenu;
+import entities.HUD;
 
 import com.haxepunk.Sfx;
 
@@ -45,6 +46,9 @@ class GameScene extends Scene {
 	private var entitiesInLevel:Array<Entity> = [];
 	private var gamePaused:Bool = false;
 	
+	// Heads up display
+	private var hud:HUD;
+	
 	public function new(?gameManager:GameManager) //leading ? means optional parameter.
 	{
 		super();
@@ -60,6 +64,7 @@ class GameScene extends Scene {
 			staticAssetSetup = true;
 			pausedMenu = new PauseMenu();
 		}
+		hud = GameManager.hud;
 		
 	}
 	
@@ -221,8 +226,11 @@ class GameScene extends Scene {
 		
 		add(GM);
 		
-		
 		generateLevel();
+		
+		add(hud);
+		
+		hud.updateScore(GM.getScore());
 	}
 	
 	// end()
