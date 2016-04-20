@@ -49,9 +49,25 @@ class WaterTile extends Tile {
 			graphicInit = true;
 		}
 		
-		sprite = new Spritemap("graphics/water.png", 32, 32);
+		sprite = new Spritemap("graphics/waterSpritesheet.png", 32, 32);
+		sprite.add("water", [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+							 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+							 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+							 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+							 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+							 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+							 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11, 
+							 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+							 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+							 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+							 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+							 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,], 60, true);
+		sprite.add("freezing", [0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9], 30, false);
+		sprite.add("frozen", [12], 1, false);
 		
-		graphic = commonImage;
+		sprite.play("water");
+		
+		graphic = sprite;
 		
 		scenes.GameScene.GM.waterAdded();
 	}
@@ -156,7 +172,8 @@ class WaterTile extends Tile {
 	
 	public function freeze()
 	{
-		graphic = commonFrozenImage;
+		sprite.reverse = false;
+		sprite.play("freezing");
 		frozen = true;
 		if(beenFrozen == false){
 			beenFrozen = true;
@@ -171,7 +188,8 @@ class WaterTile extends Tile {
 	}
 	
 	public function thaw(){
-		graphic = commonImage;
+		sprite.reverse = true;
+		sprite.play("freezing");
 		frozen = false;
 		scenes.GameScene.GM.waterThawed();
 	}
@@ -192,8 +210,8 @@ class WaterTile extends Tile {
 		else if(collide("waterEnemy", x, y) != null){
 			scene.remove(cast(w, WaterEnemy));
 		}
-		
-		graphic = commonFrozenImage;
+		sprite.reverse = false;
+		sprite.play("freezing");
 		frozen = true;
 		if(beenFrozen == false){
 			beenFrozen = true;
