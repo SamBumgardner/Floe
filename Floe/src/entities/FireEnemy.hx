@@ -20,6 +20,9 @@ class FireEnemy extends Enemy
 	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene; 
+	
+	private static var defeatDelay:Int = 20;
+	private var defeatCountdown:Int = -1;
 
 
 	public function new(x:Int, y:Int)
@@ -50,17 +53,17 @@ class FireEnemy extends Enemy
 			assetsInitialized = true;
 		}
 		
-		sprite = new Spritemap("graphics/DefaultAnimationPlaceholder.png", 32, 32);
-		sprite.add("upIdle", [3], 3, true); 
-		sprite.add("leftIdle", [1], 3, true);
-		sprite.add("downIdle", [4], 3, true);
-		sprite.add("rightIdle", [2], 3, true);
-		sprite.add("upMove", [7], 1, true); 
-		sprite.add("leftMove", [5], 3, true);
-		sprite.add("downMove", [8], 3, true);
-		sprite.add("rightMove", [6], 3, true);
+		sprite = new Spritemap("graphics/FireSprite.png", 32, 32);
 		
-		sprite.play("downIdle");
+		// The animation is split into 60 individual frames to ensure the animation changes
+		// even if the player rapidly pauses/unpauses.
+		sprite.add("idle", [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+							1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+							2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+							3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+							4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4], 60, true);
+		sprite.add("defeated", [5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9], 15);
+		sprite.play("idle");
 		graphic = sprite;
 		
 		currentScene = cast(HXP.scene, GameScene);
@@ -84,6 +87,32 @@ class FireEnemy extends Enemy
 	private override function calcDestination(){
 	};
 	
+	
+	// defeated()
+	//
+	// Called when the FireEnemy should be destroyed.
+	
+	public function defeated(){
+		sprite.play("defeated");
+		defeatCountdown = defeatDelay;
+	}
+	
+	///////////////////////////////////////////
+	//            ENEMY ANIMATION            //
+	///////////////////////////////////////////
+	
+	// setMoveAnimation()
+	//
+	// Overrides function from MovingActor, disables any animation-changing.
+	
+	private override function setMoveAnimation(){}
+	
+	
+	// setIdleAnimation()
+	//
+	// Overrides function from MovingActor, disables any animation-changing.
+	
+	private override function setIdleAnimation(){}
 	
 	
 	///////////////////////////////////////////
@@ -158,7 +187,7 @@ class FireEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		cast(e, Player).takeDamage(attackDamage);
-		scene.remove(this);
+		defeated();
 	}
 	
 	
@@ -381,6 +410,19 @@ class FireEnemy extends Enemy
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
-	//The fire Enemy simply uses Enemy's update function.
+	public override function update(){
+		if(defeatCountdown == -1){
+			super.update();
+		}
+		else{
+			if(defeatCountdown > 0){
+				defeatCountdown--;
+			}
+			else{
+				scene.remove(this);
+			}
+		}
+	
+	}
 
 }
