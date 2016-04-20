@@ -28,7 +28,7 @@ class BorderEnemy extends Enemy
 		
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
-		
+		layer = 0;
 		frameDelay = 15; 
 		moveSpeed = 2;
 		recalcTime = 120;

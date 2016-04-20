@@ -28,7 +28,7 @@ class MistEnemy extends Enemy
 		
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
-		
+		layer = -2;
 		frameDelay = 31; 
 		moveSpeed = 1;
 		recalcTime = 40;

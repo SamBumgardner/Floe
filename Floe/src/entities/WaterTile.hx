@@ -42,7 +42,7 @@ class WaterTile extends Tile {
 		super(x, y);
 
 		type = "waterTile";
-		
+		layer = 1;
 		//need to reset graphic
 		if(!graphicInit) {
 			WaterTile.commonImage = new Image("graphics/water.png");

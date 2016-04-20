@@ -38,7 +38,7 @@ class WaterEnemy extends Enemy
 		
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
-		
+		layer = 0;
 		frameDelay = 15; 
 		moveSpeed = 0;
 		recalcTime = 120;
