@@ -62,7 +62,9 @@ class FireEnemy extends Enemy
 							2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 							3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
 							4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4], 60, true);
-		sprite.add("defeated", [5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9], 15);
+		sprite.add("defeated", [5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,
+								7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,
+								9,9,9,9,9,9,9,9], 30);
 		sprite.play("idle");
 		graphic = sprite;
 		
@@ -93,6 +95,7 @@ class FireEnemy extends Enemy
 	// Called when the FireEnemy should be destroyed.
 	
 	public function defeated(){
+		attackDamage = 0;
 		sprite.play("defeated");
 		defeatCountdown = defeatDelay;
 	}

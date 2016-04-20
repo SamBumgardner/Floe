@@ -111,7 +111,7 @@ class Player extends MovingActor
 	// Deals damage to the player & activates 30 frames of invincibility
 	
 	public function takeDamage(damage:Int){
-		if( !invincible ){
+		if( !invincible && damage > 0){
 			damagedSound.play(HXP.engine.sfxVolume * 2);
 			switch currentFacing{
 				case Left: 	interruptAnim("leftHurt");
