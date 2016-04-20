@@ -50,17 +50,29 @@ class SampleEnemy extends Enemy
 			//Not used at the moment.
 			assetsInitialized = true;
 		}
-		sprite = new Spritemap("graphics/DefaultAnimationPlaceholder.png", 32, 32);
-		sprite.add("upIdle", [3], 3, true); 
-		sprite.add("leftIdle", [1], 3, true);
-		sprite.add("downIdle", [4], 3, true);
-		sprite.add("rightIdle", [2], 3, true);
-		sprite.add("upMove", [7], 1, true); 
-		sprite.add("leftMove", [5], 3, true);
-		sprite.add("downMove", [8], 3, true);
-		sprite.add("rightMove", [6], 3, true);
+		sprite = new Spritemap("graphics/SampleEnemy.png", 32, 32);
+
+		sprite.add("upMove", [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+							  6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+							  10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+							  6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6], 60, true); 
 		
-		sprite.play("downIdle");
+		sprite.add("leftMove", [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+								4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+								8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
+								4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4], 60, true);
+		
+		sprite.add("downMove", [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+								7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+								11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+								7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7], 60, true);
+		
+		sprite.add("rightMove", [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+								 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+								 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+								 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5], 60, true);
+		
+		sprite.play("downMove");
 		graphic = sprite;
 		currentScene = cast(HXP.scene, GameScene);
 		
@@ -88,6 +100,19 @@ class SampleEnemy extends Enemy
 		
 		super.calcDestination();
 	};
+	
+
+	///////////////////////////////////////////
+	//            ENEMY ANIMATION            //
+	///////////////////////////////////////////
+
+	
+	// setIdleAnimation()
+	//
+	// Overrides function from MovingActor, disables any animation-changing,
+	// since this enemy's idle and moving animations are identical.
+	
+	private override function setIdleAnimation(){}	
 	
 	
 	
