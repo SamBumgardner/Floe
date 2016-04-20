@@ -43,4 +43,20 @@ class Tile extends Entity {
 		graphic = commonImage;
 	}
 
+	
+	///////////////////////////////////////////
+	//             WATER ACTIONS             //
+	///////////////////////////////////////////
+	
+	// pause() 
+	//
+	// To be overwritten in child classes if necessary.
+	
+	public function pause(){}
+	
+	// resume()
+	//
+	// To be overwritten in child classes if necessary.
+	
+	public function unpause(){}
 }

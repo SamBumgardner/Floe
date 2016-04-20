@@ -47,11 +47,17 @@ class MistEnemy extends Enemy
 			assetsInitialized = true;
 		}
 		
+		// The animation is split into 60 individual frames to ensure the animation changes
+		// even if the player rapidly pauses/unpauses.
 		sprite = new Spritemap("graphics/mist.png", 32, 32);
-		sprite.add("downIdle", [0,1], 2, true);
+		sprite.add("idle", [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+							1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+							2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+							3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+							4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,], 60, true);
 		
 		
-		sprite.play("downIdle");
+		sprite.play("idle");
 		graphic = sprite;
 		
 		currentScene = cast(HXP.scene, GameScene);

@@ -2,6 +2,7 @@ package entities;
 
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
@@ -55,6 +56,9 @@ class WaterEnemy extends Enemy
 		if( assetsInitialized == false ){
 			assetsInitialized = true;
 		}
+		
+		sprite = new Spritemap("graphics/waterEnemy.png", 32,32);
+		
 		idleAnim = new Image("graphics/waterEnemy.png");
 		graphic = idleAnim;
 		currentScene = cast(HXP.scene, GameScene);

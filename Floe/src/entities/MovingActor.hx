@@ -57,10 +57,14 @@ class MovingActor extends Entity {
 	
 	private var collisionFunctions = new Map();
 	
-	// Used for first-time setup  of art assets.
+	// Used for first-time setup  of assets.
 	// Child classes also need this, since static variables aren't inherited.
 	private static var assetsInitialized:Bool = false; 
 	private var sprite:Spritemap;
+	private var prePauseAnim:String;
+	private var prePauseFrame:Int;
+	
+	
 	
 	
 	
@@ -140,6 +144,39 @@ class MovingActor extends Entity {
 		}
 	}
 	
+	
+	///////////////////////////////////////////
+	//             ACTOR ACTIONS             //
+	///////////////////////////////////////////
+	
+	// paused() 
+	//
+	// Called when the entity should be paused.
+	// Responsible for preventing update() from being called,
+	// and stopping animations.
+	
+	public function pause(){
+		active = false;
+		prePauseAnim = sprite.currentAnim;
+		if(prePauseAnim != ""){
+			prePauseFrame = sprite.index;
+			HXP.console.log([type, x, y, prePauseFrame]);
+			sprite.stop();
+		}
+	}
+	
+	// resumed()
+	//
+	// Undoes the actions of paused()
+	
+	public function unpause(){
+		active = true;
+		if(prePauseAnim != ""){
+			sprite.play(prePauseAnim);
+			sprite.index = prePauseFrame;
+			HXP.console.log([type, x, y, sprite.index]);
+		}
+	}
 	
 	///////////////////////////////////////////
 	//            ACTOR  MOVEMENT            //

@@ -3,6 +3,7 @@ package entities;
 
 import entities.Tile;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
 import scenes.GameScene;
@@ -24,6 +25,10 @@ class WaterTile extends Tile {
 	static public var commonFrozenImage:Image;
 	static private var graphicInit:Bool = false;
 	
+	private var sprite:Spritemap;
+	private var prePauseAnim:String;
+	private var prePauseFrame:Int;
+	
 	static public var size:Int = 32;
 	private var frozen:Bool = false;
 	private var beenFrozen:Bool = false;
@@ -44,9 +49,43 @@ class WaterTile extends Tile {
 			graphicInit = true;
 		}
 		
+		sprite = new Spritemap("graphics/water.png", 32, 32);
+		
 		graphic = commonImage;
 		
 		scenes.GameScene.GM.waterAdded();
+	}
+	
+	
+	///////////////////////////////////////////
+	//             WATER ACTIONS             //
+	///////////////////////////////////////////
+	
+	// pause() 
+	//
+	// Called when the entity should be paused.
+	// Responsible for preventing update() from being called,
+	// and stopping animations.
+	
+	public override function pause(){
+		active = false;
+		prePauseAnim = sprite.currentAnim;
+		if(prePauseAnim != ""){
+			prePauseFrame = sprite.index;
+			sprite.stop();
+		}
+	}
+	
+	// resumed()
+	//
+	// Undoes the actions of paused()
+	
+	public override function unpause(){
+		active = true;
+		if(prePauseAnim != ""){
+			sprite.play(prePauseAnim);
+			sprite.index = prePauseFrame;
+		}
 	}
 	
 	

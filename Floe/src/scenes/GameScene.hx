@@ -271,7 +271,9 @@ class GameScene extends Scene {
 		getAll(entitiesInLevel);
 
 		for( entity in entitiesInLevel ){
-			entity.active = false;
+			if(entity.type != "manager" && entity.type != ""){
+				(cast entity).pause();
+			}
 		}
 		
 		music.stop();
@@ -289,7 +291,9 @@ class GameScene extends Scene {
 		remove( (cast pausedMenu) );
 		
 		for( entity in entitiesInLevel ){
-			entity.active = true;
+			if(entity.type != "manager" && entity.type != ""){
+				(cast entity).unpause();
+			}
 		}
 
 		entitiesInLevel.splice(0, entitiesInLevel.length);
