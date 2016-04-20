@@ -32,10 +32,10 @@ class SampleEnemy extends Enemy
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
 		
-		frameDelay = 15; 
-		moveSpeed = 10;
+		frameDelay = 0; 
+		moveSpeed = 32;
 		recalcTime = 120;
-		maxEndurance = 16; // moves one time before resting.
+		maxEndurance = -1; // moves one time before resting.
 		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
