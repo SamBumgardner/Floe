@@ -316,9 +316,15 @@ class GameScene extends Scene {
 	
 	public override function update(){
 		if(Input.pressed(Key.ESCAPE)){
-			if( !gamePaused ){
-				gamePaused = true;
-				pauseGame();
+			if( !GM.levelCompleted && !GM.levelFailed ){
+				if( !gamePaused ){
+					gamePaused = true;
+					pauseGame();
+				}
+				else if( gamePaused ){
+					gamePaused = false;
+					unpauseGame();
+				}
 			}
 		}
 		

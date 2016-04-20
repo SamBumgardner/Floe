@@ -82,10 +82,7 @@ class GameManager extends Entity{
 				if(entity.type != "player" && entity.type != "manager"){
 					entity.active = false;
 				}
-				else if(entity.type == "manager"){
-					// Do nothing
-				}
-				else{ //Is player
+				else if( entity.type == "player" ){ //Is player
 					(cast entity).levelFailed();
 				}
 			}
