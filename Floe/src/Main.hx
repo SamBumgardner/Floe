@@ -53,17 +53,15 @@ class Main extends Engine
 	}
 	
 	public function nextLevel(){
-		//This is somewhat irresponsible. 
-		//need to clean up memory used by a scene before switching to new one.
-		HXP.scene.end();
 		HXP.scene = new scenes.GameScene();
 	}
 	
 	public function gameOver(){
+
 		HXP.console.log(["Game Over!"]);
 		var gm:GameManager = cast(HXP.scene, scenes.GameScene).gameOver(); //ends the looping music.
-		HXP.scene.end();
 		HXP.scene = new scenes.GameOver(gm);
+	
 	}
 	
 }

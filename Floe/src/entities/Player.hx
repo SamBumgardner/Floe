@@ -91,6 +91,8 @@ class Player extends MovingActor
 		sprite.add("leftHurt", [17], 1, true);		
 		sprite.add("downHurt", [118], 1, true);
 		sprite.add("rightHurt", [20], 1, true);
+		sprite.add("victory", [5,6], 3, true);
+		sprite.add("defeat", [12,13,12,14,12], 3, false);
 		
 		sprite.play("downIdle");
 		
@@ -207,6 +209,35 @@ class Player extends MovingActor
 			interruptedAnimation = "";
 		}
 	}
+	
+	// levelComplete()
+	//
+	// Stops movement and plays a victory animation.
+	
+	public function levelComplete(){
+		currentMove = None;
+		inputBlocked = true;
+		frameCountdown = 99;
+		sprite.play("victory", false, false);
+		
+		shouldSetAnim = false;
+		animationCountdown = 100;
+	}
+	
+	// levelComplete()
+	//
+	// Stops movement and plays a victory animation.
+	
+	public function levelFailed(){
+		currentMove = None;
+		inputBlocked = true;
+		frameCountdown = 99;
+		sprite.play("defeat", false, false);
+		
+		shouldSetAnim = false;
+		animationCountdown = 100;
+	}
+	
 	
 	
 	///////////////////////////////////////////
