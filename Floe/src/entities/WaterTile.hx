@@ -28,6 +28,7 @@ class WaterTile extends Tile {
 	private var sprite:Spritemap;
 	private var prePauseAnim:String;
 	private var prePauseFrame:Int;
+	private var waterIndex:Int;
 	
 	static public var size:Int = 32;
 	private var frozen:Bool = false;
@@ -63,6 +64,7 @@ class WaterTile extends Tile {
 							 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
 							 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,], 60, true);
 		sprite.add("freezing", [0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9], 30, false);
+		sprite.add("melting", [9,9,8,8,7,7,6,6,5,5,4,4,3,3,2,2,1,1,0,0,10,10], 30, false);
 		sprite.add("frozen", [12], 1, false);
 		
 		sprite.play("water");
@@ -172,7 +174,6 @@ class WaterTile extends Tile {
 	
 	public function freeze()
 	{
-		sprite.reverse = false;
 		sprite.play("freezing");
 		frozen = true;
 		if(beenFrozen == false){
@@ -188,8 +189,7 @@ class WaterTile extends Tile {
 	}
 	
 	public function thaw(){
-		sprite.reverse = true;
-		sprite.play("freezing");
+		sprite.play("melting");
 		frozen = false;
 		scenes.GameScene.GM.waterThawed();
 	}
@@ -205,12 +205,12 @@ class WaterTile extends Tile {
 		var e:Entity = collideTypes("fireEnemy", x, y);
 		var w:Entity = collideTypes("waterEnemy", x, y);
 		if(collide("fireEnemy", x, y) != null){
-			scene.remove(cast(e, FireEnemy));
+			cast(e, FireEnemy).defeated();
 		}
 		else if(collide("waterEnemy", x, y) != null){
 			scene.remove(cast(w, WaterEnemy));
 		}
-		sprite.reverse = false;
+		
 		sprite.play("freezing");
 		frozen = true;
 		if(beenFrozen == false){
@@ -413,7 +413,18 @@ class WaterTile extends Tile {
 	
 	
 	public override function update(){
+		waterIndex = (waterIndex + 1) % 180;
+		if(sprite.complete){
+			if(sprite.currentAnim == "freezing"){
+				sprite.play("frozen");
+			}
+			else if(sprite.currentAnim == "melting"){
+				sprite.play("water");
+				sprite.index = waterIndex;
+			}
+		}
 		super.update();
+		
 	}
 	
 }
