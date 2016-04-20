@@ -452,6 +452,7 @@ class Player extends MovingActor
 			bumpSound.play(HXP.engine.sfxVolume);
 			hasPlayedBumpSound = true;
 		}
+		setIdleAnimation();
 		stopMovement();
 	}
 	
