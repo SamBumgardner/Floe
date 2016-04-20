@@ -461,8 +461,8 @@ class Player extends MovingActor
 	}
 	
 	private override function fireEnemyCollision( e:Entity ){
-		takeDamage(cast(e, FireEnemy).attackDamage);
-		scene.remove(cast(e, FireEnemy));
+		takeDamage((cast e).attackDamage);
+		(cast e).defeated();
 	}
 	
 	private override function mistEnemyCollision( e:Entity ){
