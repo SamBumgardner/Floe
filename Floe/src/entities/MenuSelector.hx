@@ -11,6 +11,8 @@ import com.haxepunk.HXP;
 class MenuSelector extends Entity
 {
 	private var moveDisabled:Bool;
+	private var horizontalMove:Bool;
+	private var pageSelect:Bool;
 	private var popUp:Entity; //Reference to an entity that will be removed later.
 	
 	private var moveDistance:Int;
@@ -31,6 +33,7 @@ class MenuSelector extends Entity
 		
 		// layer is implicitly 0
 		moveDisabled = false;
+		horizontalMove = false;
 		moveDistance = 50;
 		graphic = new Image("graphics/MenuSelector.png");
 		
@@ -72,11 +75,13 @@ class MenuSelector extends Entity
 	}
 	
 	private function displayInfographic(){
-		popUp = scene.addGraphic( new Image("graphics/infographic.png"), -1);
+		//popUp = scene.addGraphic( new Image("graphics/infoGraphic_p1.png"), -1);
+		pageSelect = true;
 		moveDisabled = true;
 	}
 	private function removeInfographic(){
 		scene.remove(popUp);
+		pageSelect = false;
 		moveDisabled = false;
 	}
 	
@@ -103,6 +108,7 @@ class MenuSelector extends Entity
 	}
 	private function removeCredits(){
 		scene.remove(popUp);
+		horizontalMove = false;
 		moveDisabled = false;
 	}
 	
@@ -148,9 +154,25 @@ class MenuSelector extends Entity
 		// Check for user input: UP, DOWN
 		if (Input.pressed(Key.UP)){ verticalMove--; }
 		if (Input.pressed(Key.DOWN)){ verticalMove++; }
+		if (Input.pressed(Key.LEFT)){ horizontalMove = false; }
+		if (Input.pressed(Key.RIGHT)){ horizontalMove = true; }
     // Calculate the next move location
 		var tempPos:Int = currentPos + verticalMove;
 
+	if(moveDisabled && pageSelect){
+		if(horizontalMove){
+			//scene.remove(popUp);
+			popUp = scene.addGraphic( new Image("graphics/infoGraphic_p2.png"), -1);
+		}
+		else{
+			//scene.remove(popUp);
+			popUp = scene.addGraphic( new Image("graphics/infoGraphic_p1.png"), -1);
+		}
+		if(Input.pressed(Key.ESCAPE)){
+			removeInfographic();
+		}
+	}
+	
     // If selector can move and location is valid, move the selector and play a SFX.
     if(!moveDisabled
         && (0 != verticalMove)
@@ -161,6 +183,7 @@ class MenuSelector extends Entity
 			menuMove.play(.5);
 		}
 		verticalMove = 0;
+		//horizontalMove = false;
 		
 		// Check for user input: SPACE, ENTER
 		if(Input.pressed(Key.SPACE) || Input.pressed(Key.ENTER)){
