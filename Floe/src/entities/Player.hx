@@ -87,6 +87,16 @@ class Player extends MovingActor
 		sprite.add("leftMove", [8,7,9,7], 6, true);
 		sprite.add("downMove", [10,0,11,0], 6, true);
 		sprite.add("rightMove", [3,2,4,2], 6, true);
+		
+		sprite.add("cursedUpIdle", [22], 1, true);
+		sprite.add("cursedLeftIdle", [30], 1, true);
+		sprite.add("cursedDownIdle", [21], 1, true);
+		sprite.add("cursedRightIdle", [27], 1, true);
+		sprite.add("cursedUpMove", [28,22,29,22], 6, true); 
+		sprite.add("cursedLeftMove", [31,30,32,30], 6, true);
+		sprite.add("cursedDownMove", [23,21,24,21], 6, true);
+		sprite.add("cursedRightMove", [25,27,26,27], 6, true);
+		
 		sprite.add("upHurt", [19], 1, true);
 		sprite.add("leftHurt", [17], 1, true);		
 		sprite.add("downHurt", [118], 1, true);
@@ -183,6 +193,54 @@ class Player extends MovingActor
 	//            PLAYER ANIMATION           //
 	///////////////////////////////////////////
 	
+	
+	// setMoveAnimation()
+	//
+	// Sets the actor's animation to the moving animation that matches
+	// their current direction, unless shouldSetAnim is false, or 
+	// currentDirection is None.
+	//
+	// Called in startMovement()
+	
+	private override function setMoveAnimation(){
+		if( cursed == false ){ super.setMoveAnimation(); }
+		else{
+			if(shouldSetAnim == true){
+				switch currentMove{
+					case Left: 	sprite.play("cursedLeftMove", false, false);
+					case Right: sprite.play("cursedRightMove", false, false);
+					case Up: 	sprite.play("cursedUpMove", false, false);
+					case Down:	sprite.play("cursedDownMove", false, false);
+					
+					case None: {} //Does nothing
+				}
+			}
+		}
+	}
+	
+	
+	// setIdleAnimation()
+	//
+	// Sets the actor's animation to the idle version of  that matches
+	// their currentFacing, unless shouldSetAnim is false.
+	//
+	// Called in child classes after Actor is guaranteed to be stopped.
+	
+	private override function setIdleAnimation(){
+		if( cursed == false ){ super.setIdleAnimation(); }
+		else{
+			if(shouldSetAnim == true){
+				switch currentFacing{
+					case Left: 	sprite.play("cursedLeftIdle", false, false);
+					case Right: sprite.play("cursedRightIdle", false, false);
+					case Up: 	sprite.play("cursedUpIdle", false, false);
+					case Down:	sprite.play("cursedDownIdle", false, false);
+					
+					case None: {} //Does nothing
+				}
+			}	
+		}
+	}
 	
 	// interruptAnim(newAnim:String)
 	//
