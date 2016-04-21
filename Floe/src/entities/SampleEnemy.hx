@@ -50,7 +50,7 @@ class SampleEnemy extends Enemy
 			//Not used at the moment.
 			assetsInitialized = true;
 		}
-		sprite = new Spritemap("graphics/SampleEnemy.png", 32, 32);
+		sprite = new Spritemap("graphics/sampleEnemy.png", 32, 32);
 
 		sprite.add("upMove", [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
 							  6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
