@@ -34,7 +34,7 @@ class LightningEnemy extends Enemy
 		
 		frameDelay = 0; 
 		moveSpeed = 32;
-		recalcTime = 120;
+		recalcTime = 1000; //only recalc when done resting undercertain conditions
 		maxEndurance = 10; // moves one time before resting.
 		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
@@ -70,20 +70,24 @@ class LightningEnemy extends Enemy
 	//
 	// Sets the destinationX and destinationY
 	
-  //should be "move ten units toward the PC in either the x or the y direction (which ever is greater)"
+  //should be "move ten units toward the PC in either the x or the y direction (which ever is greater favor Y on ties)"
 	private override function calcDestination(){
-    pcX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-    pcY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
-    if(this.distanceToPoint(pcX, 0) <= this.distanceToPoint(0, pcY)){
-      destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int) + 320;
-    }
+    var pcTileX:Int = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
+    var pcTileY:Int = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+    var myTileX:Int = cast(x - x % 32, Int);
+    var myTileY:Int = cast(y - y % 32, Int);
+    if(Math.abs(pcTileX - myTileX) < Math.abs(pcTileY - myTileY)) {
+      destinationX = myTileX;
+      destinationY = pcTileY;
+		}
     else {
-      destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int) + 320;
+      destinationX = pcTileX;
+      destinationY = myTileY;
     }
+    
+		HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		
-		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
-		
-		super.calcDestination();
+		setDestDistances();
 	};
 	
 	
@@ -99,19 +103,15 @@ class LightningEnemy extends Enemy
 	
 	// waterTileCollision( e:Entity )
 	//
-	// SampleEnemy's movement ends.
+	// LightningEnemy moves over all tiles
 	
-	private override function waterTileCollision( e:Entity ){
-		stopMovement();
-	}
+	private override function waterTileCollision( e:Entity ){}
 	
 	// groundTileCollision( e:Entity )
 	//
-	// SampleEnemy's movement ends.
+	//
 	
-	private override function groundTileCollision( e:Entity ){
-		stopMovement();
-	}
+	private override function groundTileCollision( e:Entity ){}
 	
 	
 	///////////////////////////////////////////
@@ -121,16 +121,13 @@ class LightningEnemy extends Enemy
 	
 	// obstacleCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Lightning Enemy ignore obstacles
 	
-	private override function obstacleCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
+	private override function obstacleCollision( e:Entity ){}
 	
 	private override function borderCollision( e:Entity ){
-		moveWasBlocked = true;
 		stopMovement();
+    rest();
 	}
 	
 	
@@ -146,24 +143,28 @@ class LightningEnemy extends Enemy
 	
 	// sampleEnemyCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the LightningEnemy from moving into it, no path finding.
 	
 	private override function sampleEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
 		stopMovement();
+    rest();
 	}
 	
 	private override function borderEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
 		stopMovement();
+    rest();
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){
 		if (cast(e, WaterEnemy).submerged == false){
-			moveWasBlocked = true;
 			stopMovement();
+      rest();
 		}
 	}
+  private override function lightningEnemyCollision(e:Entity) {
+    stopMovement();
+    rest();
+  }
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
@@ -173,7 +174,17 @@ class LightningEnemy extends Enemy
 	//Nothing here yet. Useful for handling things like getting hit by a fireball.
 	
 	
+	///////////////////////////////////////////
+	//     Rest                              //
+	///////////////////////////////////////////
 	
+	//lightningEnemy always recalcs its destination after it rests
+  private override function rest() {
+    super.rest();
+    recalcCountdown = restTime;
+  }
+  
+  
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
