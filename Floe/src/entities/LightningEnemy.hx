@@ -34,7 +34,7 @@ class LightningEnemy extends Enemy
 		
 		frameDelay = 0; 
 		moveSpeed = 32;
-		recalcTime = 1000; //only recalc when done resting undercertain conditions
+		recalcTime = 10000; //only recalc when done resting undercertain conditions
 		maxEndurance = 10; // moves one time before resting.
 		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
@@ -86,8 +86,7 @@ class LightningEnemy extends Enemy
     }
     
 		HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
-		
-		setDestDistances();
+		super.calcDestination();
 	};
 	
 	
