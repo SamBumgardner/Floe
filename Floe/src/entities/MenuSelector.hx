@@ -11,7 +11,7 @@ import com.haxepunk.HXP;
 class MenuSelector extends Entity
 {
 	private var moveDisabled:Bool;
-	private var horizontalMove:Bool;
+	private var horizontalMove:Int;
 	private var pageSelect:Bool;
 	private var popUp:Entity; //Reference to an entity that will be removed later.
 	
@@ -33,7 +33,7 @@ class MenuSelector extends Entity
 		
 		// layer is implicitly 0
 		moveDisabled = false;
-		horizontalMove = false;
+		horizontalMove = 0;
 		moveDistance = 50;
 		graphic = new Image("graphics/MenuSelector.png");
 		
@@ -75,7 +75,8 @@ class MenuSelector extends Entity
 	}
 	
 	private function displayInfographic(){
-		//popUp = scene.addGraphic( new Image("graphics/infoGraphic_p1.png"), -1);
+		popUp = scene.addGraphic( new Image("graphics/infoGraphic_p1.png"), -1);
+		horizontalMove = -1;
 		pageSelect = true;
 		moveDisabled = true;
 	}
@@ -108,7 +109,7 @@ class MenuSelector extends Entity
 	}
 	private function removeCredits(){
 		scene.remove(popUp);
-		horizontalMove = false;
+		horizontalMove = 0;
 		moveDisabled = false;
 	}
 	
@@ -154,18 +155,18 @@ class MenuSelector extends Entity
 		// Check for user input: UP, DOWN
 		if (Input.pressed(Key.UP)){ verticalMove--; }
 		if (Input.pressed(Key.DOWN)){ verticalMove++; }
-		if (Input.pressed(Key.LEFT)){ horizontalMove = false; }
-		if (Input.pressed(Key.RIGHT)){ horizontalMove = true; }
+		if (Input.pressed(Key.LEFT)){ horizontalMove = horizontalMove + 2; }
+		if (Input.pressed(Key.RIGHT)){ horizontalMove = horizontalMove - 2; }
     // Calculate the next move location
 		var tempPos:Int = currentPos + verticalMove;
 
 	if(moveDisabled && pageSelect){
-		if(horizontalMove){
-			//scene.remove(popUp);
+		if(horizontalMove < 0){
+			scene.remove(popUp);
 			popUp = scene.addGraphic( new Image("graphics/infoGraphic_p2.png"), -1);
 		}
-		else{
-			//scene.remove(popUp);
+		if(horizontalMove > 0){
+			scene.remove(popUp);
 			popUp = scene.addGraphic( new Image("graphics/infoGraphic_p1.png"), -1);
 		}
 		if(Input.pressed(Key.ESCAPE)){
@@ -190,6 +191,7 @@ class MenuSelector extends Entity
 			selectOption();
 		}
 		
+		horizontalMove = 0;
 		super.update();
 	}
 	
