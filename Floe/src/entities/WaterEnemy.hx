@@ -59,8 +59,13 @@ class WaterEnemy extends Enemy
 		
 		sprite = new Spritemap("graphics/waterEnemy.png", 32,32);
 		
-		idleAnim = new Image("graphics/waterEnemy.png");
-		graphic = idleAnim;
+		sprite.add("upperSubmerged",[9], 1, false); 
+		sprite.add("emerging", [5,4], 1, false);
+		sprite.add("submerging", [5,6,7,0,1,2,3,8], 10, false);
+		
+		sprite.play("emerging");
+		sprite.index = 7;
+		graphic = sprite;
 		currentScene = cast(HXP.scene, GameScene);
 		
 	}
@@ -77,13 +82,13 @@ class WaterEnemy extends Enemy
 	private function submerge(timeToSubmerge:Int){
 		timeLeftSubmerged = timeToSubmerge;
 		submerged = true;
-		graphic.visible = false;
+		sprite.play("submerging");
 	}
 	
 	private function emerge(timeToEmerge:Int){
 		timeLeftEmerged = timeToEmerge;
 		submerged = false;
-		graphic.visible = true;
+		sprite.play("emerging");
 	}
 	
 	private function emergeTest(){
@@ -147,6 +152,11 @@ class WaterEnemy extends Enemy
 	public override function update(){
 		// enemy does not move, so all we need to do is toggle 'submerged'
 		stateDecay();		
+
+		if( timeLeftSubmerged == 60 ){ //1 second before "emerging" animation plays.
+			sprite.play("upperSubmerged");
+		}
+		
 	}
 
 
