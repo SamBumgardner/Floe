@@ -73,7 +73,8 @@ class MovingActor extends Entity {
 		"mistEnemy" 	=> mistEnemyCollision,
 		"waterEnemy" 	=> waterEnemyCollision,
 		"border"		=> borderCollision,
-		"borderEnemy"	=> borderEnemyCollision
+		"borderEnemy"	=> borderEnemyCollision,
+    "lightningEnemy" => sampleEnemyCollision //update for specific behavior (need to add function placeholder then override in player and enemy)
 
 		]; 
 	}
