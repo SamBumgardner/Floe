@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class SampleEnemy extends Enemy
+class LightningEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -35,7 +35,7 @@ class SampleEnemy extends Enemy
 		frameDelay = 0; 
 		moveSpeed = 32;
 		recalcTime = 120;
-		maxEndurance = -1; // moves one time before resting.
+		maxEndurance = 10; // moves one time before resting.
 		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
@@ -44,7 +44,7 @@ class SampleEnemy extends Enemy
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "LightningEnemy";
+		type = "lightningEnemy";
 		
 		if( assetsInitialized == false ){
 			idleAnim = new Image("graphics/LightningEnemy.png");
@@ -70,9 +70,16 @@ class SampleEnemy extends Enemy
 	//
 	// Sets the destinationX and destinationY
 	
+  //should be "move ten units toward the PC in either the x or the y direction (which ever is greater)"
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+    pcX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
+    pcY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+    if(this.distanceToPoint(pcX, 0) <= this.distanceToPoint(0, pcY)){
+      destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int) + 320;
+    }
+    else {
+      destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int) + 320;
+    }
 		
 		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		

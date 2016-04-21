@@ -74,7 +74,7 @@ class MovingActor extends Entity {
 		"waterEnemy" 	=> waterEnemyCollision,
 		"border"		=> borderCollision,
 		"borderEnemy"	=> borderEnemyCollision,
-    "lightningEnemy" => sampleEnemyCollision //update for specific behavior (need to add function placeholder then override in player and enemy)
+    "lightningEnemy" => ligntningEnemyCollision //update for specific behavior (need to add function placeholder then override in player and enemy)
 
 		]; 
 	}
@@ -259,5 +259,7 @@ class MovingActor extends Entity {
 	private function waterEnemyCollision( e:Entity ){}
 	
 	private function borderEnemyCollision( e:Entity ){}
+  
+  private function ligntningEnemyCollision( e:Entity ) {}
 
 }
