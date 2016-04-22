@@ -135,7 +135,7 @@ class MenuSelector extends Entity
 		);
 	}
     
-  function keyDown(event: flash.events.KeyboardEvent){
+    function keyDown(event: flash.events.KeyboardEvent){
 		// -- handles numeric input --
 	
 		if(moveDisabled && currentPos == 3){
@@ -162,7 +162,7 @@ class MenuSelector extends Entity
 				displayUserSeed.text = userSeed;   // update the input string display
 			}
 		}
-  }
+    }
 	
 	public override function update(){
 		// Check for user input: UP, DOWN
