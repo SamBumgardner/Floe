@@ -433,6 +433,11 @@ class Player extends MovingActor
 		stopMovement();
 		takeDamage(cast(e, BorderEnemy).attackDamage);
 	}
+  
+  private override function lightningEnemyCollision(e:Entity) {
+    stopMovement();
+    takeDamage(cast(e, LightningEnemy).attackDamage);
+  }
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //

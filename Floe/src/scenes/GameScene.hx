@@ -11,6 +11,7 @@ import entities.FireEnemy;
 import entities.MistEnemy;
 import entities.WaterEnemy;
 import entities.BorderEnemy;
+import entities.LightningEnemy;
 import entities.Tile;
 import entities.WaterTile;
 import entities.GroundTile;
@@ -81,17 +82,20 @@ class GameScene extends Scene {
 	
 	private function addEnemy( x:Int, y:Int ){
 		var rand = HXP.random % .5;
-		if(rand < .15){
+		if(rand < .11){
 			add( new SampleEnemy(x, y) );
 		}
 		
-		else if (rand < .3){
+		else if (rand < .22){
 			add( new FireEnemy(x, y) );
 		}
 		
-		else if (rand < .45){
+		else if (rand < .33){
 			add( new MistEnemy(x, y) );
 		}
+    else if (rand < .44){
+      add( new LightningEnemy(x, y));
+    }
 	}
 	
 	
@@ -168,7 +172,7 @@ class GameScene extends Scene {
 					}
 					
 					if(HXP.random < .05 && enemyCount < maxEnemies){
-						addEnemy(placeX, placeY);
+						addEnemy(placeX, placeY); //this will now randomly generate lightning Enemies
 						enemyCount++;
 					}
 				}
