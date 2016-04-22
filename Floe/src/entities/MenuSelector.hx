@@ -1,7 +1,6 @@
 package entities;
 
 import com.haxepunk.Entity;
-import com.haxepunk.Graphic;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.utils.Input;
@@ -15,8 +14,8 @@ class MenuSelector extends Entity
 	private var horizontalMove:Int;
 	private var pageSelect:Bool;
 	private var popUp:Entity; //Reference to an entity that will be removed later.
-	private var page1:Graphic;
-	private var page2:Graphic;
+	private var page1:Image;
+	private var page2:Image;
 	
 	private var moveDistance:Int;
 	private var verticalMove:Int;
