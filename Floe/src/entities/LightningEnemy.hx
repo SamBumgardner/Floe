@@ -189,6 +189,7 @@ class LightningEnemy extends Enemy
 	
 	//lightningEnemy always recalcs its destination after it rests
   private override function rest() {
+    HXP.console.log(["lightningEnemy is resting"]);
     super.rest();
     recalcCountdown = restTime-1;
   }
@@ -199,7 +200,11 @@ class LightningEnemy extends Enemy
 	///////////////////////////////////////////
 
 	//The Sample Enemy simply uses Enemy's update function.
-
+  public override function update() {
+    HXP.console.log(["lightningEnemy is about to update. recalcTime recalcCountdown restTime currentEndurance", recalcTime, recalcCountdown, restTime, currentEndurance]);
+    super.update();
+    HXP.console.log(["lightningEnemy is just updated. recalcTime recalcCountdown restTime currentEndurance", recalcTime, recalcCountdown, restTime, currentEndurance]);
+  }
 
 
 
