@@ -203,7 +203,13 @@ class BorderEnemy extends Enemy
 		reverseEnemy = !reverseEnemy;
 		stopMovement();
 	}
-	
+  
+	private override function lightningEnemyCollision(e:Entity) {
+    moveWasBlocked = true;
+    moveSet += 2;
+		reverseEnemy = !reverseEnemy;
+		stopMovement();
+  }
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
 	///////////////////////////////////////////

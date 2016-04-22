@@ -1,7 +1,7 @@
 package entities;
 
 import com.haxepunk.Entity;
-import com.haxepunk.graphics.Spritemap;
+import com.haxepunk.graphics.Image;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
@@ -10,7 +10,7 @@ import scenes.GameScene; //Needed to store the reference to the player.
 import com.haxepunk.HXP;
 
 
-class SampleEnemy extends Enemy
+class LightningEnemy extends Enemy
 {
 	///////////////////////////////////////////
 	//          DATA INITIALIZATION          //
@@ -18,8 +18,9 @@ class SampleEnemy extends Enemy
 	
 	
 	// Graphic asset-holding variables
+	private static var idleAnim:Image;
 	
-	private static var assetsInitialized:Bool = false;
+	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene; 
 
@@ -31,12 +32,11 @@ class SampleEnemy extends Enemy
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
 		
-		layer = 0;
-		frameDelay = 15; 
-		moveSpeed = 2;
-		recalcTime = 120;
-		maxEndurance = 32; // moves two times before resting.
-		restTime = 60;	   // rests for 60 frames.
+		frameDelay = 1; 
+		moveSpeed = 16;
+		recalcTime = 10000; //the enemy should not recalc expcept just before it stops resting, this enemy sets the true recalc time when it rests;
+		maxEndurance = 20; // moves one time before resting.
+		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
 
@@ -44,36 +44,15 @@ class SampleEnemy extends Enemy
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
-		type = "sampleEnemy";
+    
+		type = "lightningEnemy";
 		
 		if( assetsInitialized == false ){
-			//Not used at the moment.
+			idleAnim = new Image("graphics/LightningEnemy.png");
 			assetsInitialized = true;
 		}
-		sprite = new Spritemap("graphics/sampleEnemy.png", 32, 32);
-
-		sprite.add("upMove", [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-							  6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
-							  10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
-							  6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6], 60, true); 
 		
-		sprite.add("leftMove", [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-								4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
-								8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
-								4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4], 60, true);
-		
-		sprite.add("downMove", [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
-								7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
-								11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-								7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7], 60, true);
-		
-		sprite.add("rightMove", [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-								 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
-								 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
-								 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5], 60, true);
-		
-		sprite.play("downMove");
-		graphic = sprite;
+		graphic = idleAnim;
 		currentScene = cast(HXP.scene, GameScene);
 		
 	}
@@ -92,27 +71,24 @@ class SampleEnemy extends Enemy
 	//
 	// Sets the destinationX and destinationY
 	
+  //should be "move ten units toward the PC in either the x or the y direction (which ever is greater favor Y on ties)"
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
-		
-		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
-		
+    var pcTileX:Int = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
+    var pcTileY:Int = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+    var myTileX:Int = cast(x - x % 32, Int);
+    var myTileY:Int = cast(y - y % 32, Int);
+    if(Math.abs(pcTileX - myTileX) < Math.abs(pcTileY - myTileY)) {
+      destinationX = myTileX;
+      destinationY = pcTileY;
+		}
+    else {
+      destinationX = pcTileX;
+      destinationY = myTileY;
+    }
+    
+		HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		super.calcDestination();
 	};
-	
-
-	///////////////////////////////////////////
-	//            ENEMY ANIMATION            //
-	///////////////////////////////////////////
-
-	
-	// setIdleAnimation()
-	//
-	// Overrides function from MovingActor, disables any animation-changing,
-	// since this enemy's idle and moving animations are identical.
-	
-	private override function setIdleAnimation(){}	
 	
 	
 	
@@ -127,19 +103,15 @@ class SampleEnemy extends Enemy
 	
 	// waterTileCollision( e:Entity )
 	//
-	// SampleEnemy's movement ends.
+	// LightningEnemy moves over all tiles
 	
-	private override function waterTileCollision( e:Entity ){
-		stopMovement();
-	}
+	private override function waterTileCollision( e:Entity ){}
 	
 	// groundTileCollision( e:Entity )
 	//
-	// SampleEnemy's movement ends.
+	//
 	
-	private override function groundTileCollision( e:Entity ){
-		stopMovement();
-	}
+	private override function groundTileCollision( e:Entity ){}
 	
 	
 	///////////////////////////////////////////
@@ -149,16 +121,13 @@ class SampleEnemy extends Enemy
 	
 	// obstacleCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Lightning Enemy ignore obstacles
 	
-	private override function obstacleCollision( e:Entity ){
-		moveWasBlocked = true;
-		stopMovement();
-	}
+	private override function obstacleCollision( e:Entity ){}
 	
 	private override function borderCollision( e:Entity ){
-		moveWasBlocked = true;
 		stopMovement();
+    rest();
 	}
 	
 	
@@ -169,33 +138,44 @@ class SampleEnemy extends Enemy
 	private override function playerCollision( e:Entity ){
 		stopMovement();
 		cast(e, Player).takeDamage(attackDamage);
+    rest();
 	}
-  
+	
 	
 	// sampleEnemyCollision( e:Entity )
 	//
-	// Prevent the sampleEnemy from moving into it.
+	// Prevent the LightningEnemy from moving into it, no path finding.
 	
 	private override function sampleEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
 		stopMovement();
+    rest();
 	}
 	
 	private override function borderEnemyCollision( e:Entity ){
-		moveWasBlocked = true;
 		stopMovement();
+    rest();
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){
 		if (cast(e, WaterEnemy).submerged == false){
-			moveWasBlocked = true;
 			stopMovement();
+      rest();
 		}
 	}
-  private override function lightningEnemyCollision(e:Entity) {
-    moveWasBlocked = true;
+  private override function fireEnemyCollision( e:Entity ){
 		stopMovement();
+    rest();
+	}
+  private override function mistEnemyCollision( e:Entity ){
+		stopMovement();
+    rest();
+	}
+  private override function lightningEnemyCollision(e:Entity) {
+    //HXP.console.log(["lightningEnemyCollision"]);
+    stopMovement();
+    rest();
   }
+	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
 	///////////////////////////////////////////
@@ -204,13 +184,28 @@ class SampleEnemy extends Enemy
 	//Nothing here yet. Useful for handling things like getting hit by a fireball.
 	
 	
+	///////////////////////////////////////////
+	//     Rest                              //
+	///////////////////////////////////////////
 	
+	//lightningEnemy always recalcs its destination after it rests
+  private override function rest() {
+    HXP.console.log(["lightningEnemy is resting"]);
+    super.rest();
+    recalcCountdown = restTime-1;
+  }
+  
+  
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
 	//The Sample Enemy simply uses Enemy's update function.
-
+  public override function update() {
+    HXP.console.log(["lightningEnemy is about to update. recalcTime recalcCountdown restTime currentEndurance", recalcTime, recalcCountdown, restTime, currentEndurance]);
+    super.update();
+    HXP.console.log(["lightningEnemy is just updated. recalcTime recalcCountdown restTime currentEndurance", recalcTime, recalcCountdown, restTime, currentEndurance]);
+  }
 
 
 

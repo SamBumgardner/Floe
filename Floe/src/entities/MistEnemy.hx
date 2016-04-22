@@ -184,7 +184,10 @@ class MistEnemy extends Enemy
 		moveWasBlocked = true;
 		stopMovement();
 	}
-	
+	private override function lightningEnemyCollision(e:Entity) {
+    moveWasBlocked = true;
+		stopMovement();
+  }
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //

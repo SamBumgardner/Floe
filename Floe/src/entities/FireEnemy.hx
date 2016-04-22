@@ -208,7 +208,11 @@ class FireEnemy extends Enemy
 		stopMovement();
 	}
 	
-	
+	private override function lightningEnemyCollision(e:Entity) {
+    moveWasBlocked = true;
+		stopMovement();
+  }
+  
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
 	///////////////////////////////////////////
