@@ -138,6 +138,7 @@ class LightningEnemy extends Enemy
 	private override function playerCollision( e:Entity ){
 		stopMovement();
 		cast(e, Player).takeDamage(attackDamage);
+    rest();
 	}
 	
 	
