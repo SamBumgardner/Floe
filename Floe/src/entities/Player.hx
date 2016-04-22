@@ -119,10 +119,18 @@ class Player extends MovingActor
 	// Called at the start of every update() function.
 	
 	private function invincibilityDecay(){
-		if(invincibilityCountdown > 0) { invincibilityCountdown--; }
+		if(invincibilityCountdown > 0) {
+			if (invincibilityCountdown % 4 >= 2 ){
+				graphic.visible = false;
+			}
+			else{
+				graphic.visible = true;
+			}
+			invincibilityCountdown--;
+		}
 		else if( invincible && invincibilityCountdown <= 0 ){
 			invincible = false;
-			
+			graphic.visible = true;
 			//HXP.console.log(["The player is no longer invincible."]);
 		}
 	}
