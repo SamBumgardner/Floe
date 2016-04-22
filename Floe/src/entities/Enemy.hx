@@ -112,14 +112,14 @@ class Enemy extends MovingActor
 	
 	// checkIfAtDestination( acceptableDistance:Int )
 	//
-	// Where acceptableDistance is a distance, in number of tiles.
+	// Where acceptableDistance is a distance, in number of tiles, using manhattan distance.
 	//
 	// Checks if the enemy is "close enough" to its destination to treat
 	// atDestination as true.
 	
 	private function checkIfAtDestination( maxDist:Int ){
 		
-		if ( Math.sqrt(Math.pow(destDistanceX, 2) + Math.pow(destDistanceY, 2) ) <= maxDist * tileSize ){
+		if ( Math.abs(destDistanceX) + Math.abs(destDistanceY) <= maxDist * tileSize ){
 			atDestination = true;
 		}
 		else{
