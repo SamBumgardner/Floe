@@ -1,7 +1,7 @@
 package entities;
 
 import com.haxepunk.Entity;
-import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
@@ -18,7 +18,6 @@ class LightningEnemy extends Enemy
 	
 	
 	// Graphic asset-holding variables
-	private static var idleAnim:Image;
 	
 	private static var assetsInitialized:Bool = false; 
 	
@@ -31,7 +30,7 @@ class LightningEnemy extends Enemy
 		
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
-		
+		layer = 0;
 		frameDelay = 1; 
 		moveSpeed = 16;
 		recalcTime = 10000; //the enemy should not recalc expcept just before it stops resting, 
@@ -49,13 +48,36 @@ class LightningEnemy extends Enemy
 		type = "lightningEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/LightningEnemy.png");
 			assetsInitialized = true;
 		}
 		
-		graphic = idleAnim;
+		sprite = new Spritemap("graphics/lightningEnemy.png", 32, 32);
+		
+		sprite.add("idle", [4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+							5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+							], 30, true);
+		sprite.add("charged", [0,1,2,3], 30, true);
+		sprite.add("leftMove", [9], 1, false);
+		sprite.add("rightMove", [9], 1, false);
+		sprite.add("upMove", [8], 1, false);
+		sprite.add("downMove", [8], 1, false);
+		
+		sprite.play("idle");
+		graphic = sprite;
 		currentScene = cast(HXP.scene, GameScene);
 		
+	}
+	
+	
+	// setIdleAnimation()
+	//
+	// Sets the actor's animation to the idle version of  that matches
+	// their currentFacing, unless shouldSetAnim is false.
+	//
+	// Called in child classes after Actor is guaranteed to be stopped.
+	
+	private override function setIdleAnimation(){
+		sprite.play("idle");
 	}
 	
 	
@@ -92,8 +114,7 @@ class LightningEnemy extends Enemy
 		super.calcDestination();
 	};
 	
-	
-	
+
 	///////////////////////////////////////////
 	//    BACKGROUND COLLISION FUNCTIONS     //
 	///////////////////////////////////////////
@@ -204,13 +225,10 @@ class LightningEnemy extends Enemy
 
 	//The Sample Enemy simply uses Enemy's update function.
   public override function update() {
-    HXP.console.log([
-		"lightningEnemy is updating. recalcTime recalcCountdown restTime currentEndurance",
-		recalcTime, recalcCountdown, restTime, currentEndurance]);
+		if(restCountdown == 60){
+			sprite.play("charged");
+		}
     super.update();
-    HXP.console.log([
-		"lightningEnemy is just updated. recalcTime recalcCountdown restTime currentEndurance",
-		recalcTime, recalcCountdown, restTime, currentEndurance]);
   }
 
 
