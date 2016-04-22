@@ -34,7 +34,7 @@ class LightningEnemy extends Enemy
 		
 		frameDelay = 1; 
 		moveSpeed = 16;
-		recalcTime = 10000; //only recalc when done resting undercertain conditions
+		recalcTime = 10000; //the enemy should not recalc expcept just before it stops resting, this enemy sets the true recalc time when it rests;
 		maxEndurance = 20; // moves one time before resting.
 		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
