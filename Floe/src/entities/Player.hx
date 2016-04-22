@@ -290,9 +290,9 @@ class Player extends MovingActor
 		animationCountdown = 100;
 	}
 	
-	// levelComplete()
+	// levelFailed()
 	//
-	// Stops movement and plays a victory animation.
+	// Stops movement and plays a "game over" animation.
 	
 	public function levelFailed(){
 		currentMove = None;
@@ -302,6 +302,8 @@ class Player extends MovingActor
 		
 		shouldSetAnim = false;
 		animationCountdown = 100;
+		
+		invincibilityCountdown = 0;
 	}
 	
 	
