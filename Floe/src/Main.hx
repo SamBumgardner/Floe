@@ -48,7 +48,6 @@ class Main extends Engine
 		
 		var gm:GameManager = new entities.GameManager();
 		
-		HXP.scene.end();
 		HXP.scene = new scenes.GameScene(gm);
 	}
 	
