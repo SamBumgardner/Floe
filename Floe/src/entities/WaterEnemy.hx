@@ -60,8 +60,17 @@ class WaterEnemy extends Enemy
 		sprite = new Spritemap("graphics/waterEnemy.png", 32,32);
 		
 		sprite.add("upperSubmerged",[9], 1, false); 
-		sprite.add("emerging", [5,4], 1, false);
-		sprite.add("submerging", [5,6,7,0,1,2,3,8], 10, false);
+		sprite.add("emerging", [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+								5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+								5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4], 60, false);
+		sprite.add("submerging", [	5,5,5,5,5,5,
+									6,6,6,6,6,6,
+									7,7,7,7,7,7,
+									0,0,0,0,0,0,
+									1,1,1,1,1,1,
+									2,2,2,2,2,2,
+									3,3,3,3,3,3,
+									8], 60, false);
 		
 		sprite.play("emerging");
 		sprite.index = 7;
