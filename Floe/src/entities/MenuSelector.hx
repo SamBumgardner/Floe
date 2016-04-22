@@ -1,6 +1,7 @@
 package entities;
 
 import com.haxepunk.Entity;
+import com.haxepunk.Graphic;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Text;
 import com.haxepunk.utils.Input;
@@ -14,6 +15,8 @@ class MenuSelector extends Entity
 	private var horizontalMove:Int;
 	private var pageSelect:Bool;
 	private var popUp:Entity; //Reference to an entity that will be removed later.
+	private var page1:Graphic;
+	private var page2:Graphic;
 	
 	private var moveDistance:Int;
 	private var verticalMove:Int;
@@ -36,6 +39,10 @@ class MenuSelector extends Entity
 		horizontalMove = 0;
 		moveDistance = 50;
 		graphic = new Image("graphics/MenuSelector.png");
+		page1 = new Image("graphics/infoGraphic_p1.png");
+		page2 = new Image("graphics/infoGraphic_p2.png");
+		page1.visible = false;
+		page2.visible = false;
 		
 		currentPos = 1;
 		numOfPos = 4;
@@ -55,13 +62,14 @@ class MenuSelector extends Entity
 		//I'm not quite sure how enums work in Haxe, but using it would be better, I think.
 	
 		if(moveDisabled){
-      // Back out of current menu
+			// Back out of current menu
 			switch currentPos{
 				case 2: removeInfographic();
 				case 3: removeSeedSelection();
 				case 4: removeCredits();
 			}
 		}
+		
 		else{
 			menuSelect.play(.5);
 			// Start selected option
@@ -75,13 +83,17 @@ class MenuSelector extends Entity
 	}
 	
 	private function displayInfographic(){
-		popUp = scene.addGraphic( new Image("graphics/infoGraphic_p1.png"), -1);
+		scene.addGraphic(page1, -1);
+		scene.addGraphic(page2, -1);
 		horizontalMove = -1;
+		page1.visible=true;
 		pageSelect = true;
 		moveDisabled = true;
 	}
+	
 	private function removeInfographic(){
-		scene.remove(popUp);
+		page1.visible = false;
+		page2.visible = false;
 		pageSelect = false;
 		moveDisabled = false;
 	}
@@ -95,6 +107,7 @@ class MenuSelector extends Entity
 		txtReference = scene.addGraphic(displayUserSeed);
 		moveDisabled = true;
 	}
+	
 	private function removeSeedSelection(){
 		scene.remove(popUp);
 		scene.remove(txtReference);
@@ -107,6 +120,7 @@ class MenuSelector extends Entity
 		popUp = scene.addGraphic( new Image("graphics/credits.png"), -1);
 		moveDisabled = true;
 	}
+	
 	private function removeCredits(){
 		scene.remove(popUp);
 		horizontalMove = 0;
@@ -117,10 +131,10 @@ class MenuSelector extends Entity
 	function keyboardListener(){
     // -- Listens for keyboard input --
      
-    flash.Lib.current.stage.addEventListener(
-        flash.events.KeyboardEvent.KEY_DOWN, keyDown
-    );
-  }
+		flash.Lib.current.stage.addEventListener(
+			flash.events.KeyboardEvent.KEY_DOWN, keyDown
+		);
+	}
     
   function keyDown(event: flash.events.KeyboardEvent){
 		// -- handles numeric input --
@@ -157,34 +171,38 @@ class MenuSelector extends Entity
 		if (Input.pressed(Key.DOWN)){ verticalMove++; }
 		if (Input.pressed(Key.LEFT)){ horizontalMove = horizontalMove + 2; }
 		if (Input.pressed(Key.RIGHT)){ horizontalMove = horizontalMove - 2; }
-    // Calculate the next move location
+		
+		// Calculate the next move location
 		var tempPos:Int = currentPos + verticalMove;
 
-	if(moveDisabled && pageSelect){
-		if(horizontalMove < 0){
-			scene.remove(popUp);
-			popUp = scene.addGraphic( new Image("graphics/infoGraphic_p2.png"), -1);
+		if(moveDisabled && pageSelect){
+			if(horizontalMove < 0){
+				page1.visible = false;
+				page2.visible = true;
+			}
+			
+			if(horizontalMove > 0){
+				page2.visible = false;
+				page1.visible = true;
+			}
+			
+			if(Input.pressed(Key.ESCAPE)){
+				removeInfographic();
+			}
+			
+			horizontalMove = 0;
 		}
-		if(horizontalMove > 0){
-			scene.remove(popUp);
-			popUp = scene.addGraphic( new Image("graphics/infoGraphic_p1.png"), -1);
-		}
-		if(Input.pressed(Key.ESCAPE)){
-			removeInfographic();
-		}
-	}
 	
-    // If selector can move and location is valid, move the selector and play a SFX.
-    if(!moveDisabled
-        && (0 != verticalMove)
-        && (0 < tempPos)
-        && (tempPos <= numOfPos)){
-			moveBy(0, verticalMove * moveDistance);
-			currentPos = tempPos;
-			menuMove.play(.5);
+		// If selector can move and location is valid, move the selector and play a SFX.
+		if(!moveDisabled
+			&& (0 != verticalMove)
+			&& (0 < tempPos)
+			&& (tempPos <= numOfPos)){
+				moveBy(0, verticalMove * moveDistance);
+				currentPos = tempPos;
+				menuMove.play(.5);
 		}
 		verticalMove = 0;
-		//horizontalMove = false;
 		
 		// Check for user input: SPACE, ENTER
 		if(Input.pressed(Key.SPACE) || Input.pressed(Key.ENTER)){
