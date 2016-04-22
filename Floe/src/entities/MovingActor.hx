@@ -45,7 +45,7 @@ class MovingActor extends Entity {
 	// Arrays of types used for checking collisions
 	
 	private static var backgroundTypes = ["groundTile", "waterTile"];
-	private static var actorTypes = ["obstacle", "border", "player", "sampleEnemy", "fireEnemy", "mistEnemy", "waterEnemy", "borderEnemy"];
+	private static var actorTypes = ["obstacle", "border", "player", "sampleEnemy", "fireEnemy", "mistEnemy", "waterEnemy", "borderEnemy", "lightningEnemy"];
 
 	
 	// Contains references to collision functions.

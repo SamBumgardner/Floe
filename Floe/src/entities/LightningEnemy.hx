@@ -32,10 +32,10 @@ class LightningEnemy extends Enemy
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
 		
-		frameDelay = 0; 
-		moveSpeed = 32;
+		frameDelay = 1; 
+		moveSpeed = 16;
 		recalcTime = 10000; //only recalc when done resting undercertain conditions
-		maxEndurance = 10; // moves one time before resting.
+		maxEndurance = 20; // moves one time before resting.
 		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
 		acceptableDestDistance = 0;
@@ -44,6 +44,7 @@ class LightningEnemy extends Enemy
 		// Set hitbox size and the collision type
 		
 		setHitbox(32, 32);
+    
 		type = "lightningEnemy";
 		
 		if( assetsInitialized == false ){
@@ -160,7 +161,16 @@ class LightningEnemy extends Enemy
       rest();
 		}
 	}
+  private override function fireEnemyCollision( e:Entity ){
+		stopMovement();
+    rest();
+	}
+  private override function mistEnemyCollision( e:Entity ){
+		stopMovement();
+    rest();
+	}
   private override function lightningEnemyCollision(e:Entity) {
+    //HXP.console.log(["lightningEnemyCollision"]);
     stopMovement();
     rest();
   }
@@ -180,7 +190,7 @@ class LightningEnemy extends Enemy
 	//lightningEnemy always recalcs its destination after it rests
   private override function rest() {
     super.rest();
-    recalcCountdown = restTime;
+    recalcCountdown = restTime-1;
   }
   
   

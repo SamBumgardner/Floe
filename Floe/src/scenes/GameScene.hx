@@ -172,8 +172,7 @@ class GameScene extends Scene {
 					}
 					
 					if(HXP.random < .05 && enemyCount < maxEnemies){
-						//addEnemy(placeX, placeY); //this will now randomly generate lightning Enemies
-            add( new LightningEnemy(placeX, placeY));
+						addEnemy(placeX, placeY); //this will now randomly generate lightning Enemies
 						enemyCount++;
 					}
 				}

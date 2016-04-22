@@ -135,7 +135,7 @@ class SampleEnemy extends Enemy
 		stopMovement();
 		cast(e, Player).takeDamage(attackDamage);
 	}
-	
+  
 	
 	// sampleEnemyCollision( e:Entity )
 	//
@@ -157,7 +157,10 @@ class SampleEnemy extends Enemy
 			stopMovement();
 		}
 	}
-	
+  private override function lightningEnemyCollision(e:Entity) {
+    moveWasBlocked = true;
+		stopMovement();
+  }
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
 	///////////////////////////////////////////
