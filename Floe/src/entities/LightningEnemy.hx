@@ -34,7 +34,8 @@ class LightningEnemy extends Enemy
 		
 		frameDelay = 1; 
 		moveSpeed = 16;
-		recalcTime = 10000; //the enemy should not recalc expcept just before it stops resting, this enemy sets the true recalc time when it rests;
+		recalcTime = 10000; //the enemy should not recalc expcept just before it stops resting, 
+							//this enemy sets the true recalc time when it rests;
 		maxEndurance = 20; // moves one time before resting.
 		restTime = 120;	   // rests for 120 frames.
 		attackDamage = 1;
@@ -71,7 +72,8 @@ class LightningEnemy extends Enemy
 	//
 	// Sets the destinationX and destinationY
 	
-  //should be "move ten units toward the PC in either the x or the y direction (which ever is greater favor Y on ties)"
+    //should be "move ten units toward the PC in either the x or the y direction
+	//(which ever is greater favor Y on ties)"
 	private override function calcDestination(){
     var pcTileX:Int = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
     var pcTileY:Int = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
@@ -202,9 +204,13 @@ class LightningEnemy extends Enemy
 
 	//The Sample Enemy simply uses Enemy's update function.
   public override function update() {
-    HXP.console.log(["lightningEnemy is about to update. recalcTime recalcCountdown restTime currentEndurance", recalcTime, recalcCountdown, restTime, currentEndurance]);
+    HXP.console.log([
+		"lightningEnemy is updating. recalcTime recalcCountdown restTime currentEndurance",
+		recalcTime, recalcCountdown, restTime, currentEndurance]);
     super.update();
-    HXP.console.log(["lightningEnemy is just updated. recalcTime recalcCountdown restTime currentEndurance", recalcTime, recalcCountdown, restTime, currentEndurance]);
+    HXP.console.log([
+		"lightningEnemy is just updated. recalcTime recalcCountdown restTime currentEndurance",
+		recalcTime, recalcCountdown, restTime, currentEndurance]);
   }
 
 

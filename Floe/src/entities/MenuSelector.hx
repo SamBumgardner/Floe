@@ -11,7 +11,11 @@ import com.haxepunk.HXP;
 class MenuSelector extends Entity
 {
 	private var moveDisabled:Bool;
+	private var horizontalMove:Int;
+	private var pageSelect:Bool;
 	private var popUp:Entity; //Reference to an entity that will be removed later.
+	private var page1:Image;
+	private var page2:Image;
 	
 	private var moveDistance:Int;
 	private var verticalMove:Int;
@@ -31,8 +35,13 @@ class MenuSelector extends Entity
 		
 		// layer is implicitly 0
 		moveDisabled = false;
+		horizontalMove = 0;
 		moveDistance = 50;
 		graphic = new Image("graphics/MenuSelector.png");
+		page1 = new Image("graphics/infoGraphic_p1.png");
+		page2 = new Image("graphics/infoGraphic_p2.png");
+		page1.visible = false;
+		page2.visible = false;
 		
 		currentPos = 1;
 		numOfPos = 4;
@@ -52,13 +61,14 @@ class MenuSelector extends Entity
 		//I'm not quite sure how enums work in Haxe, but using it would be better, I think.
 	
 		if(moveDisabled){
-      // Back out of current menu
+			// Back out of current menu
 			switch currentPos{
 				case 2: removeInfographic();
 				case 3: removeSeedSelection();
 				case 4: removeCredits();
 			}
 		}
+		
 		else{
 			menuSelect.play(.5);
 			// Start selected option
@@ -72,11 +82,18 @@ class MenuSelector extends Entity
 	}
 	
 	private function displayInfographic(){
-		popUp = scene.addGraphic( new Image("graphics/infographic.png"), -1);
+		scene.addGraphic(page1, -1);
+		scene.addGraphic(page2, -1);
+		horizontalMove = -1;
+		page1.visible=true;
+		pageSelect = true;
 		moveDisabled = true;
 	}
+	
 	private function removeInfographic(){
-		scene.remove(popUp);
+		page1.visible = false;
+		page2.visible = false;
+		pageSelect = false;
 		moveDisabled = false;
 	}
 	
@@ -89,6 +106,7 @@ class MenuSelector extends Entity
 		txtReference = scene.addGraphic(displayUserSeed);
 		moveDisabled = true;
 	}
+	
 	private function removeSeedSelection(){
 		scene.remove(popUp);
 		scene.remove(txtReference);
@@ -101,8 +119,10 @@ class MenuSelector extends Entity
 		popUp = scene.addGraphic( new Image("graphics/credits.png"), -1);
 		moveDisabled = true;
 	}
+	
 	private function removeCredits(){
 		scene.remove(popUp);
+		horizontalMove = 0;
 		moveDisabled = false;
 	}
 	
@@ -110,12 +130,12 @@ class MenuSelector extends Entity
 	function keyboardListener(){
     // -- Listens for keyboard input --
      
-    flash.Lib.current.stage.addEventListener(
-        flash.events.KeyboardEvent.KEY_DOWN, keyDown
-    );
-  }
+		flash.Lib.current.stage.addEventListener(
+			flash.events.KeyboardEvent.KEY_DOWN, keyDown
+		);
+	}
     
-  function keyDown(event: flash.events.KeyboardEvent){
+    function keyDown(event: flash.events.KeyboardEvent){
 		// -- handles numeric input --
 	
 		if(moveDisabled && currentPos == 3){
@@ -142,23 +162,44 @@ class MenuSelector extends Entity
 				displayUserSeed.text = userSeed;   // update the input string display
 			}
 		}
-  }
+    }
 	
 	public override function update(){
 		// Check for user input: UP, DOWN
 		if (Input.pressed(Key.UP)){ verticalMove--; }
 		if (Input.pressed(Key.DOWN)){ verticalMove++; }
-    // Calculate the next move location
+		if (Input.pressed(Key.LEFT)){ horizontalMove = horizontalMove + 2; }
+		if (Input.pressed(Key.RIGHT)){ horizontalMove = horizontalMove - 2; }
+		
+		// Calculate the next move location
 		var tempPos:Int = currentPos + verticalMove;
 
-    // If selector can move and location is valid, move the selector and play a SFX.
-    if(!moveDisabled
-        && (0 != verticalMove)
-        && (0 < tempPos)
-        && (tempPos <= numOfPos)){
-			moveBy(0, verticalMove * moveDistance);
-			currentPos = tempPos;
-			menuMove.play(.5);
+		if(moveDisabled && pageSelect){
+			if(horizontalMove < 0){
+				page1.visible = false;
+				page2.visible = true;
+			}
+			
+			if(horizontalMove > 0){
+				page2.visible = false;
+				page1.visible = true;
+			}
+			
+			if(Input.pressed(Key.ESCAPE)){
+				removeInfographic();
+			}
+			
+			horizontalMove = 0;
+		}
+	
+		// If selector can move and location is valid, move the selector and play a SFX.
+		if(!moveDisabled
+			&& (0 != verticalMove)
+			&& (0 < tempPos)
+			&& (tempPos <= numOfPos)){
+				moveBy(0, verticalMove * moveDistance);
+				currentPos = tempPos;
+				menuMove.play(.5);
 		}
 		verticalMove = 0;
 		
@@ -167,6 +208,7 @@ class MenuSelector extends Entity
 			selectOption();
 		}
 		
+		horizontalMove = 0;
 		super.update();
 	}
 	
