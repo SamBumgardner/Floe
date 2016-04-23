@@ -2,7 +2,6 @@ package entities;
 	  
 
 import entities.Tile;
-import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
@@ -19,9 +18,6 @@ class WaterTile extends Tile {
 	///////////////////////////////////////////
 	
 	// For initializing assets
-	static public var commonImage:Image;
-	static public var commonFrozenImage:Image;
-	static private var graphicInit:Bool = false;
 	
 	private var sprite:Spritemap;
 	private var prePauseAnim:String;
