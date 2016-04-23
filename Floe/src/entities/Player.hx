@@ -60,6 +60,10 @@ class Player extends MovingActor
 	private var invincibilityCountdown:Int;
 	
 
+	// new( x:Int, y:Int )
+	//
+	// Constructor for Player.
+	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
@@ -546,6 +550,11 @@ class Player extends MovingActor
 		stopMovement();
 	}
 	
+	
+	// borderCollision( e:Entity )
+	//
+	// This is the same as obstacle collision.
+	
 	private override function borderCollision( e:Entity ){
 		if( sliding == true || pressedThisFrame == true || hasPlayedBumpSound == false ){
 			bumpSound.play(HXP.engine.sfxVolume);
@@ -555,19 +564,40 @@ class Player extends MovingActor
 		stopMovement();
 	}
 	
+	
+	// sampleEnemyCollision( e:Entity )
+	//
+	// Prevents movement into it and damages the player.
+	
 	private override function sampleEnemyCollision( e:Entity ){
 		stopMovement();
 		takeDamage((cast e).attackDamage);
 	}
+	
+	
+	// fireEnemyCollision( e:Entity )
+	//
+	// Damages the player and destroys the fireEnemy.
 	
 	private override function fireEnemyCollision( e:Entity ){
 		takeDamage((cast e).attackDamage);
 		(cast e).defeated();
 	}
 	
+	
+	// mistEnemyCollision( e:Entity )
+	//
+	// Curses the player.
+	
 	private override function mistEnemyCollision( e:Entity ){
 		cursePlayer(300);
 	}
+	
+	
+	// waterEnemyCollision( e:Entity )
+	//
+	// If emerged, prevents movement into it and damages the player.
+	// If submerged, removes the waterEnemy from the scene.
 	
 	private override function waterEnemyCollision( e:Entity ){
 		var enemy = (cast e);
@@ -580,28 +610,34 @@ class Player extends MovingActor
 		}
 	}
 	
+	
+	// borderEnemyEnemyCollision( e:Entity )
+	//
+	// Prevents movement into it, and damages the player.
+	
 	private override function borderEnemyCollision( e:Entity ){
 		stopMovement();
 		takeDamage((cast e).attackDamage);
 	}
+	
+	
+	// lightningEnemyCollision( e:Entity )
+	//
+	// Prevents movement into it, and damages the player.
   
-  private override function lightningEnemyCollision(e:Entity) {
-    stopMovement();
-    takeDamage((cast e).attackDamage);
-  }
-	
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
-	
-	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
+	private override function lightningEnemyCollision(e:Entity) {
+	stopMovement();
+	takeDamage((cast e).attackDamage);
+	}
 	
 	
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
+	
+	// update()
+	//
+	// Called every frame to update the entity.
 	
 	public override function update()
 	{	
