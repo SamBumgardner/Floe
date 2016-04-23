@@ -85,18 +85,21 @@ class WaterEnemy extends Enemy
 	// It serves as a catch-all for methods that aren't strictly related to movement,
 	// collisions, or direction selection.
 	
+	// When called, tells the water enemy to go under water
 	private function submerge(timeToSubmerge:Int){
 		timeLeftSubmerged = timeToSubmerge;
 		submerged = true;
 		sprite.play("submerging");
 	}
 	
+	// When called, tells the water enemy to emerge
 	private function emerge(timeToEmerge:Int){
 		timeLeftEmerged = timeToEmerge;
 		submerged = false;
 		sprite.play("emerging");
 	}
 	
+	// Tests if the water enemy is able to emerge or if it is blocked.
 	private function emergeTest(){
         var actors = ["mistEnemy", "sampleEnemy", "player"];
         var canEmergeTest:Bool = true;
@@ -109,6 +112,8 @@ class WaterEnemy extends Enemy
         return canEmergeTest;
     }
 	
+	// Decrements counters counting to the next emerge/submerge event
+	//    and calls the corresponding emerge/submerge function when appropriate
 	private function stateDecay(){
 		if (submerged){
 			timeLeftSubmerged--;
@@ -155,6 +160,7 @@ class WaterEnemy extends Enemy
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
+	// Called every frame
 	public override function update(){
 		// enemy does not move, so all we need to do is toggle 'submerged'
 		stateDecay();		

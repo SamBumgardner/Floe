@@ -14,7 +14,6 @@ class HUD extends Entity {
 	private var imgHeart = new Image("graphics/heart.png");
 
 	// Background image
-
 	private var imgBackground = new Image("graphics/levelBackground.png");
 
 	// Constructor
@@ -29,6 +28,7 @@ class HUD extends Entity {
 		imgHeart.scale = 1.5;
 	}
 
+	// Adds graphic assets to entity
 	public override function added(){
 		HXP.scene.addGraphic(textScore);
 		HXP.scene.addGraphic(textLevel);
@@ -38,6 +38,7 @@ class HUD extends Entity {
 		HXP.scene.addGraphic(imgBackground, 100, 0, 0);
 	}
 
+	// Updates the score text field on the HUD to the value passed in
 	public function updateScore(score:Int):Void{
 		// Add leading zeroes to score
 		var zeroes:String = "";
@@ -48,19 +49,13 @@ class HUD extends Entity {
 		textScore.text = zeroes + scoreString;
 	}
 
+	// Updates the lake number text field on the HUD to the value passed in
 	public function updateLake(lakeID:Int):Void{
 		textLevel.text = "Lake " + Std.string(lakeID);
 	}
 
+	// Updates the health text field on the HUD to the value passed in
 	public function updateHealth(hp:Int):Void{
 		textHealth.text = "x " + Std.string(hp);
 	}
-
-	/* ONLY IMPLEMENT WHEN ALL ELSE IS WORKING
-	public function setCurse(status:Bool){
-		if (status){
-			imgHeart = imgHeartGreen;
-		}
-	}
-	*/
 }

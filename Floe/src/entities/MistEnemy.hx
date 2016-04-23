@@ -21,7 +21,7 @@ class MistEnemy extends Enemy
 	
 	private var currentScene:GameScene;
 
-
+	// constructor
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
@@ -131,16 +131,14 @@ class MistEnemy extends Enemy
 	
 	// waterTileCollision( e:Entity )
 	//
-	// SampleEnemy's movement ends.
-	
+	// MistEnemy's movement ends.
 	private override function waterTileCollision( e:Entity ){
 		stopMovement();
 	}
 	
 	// groundTileCollision( e:Entity )
 	//
-	// SampleEnemy's movement ends.
-	
+	// MistEnemy's movement ends.
 	private override function groundTileCollision( e:Entity ){
 		stopMovement();
 	}
@@ -156,8 +154,7 @@ class MistEnemy extends Enemy
 	
 	// borderCollision( e:Entity )
 	//
-	// Prevent the mistEnemy from moving into it.
-	
+	// Prevent the mistEnemy from moving into the border.
 	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
@@ -165,8 +162,7 @@ class MistEnemy extends Enemy
 	
 	// playerCollision( e:Entity )
 	//
-	// MistEnemy curses player.
-	
+	// MistEnemy curses player, flipping their controls.
 	private override function playerCollision( e:Entity ){
 		(cast e).cursePlayer(300);	// flip player controls
 	}
@@ -174,8 +170,7 @@ class MistEnemy extends Enemy
 	
 	// fireEnemyCollision( e:Entity )
 	//
-	// Prevent the mistEnemy from moving into it.
-	
+	// Prevent the mistEnemy from moving into the fire enemy.
 	private override function fireEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
@@ -183,16 +178,19 @@ class MistEnemy extends Enemy
 	
 	// mistEnemyCollision( e:Entity )
 	//
-	// Prevent the mistEnemy from moving into it.
-	
+	// Prevent the mistEnemy from moving into another mist enemy.
 	private override function mistEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
+	
+	// lightningEnemyCollision( e:Entity )
+	//
+	// Prevent the mistEnemy from moving into the lightning enemy.
 	private override function lightningEnemyCollision(e:Entity) {
-    moveWasBlocked = true;
+		moveWasBlocked = true;
 		stopMovement();
-  }
+	}
 	
 	///////////////////////////////////////////
 	//      GENERAL COLLISION FUNCTIONS      //
