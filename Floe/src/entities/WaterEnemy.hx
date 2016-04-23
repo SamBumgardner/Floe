@@ -133,30 +133,6 @@ class WaterEnemy extends Enemy
 		
 	
 	///////////////////////////////////////////
-	//    BACKGROUND COLLISION FUNCTIONS     //
-	///////////////////////////////////////////
-	
-	// These functions will be called when SampleEnemy finishes moving onto a tile.
-	// They should set in motion any behavior that occurs after landing on that particular tile,
-	// e.g. move again while on a water tile, or stop when on a ground tile.
-	
-	
-	///////////////////////////////////////////
-	//       MOVE COLLISION FUNCTIONS        //
-	///////////////////////////////////////////
-	// *- unnecessary for stationary enemy -*
-	
-	
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
-	
-	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
-	
-	
-	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
