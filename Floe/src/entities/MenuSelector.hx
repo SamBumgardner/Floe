@@ -53,6 +53,11 @@ class MenuSelector extends Entity
 		keyboardListener();
 	}
 	
+	public override function added(){
+		scene.addGraphic(page1, -1);
+		scene.addGraphic(page2, -1);
+	}
+	
 	private function selectOption(){
 		// 1 = Play Game
 		// 2 = How To Play
