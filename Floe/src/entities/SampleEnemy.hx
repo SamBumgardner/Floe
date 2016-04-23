@@ -156,6 +156,11 @@ class SampleEnemy extends Enemy
 		stopMovement();
 	}
 	
+	
+	// borderCollision( e:Entity )
+	//
+	// Prevent the sampleEnemy from moving into it.
+	
 	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
@@ -181,10 +186,20 @@ class SampleEnemy extends Enemy
 		stopMovement();
 	}
 	
+	
+	// borderEnemyCollision( e:Entity )
+	//
+	// Prevent the sampleEnemy from moving into it.
+	
 	private override function borderEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
+	
+	
+	// waterEnemyCollision( e:Entity )
+	//
+	// Prevent the sampleEnemy from moving into it.
 	
 	private override function waterEnemyCollision( e:Entity ){
 		if ((cast e).submerged == false){
@@ -192,17 +207,16 @@ class SampleEnemy extends Enemy
 			stopMovement();
 		}
 	}
-  private override function lightningEnemyCollision(e:Entity) {
-    moveWasBlocked = true;
+	
+	
+	// lightningEnemyCollision( e:Entity )
+	//
+	// Prevent the sampleEnemy from moving into it.
+	
+	private override function lightningEnemyCollision(e:Entity) {
+	moveWasBlocked = true;
 		stopMovement();
-  }
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
-	
-	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
+	}
 	
 	
 	///////////////////////////////////////////
@@ -210,8 +224,5 @@ class SampleEnemy extends Enemy
 	///////////////////////////////////////////
 
 	//The Sample Enemy simply uses Enemy's update function.
-
-
-
 
 }
