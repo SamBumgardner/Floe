@@ -141,7 +141,7 @@ class GameScene extends Scene {
 				if( placeX == originX || placeY == originY || 
 					placeX == maxX || placeY == maxY){
 				
-					add(new Border(placeX, placeY, "border"));
+					add(new Border(placeX, placeY));
 					
 					placeX += tileSize;
 					continue;
@@ -191,7 +191,7 @@ class GameScene extends Scene {
 						}
 					}
 					else{
-						add(new Obstacle(placeX, placeY, "rock"));
+						add(new Obstacle(placeX, placeY));
 						tilesSinceLastObstacle = 0;
 						RocksInCurrentRow.push(placeX);
 					}
