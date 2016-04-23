@@ -28,7 +28,7 @@ class Main extends Engine
 	}
 	
 	public function returnToMenu(){
-		HXP.console.log(["Returning to main menu..."]);
+		//HXP.console.log(["Returning to main menu..."]);
 		HXP.scene.end();
 		
 		HXP.scene = new scenes.MainMenu();
@@ -44,7 +44,7 @@ class Main extends Engine
 			HXP.randomizeSeed();
 		}
 		
-		HXP.console.log(["The random seed is: ", HXP.randomSeed]);
+		//HXP.console.log(["The random seed is: ", HXP.randomSeed]);
 		
 		var gm:GameManager = new entities.GameManager();
 		
@@ -57,7 +57,7 @@ class Main extends Engine
 	
 	public function gameOver(){
 
-		HXP.console.log(["Game Over!"]);
+		//HXP.console.log(["Game Over!"]);
 		var gm:GameManager = (cast HXP.scene).gameOver(); //ends the looping music.
 		HXP.scene = new scenes.GameOver(gm);
 	

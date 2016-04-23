@@ -205,7 +205,7 @@ class GameScene extends Scene {
 			placeY += tileSize;
 		}
 		
-		HXP.console.log(["Level has been generated!"]);
+		//HXP.console.log(["Level has been generated!"]);
 	}
 	
 	
@@ -221,7 +221,7 @@ class GameScene extends Scene {
 	
 	public override function begin()
 	{
-		HXP.console.log(["Level is loading..."]);
+		//HXP.console.log(["Level is loading..."]);
 		
 		if(!musicPlaying){
 			music.loop(HXP.engine.musicVolume);
@@ -290,7 +290,7 @@ class GameScene extends Scene {
 		music.stop();
 		add(pausedMenu);
 		
-		HXP.console.log(["Paused the game!"]);
+		//HXP.console.log(["Paused the game!"]);
 	}
 	
 	// unpauseGame()
@@ -311,7 +311,7 @@ class GameScene extends Scene {
 		
 		music.resume();
 		gamePaused = false;
-		HXP.console.log(["Unpaused the game!"]);
+		//HXP.console.log(["Unpaused the game!"]);
 	}
 	
 	///////////////////////////////////////////

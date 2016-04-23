@@ -110,7 +110,7 @@ class LightningEnemy extends Enemy
       destinationY = myTileY;
     }
     
-		HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
+		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		super.calcDestination();
 	};
 	
@@ -213,7 +213,7 @@ class LightningEnemy extends Enemy
 	
 	//lightningEnemy always recalcs its destination after it rests
   private override function rest() {
-    HXP.console.log(["lightningEnemy is resting"]);
+    //HXP.console.log(["lightningEnemy is resting"]);
     super.rest();
     recalcCountdown = restTime-1;
   }

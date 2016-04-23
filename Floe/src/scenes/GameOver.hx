@@ -19,7 +19,7 @@ class GameOver extends Scene
 	}
 	public override function begin()
 	{
-		HXP.console.log(["GameOver Scene executed!"]);
+		//HXP.console.log(["GameOver Scene executed!"]);
 		
 		add(GM);
 		

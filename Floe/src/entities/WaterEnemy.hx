@@ -103,10 +103,10 @@ class WaterEnemy extends Enemy
 	private function emergeTest(){
         var actors = ["mistEnemy", "sampleEnemy", "player"];
         var canEmergeTest:Bool = true;
-        HXP.console.log(["Testing for collisions at", x, y]);
+        //HXP.console.log(["Testing for collisions at", x, y]);
         if (collideTypes(actors, x, y) != null){
             // if something's on top of the water enemy, prevent emergence
-            HXP.console.log(["There's something above me at", x, y]);
+            //HXP.console.log(["There's something above me at", x, y]);
             canEmergeTest = false;
         }
         return canEmergeTest;

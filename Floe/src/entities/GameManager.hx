@@ -35,7 +35,7 @@ class GameManager extends Entity{
 	
 	public function waterThawed(){
 		unfrozenWaterCount++;
-		HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
+		//HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
 	}
 	
 	//Called by WaterTile as part of its freeze() function
@@ -43,10 +43,10 @@ class GameManager extends Entity{
 		unfrozenWaterCount--;
 		//addScore(10);
 
-		HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
+		//HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
 		
 		if(unfrozenWaterCount <= 0){
-			HXP.console.log(["Level Complete!"]);
+			//HXP.console.log(["Level Complete!"]);
 			
 			var entitiesInLevel:Array<Entity> = [];
 			HXP.scene.getAll(entitiesInLevel);
@@ -72,7 +72,7 @@ class GameManager extends Entity{
 	public function damagePlayer(damage:Int){
 		playerHealth -= damage;
 		hud.updateHealth(playerHealth);
-		HXP.console.log(["Took ", damage, " damage! Only ", playerHealth, " health remaining."]);
+		//HXP.console.log(["Took ", damage, " damage! Only ", playerHealth, " health remaining."]);
 		if(playerHealth <= 0){
 			
 			var entitiesInLevel:Array<Entity> = [];

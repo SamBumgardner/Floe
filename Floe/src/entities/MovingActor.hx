@@ -163,7 +163,7 @@ class MovingActor extends Entity {
 		prePauseAnim = sprite.currentAnim;
 		if(prePauseAnim != ""){
 			prePauseFrame = sprite.index;
-			HXP.console.log([type, x, y, prePauseFrame]);
+			//HXP.console.log([type, x, y, prePauseFrame]);
 			sprite.stop();
 		}
 	}
@@ -177,7 +177,7 @@ class MovingActor extends Entity {
 		if(prePauseAnim != ""){
 			sprite.play(prePauseAnim);
 			sprite.index = prePauseFrame;
-			HXP.console.log([type, x, y, sprite.index]);
+			//HXP.console.log([type, x, y, sprite.index]);
 		}
 	}
 	
@@ -307,7 +307,7 @@ class MovingActor extends Entity {
 	private function stopMovement(){
 		
 		if(frameCountdown > 0){
-			HXP.console.log(["ERROR: stopMovement was called while frameCountdown > 0"]);
+			//HXP.console.log(["ERROR: stopMovement was called while frameCountdown > 0"]);
 		}
 		
 		currentMove = None;

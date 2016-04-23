@@ -19,7 +19,7 @@ class MainMenu extends Scene
 	}
 	public override function begin()
 	{
-		HXP.console.log(["MainMenu scene executed!"]);
+		//HXP.console.log(["MainMenu scene executed!"]);
 		
 		
 		music = new Sfx("audio/bgm.mp3");
