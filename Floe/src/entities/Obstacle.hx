@@ -14,6 +14,7 @@ class Obstacle extends Tile {
 	
 	public override function new(x:Int, y:Int, picture:String){
 		super(x,y);
+		layer = 1;
 		if(!graphicInit) {
 			Obstacle.rockImage = new Image("graphics/groundRock.png");
 			graphicInit = true;

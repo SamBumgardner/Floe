@@ -1,7 +1,7 @@
 package entities;
 
 import com.haxepunk.Entity;
-import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
@@ -17,12 +17,12 @@ class FireEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	// Graphic asset-holding variables
-	private static var idleAnim:Image;
-	
 	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene; 
+	
+	private static var defeatDelay:Int = 20;
+	private var defeatCountdown:Int = -1;
 
 
 	public function new(x:Int, y:Int)
@@ -31,7 +31,7 @@ class FireEnemy extends Enemy
 		
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
-		
+		layer = 0;
 		frameDelay = 15; 
 		moveSpeed = 2;
 		recalcTime = 120;
@@ -50,11 +50,24 @@ class FireEnemy extends Enemy
 		type = "fireEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/fireEnemy.png");
 			assetsInitialized = true;
 		}
 		
-		graphic = idleAnim;
+		sprite = new Spritemap("graphics/FireSprite.png", 32, 32);
+		
+		// The animation is split into 60 individual frames to ensure the animation changes
+		// even if the player rapidly pauses/unpauses.
+		sprite.add("idle", [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+							1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+							2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+							3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+							4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4], 60, true);
+		sprite.add("defeated", [5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,
+								7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,
+								9,9,9,9,9,9,9,9], 30, false);
+		sprite.play("idle");
+		graphic = sprite;
+		
 		currentScene = cast(HXP.scene, GameScene);
 		
 	}
@@ -76,6 +89,33 @@ class FireEnemy extends Enemy
 	private override function calcDestination(){
 	};
 	
+	
+	// defeated()
+	//
+	// Called when the FireEnemy should be destroyed.
+	
+	public function defeated(){
+		attackDamage = 0;
+		sprite.play("defeated");
+		defeatCountdown = defeatDelay;
+	}
+	
+	///////////////////////////////////////////
+	//            ENEMY ANIMATION            //
+	///////////////////////////////////////////
+	
+	// setMoveAnimation()
+	//
+	// Overrides function from MovingActor, disables any animation-changing.
+	
+	private override function setMoveAnimation(){}
+	
+	
+	// setIdleAnimation()
+	//
+	// Overrides function from MovingActor, disables any animation-changing.
+	
+	private override function setIdleAnimation(){}
 	
 	
 	///////////////////////////////////////////
@@ -150,7 +190,7 @@ class FireEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		cast(e, Player).takeDamage(attackDamage);
-		scene.remove(this);
+		defeated();
 	}
 	
 	
@@ -278,98 +318,7 @@ class FireEnemy extends Enemy
 	}
 
 	private override function selectOtherDirection(){
-		if(moveCycleCount % 10 < 4){
-			moveCycleCount++;
-			checkGround();
-			if(moveWasBlocked == false){
-				if(moveSet % 4 == 0){
-					currentMove = Up;
-				}
-				else if(moveSet % 4 == 1){
-					currentMove = Left;
-				}
-				else if(moveSet % 4 == 2){
-					currentMove = Down;
-				}
-				else{
-					currentMove = Right;
-				}
-			}
-			else{
-				moveWasBlocked = true;
-				currentMove = None;
-				moveSet++;
-			}
-		}
-	
-		else if(moveCycleCount % 10 > 3 && moveCycleCount % 10 < 7){
-			moveCycleCount++;
-			if(moveWasBlocked == false){
-				if(moveSet % 4 == 0){
-					currentMove = Left;
-				}
-				else if(moveSet % 4 == 1){
-					currentMove = Down;
-				}
-				else if(moveSet % 4 == 2){
-					currentMove = Right;
-				}
-				else{
-				currentMove = Up;
-				}
-			}
-			else{
-				moveWasBlocked = true;
-				currentMove = None;
-				moveSet++;
-			}
-		}
-
-		else if(moveCycleCount % 10 == 7 || moveCycleCount % 10 == 8){
-			moveCycleCount++;
-			if(moveWasBlocked == false){
-				if(moveSet % 4 == 0){
-					currentMove = Down;
-				}
-				else if(moveSet % 4 == 1){
-					currentMove = Right;
-				}
-				else if(moveSet % 4 == 2){
-					currentMove = Up;
-				}
-				else{
-					currentMove = Left;
-				}
-			}
-			else{
-				moveWasBlocked = true;
-				currentMove = None;
-				moveSet++;
-			}
-		}
-
-		else{
-			moveCycleCount++;
-			if(moveWasBlocked == false){
-				if(moveSet % 4 == 0){
-					currentMove = Right;
-				}
-				else if(moveSet % 4 == 1){
-					currentMove = Up;
-				}
-				else if(moveSet % 4 == 2){
-					currentMove = Left;
-				}
-				else{
-					currentMove = Down;
-				}
-			}
-			else{
-				moveWasBlocked = true;
-				currentMove = None;
-				moveSet++;
-			}
-		}
+		selectDirection();
 	}
 	
 	
@@ -377,6 +326,19 @@ class FireEnemy extends Enemy
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
-	//The fire Enemy simply uses Enemy's update function.
+	public override function update(){
+		if(defeatCountdown == -1){
+			super.update();
+		}
+		else{
+			if(defeatCountdown > 0){
+				defeatCountdown--;
+			}
+			else{
+				scene.remove(this);
+			}
+		}
+	
+	}
 
 }

@@ -2,6 +2,7 @@ package entities;
 
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
 import com.haxepunk.Sfx;
@@ -20,9 +21,10 @@ class Player extends MovingActor
 	///////////////////////////////////////////
 	
 	// Graphic/Audio asset-holding variables
-	private static var idleAnim:Image;
 	private static var bumpSound:Sfx;
 	private static var damagedSound:Sfx;
+	private var interruptedAnimation:String = "";
+	private var animationCountdown:Int = 0;
 	
 	private static var assetsInitialized:Bool = false; 
 	
@@ -64,6 +66,7 @@ class Player extends MovingActor
 		
 		frameDelay = 7;
 		moveSpeed = 4;
+		layer = -1;
 		
 		setHitbox(32, 32);
 		type = "player";
@@ -71,12 +74,41 @@ class Player extends MovingActor
 		if( assetsInitialized == false ){
 			bumpSound = new Sfx("audio/bump.mp3");
 			damagedSound = new Sfx("audio/playerDamaged.mp3");
-			idleAnim = new Image("graphics/goodfriend.png");
+			
 			assetsInitialized = true;
 		}
 		
-		graphic = idleAnim;
+		sprite = new Spritemap("graphics/sheet.png", 64, 64);
+		sprite.add("upIdle", [1], 1, true); 
+		sprite.add("leftIdle", [7], 1, true);
+		sprite.add("downIdle", [0], 1, true);
+		sprite.add("rightIdle", [2], 1, true);
+		sprite.add("upMove", [15,1,16,1], 6, true); 
+		sprite.add("leftMove", [8,7,9,7], 6, true);
+		sprite.add("downMove", [10,0,11,0], 6, true);
+		sprite.add("rightMove", [3,2,4,2], 6, true);
 		
+		sprite.add("cursedUpIdle", [22], 1, true);
+		sprite.add("cursedLeftIdle", [30], 1, true);
+		sprite.add("cursedDownIdle", [21], 1, true);
+		sprite.add("cursedRightIdle", [27], 1, true);
+		sprite.add("cursedUpMove", [28,22,29,22], 6, true); 
+		sprite.add("cursedLeftMove", [31,30,32,30], 6, true);
+		sprite.add("cursedDownMove", [23,21,24,21], 6, true);
+		sprite.add("cursedRightMove", [25,27,26,27], 6, true);
+		
+		sprite.add("upHurt", [19], 1, true);
+		sprite.add("leftHurt", [17], 1, true);		
+		sprite.add("downHurt", [118], 1, true);
+		sprite.add("rightHurt", [20], 1, true);
+		sprite.add("victory", [5,6], 3, true);
+		sprite.add("defeat", [12,13,12,14,12], 3, false);
+		
+		sprite.play("downIdle");
+		
+		graphic = sprite;
+		graphic.x = -16;
+		graphic.y = -32;
 		
 	}
 	
@@ -91,12 +123,18 @@ class Player extends MovingActor
 	// Deals damage to the player & activates 30 frames of invincibility
 	
 	public function takeDamage(damage:Int){
-		if( !invincible ){
-			scenes.GameScene.GM.damagePlayer(damage);
+		if( !invincible && damage > 0){
 			damagedSound.play(HXP.engine.sfxVolume * 2);
-			//Play an injury animation here.
-			
+			switch currentFacing{
+				case Left: 	interruptAnim("leftHurt");
+				case Right: interruptAnim("rightHurt");
+				case Up: 	interruptAnim("upHurt");
+				case Down:	interruptAnim("downHurt");
+				case None: {}
+			}
 			turnInvincible(60);
+			
+			scenes.GameScene.GM.damagePlayer(damage);
 		}
 	}
 	
@@ -156,6 +194,116 @@ class Player extends MovingActor
 		else if (cursed && curseLeft <= 0){
 			cursed = false;
 		}
+	}
+	
+	
+	///////////////////////////////////////////
+	//            PLAYER ANIMATION           //
+	///////////////////////////////////////////
+	
+	
+	// setMoveAnimation()
+	//
+	// Sets the actor's animation to the moving animation that matches
+	// their current direction, unless shouldSetAnim is false, or 
+	// currentDirection is None.
+	//
+	// Called in startMovement()
+	
+	private override function setMoveAnimation(){
+		if( cursed == false ){ super.setMoveAnimation(); }
+		else{
+			if(shouldSetAnim == true){
+				switch currentMove{
+					case Left: 	sprite.play("cursedLeftMove", false, false);
+					case Right: sprite.play("cursedRightMove", false, false);
+					case Up: 	sprite.play("cursedUpMove", false, false);
+					case Down:	sprite.play("cursedDownMove", false, false);
+					
+					case None: {} //Does nothing
+				}
+			}
+		}
+	}
+	
+	
+	// setIdleAnimation()
+	//
+	// Sets the actor's animation to the idle version of  that matches
+	// their currentFacing, unless shouldSetAnim is false.
+	//
+	// Called in child classes after Actor is guaranteed to be stopped.
+	
+	private override function setIdleAnimation(){
+		if( cursed == false ){ super.setIdleAnimation(); }
+		else{
+			if(shouldSetAnim == true){
+				switch currentFacing{
+					case Left: 	sprite.play("cursedLeftIdle", false, false);
+					case Right: sprite.play("cursedRightIdle", false, false);
+					case Up: 	sprite.play("cursedUpIdle", false, false);
+					case Down:	sprite.play("cursedDownIdle", false, false);
+					
+					case None: {} //Does nothing
+				}
+			}	
+		}
+	}
+	
+	// interruptAnim(newAnim:String)
+	//
+	// Stores the current animation in an instance variable, and
+	// plays the passed in animation.
+	// Called in takeDamage()
+	
+	private function interruptAnim(newAnim:String){
+		interruptedAnimation = sprite.currentAnim;
+		shouldSetAnim = false;
+		animationCountdown = 4;
+		sprite.play(newAnim);
+	}
+	
+	
+	// resumeAnim()
+	//
+	// Resumed an interrupted animation.
+	// Called in update()
+	
+	private function resumeAnim(){
+		if( shouldSetAnim == true ){
+			sprite.play(interruptedAnimation, false, false);
+			interruptedAnimation = "";
+		}
+	}
+	
+	// levelComplete()
+	//
+	// Stops movement and plays a victory animation.
+	
+	public function levelComplete(){
+		currentMove = None;
+		inputBlocked = true;
+		frameCountdown = 99;
+		sprite.play("victory", false, false);
+		
+		shouldSetAnim = false;
+		animationCountdown = 100;
+	}
+	
+	// levelFailed()
+	//
+	// Stops movement and plays a "game over" animation.
+	
+	public function levelFailed(){
+		currentMove = None;
+		inputBlocked = true;
+		frameCountdown = 99;
+		sprite.play("defeat", false, false);
+		
+		shouldSetAnim = false;
+		animationCountdown = 100;
+		
+		invincibilityCountdown = 0;
 	}
 	
 	
@@ -248,6 +396,7 @@ class Player extends MovingActor
 		// No input is active
 		if( horizontalMove == 0 && verticalMove == 0 ){ 
 			currentMove = None;
+			setIdleAnimation();
 		}
 		
 		// Both a vertical and horizontal input are active
@@ -393,6 +542,7 @@ class Player extends MovingActor
 			bumpSound.play(HXP.engine.sfxVolume);
 			hasPlayedBumpSound = true;
 		}
+		setIdleAnimation();
 		stopMovement();
 	}
 	
@@ -401,6 +551,7 @@ class Player extends MovingActor
 			bumpSound.play(HXP.engine.sfxVolume);
 			hasPlayedBumpSound = true;
 		}
+		setIdleAnimation();
 		stopMovement();
 	}
 	
@@ -410,8 +561,8 @@ class Player extends MovingActor
 	}
 	
 	private override function fireEnemyCollision( e:Entity ){
-		takeDamage(cast(e, FireEnemy).attackDamage);
-		scene.remove(cast(e, FireEnemy));
+		takeDamage((cast e).attackDamage);
+		(cast e).defeated();
 	}
 	
 	private override function mistEnemyCollision( e:Entity ){
@@ -456,7 +607,10 @@ class Player extends MovingActor
 	{	
 		invincibilityDecay();
 		curseDecay();
-	
+		if( interruptedAnimation != "" ){
+			resumeAnim();
+		}
+
 		checkInputs();
 		setInputPrecedence();
 	
@@ -490,7 +644,13 @@ class Player extends MovingActor
 			
 		if (Input.pressed(Key.D)){ takeDamage(1);}
 	
-		
+	
+		if( animationCountdown <= 0 ){
+			shouldSetAnim = true;
+		}
+		else{
+			animationCountdown--;
+		}
 		
 		super.update();
 	}

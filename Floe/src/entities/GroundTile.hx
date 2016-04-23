@@ -13,6 +13,7 @@ class GroundTile extends Tile
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
+		layer = 1;
 		//need to reset graphic
 		if(!graphicInit) {
 			GroundTile.commonImage = new Image("graphics/Ground_Basic.png");
