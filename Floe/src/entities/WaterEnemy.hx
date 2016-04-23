@@ -17,11 +17,7 @@ class WaterEnemy extends Enemy
 	//          DATA INITIALIZATION          //
 	///////////////////////////////////////////
 	
-	
-	// Graphic asset-holding variables
-	private var idleAnim:Image;
-	
-	private static var assetsInitialized:Bool = false; 
+
 	
 	private var currentScene:GameScene;
 	
@@ -31,6 +27,10 @@ class WaterEnemy extends Enemy
 	private var initialSubmergeTime = Std.random(200);
 	private var initialSubmergeComplete = false;
 
+	
+	// new( x:Int, y:Int )
+	//
+	// Constructor for WaterTile.
 
 	public function new(x:Int, y:Int)
 	{
@@ -52,10 +52,7 @@ class WaterEnemy extends Enemy
 		
 		setHitbox(32, 32);
 		type = "waterEnemy";
-		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
+
 		
 		sprite = new Spritemap("graphics/waterEnemy.png", 32,32);
 		
