@@ -32,8 +32,10 @@ class PauseMenu extends Entity
 	private var resumeTextEnt:Entity;
 	private var quitTextEnt:Entity;
 	
-	private var currentPos:Int; //Used to determine what to do when the player presses spacebar
-	private var numOfPos:Int; //Used to determine the boundaries of the selector's movement.
+	private var currentPos:Int; // Used to determine what to do when the player presses spacebar
+	private var numOfPos:Int; // Used to determine the boundaries of the selector's movement.
+	
+	private var playUnpauseSound:Bool = true; 
 
 	public function new(){
 		super(265, 300);
@@ -80,11 +82,11 @@ class PauseMenu extends Entity
 		// 2 = Quit
 		// Start selected option
 		switch currentPos{
-			case 1:{
-				menuUnpaused.play(.5);
-				(cast HXP.scene).unpauseGame();
+			case 1: (cast HXP.scene).unpauseGame();
+			case 2: {
+				playUnpauseSound = false;
+				HXP.engine.gameOver();
 			}
-			case 2: HXP.engine.gameOver();
 		}
 
 	}
@@ -119,6 +121,8 @@ class PauseMenu extends Entity
 	}
 		
 	public override function removed(){
+		if( playUnpauseSound ){ menuUnpaused.play(.5); }
+		
 		HXP.scene.remove( containerEnt );
 		HXP.scene.remove( resumeTextEnt );
 		HXP.scene.remove( quitTextEnt );

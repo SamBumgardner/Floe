@@ -246,17 +246,24 @@ class GameScene extends Scene {
 	}
 	
 	
-	// gameOver()
+	// endMusic()
 	//
 	// Called when going to the gameOver scene, and not the next level.
 	// Stops the looping music.
+
+	
+	public function endMusic(){
+		music.stop();
+	}
+	
+	// gameOver()
+	//
+	// Called when going to the gameOver scene, and not the next level.
 	// Returns the GameManager object for the gameOver scene to use.
 	
 	public function gameOver(){
-		music.stop();
 		return GM;
 	}
-	
 	
 	///////////////////////////////////////////
 	//          PAUSE/UNPAUSE  GAME          //
@@ -275,7 +282,9 @@ class GameScene extends Scene {
 		getAll(entitiesInLevel);
 
 		for( entity in entitiesInLevel ){
-			entity.active = false;
+			if(entity.type != "manager" && entity.type != ""){
+				(cast entity).pause();
+			}
 		}
 		
 		music.stop();
@@ -293,7 +302,9 @@ class GameScene extends Scene {
 		remove( (cast pausedMenu) );
 		
 		for( entity in entitiesInLevel ){
-			entity.active = true;
+			if(entity.type != "manager" && entity.type != ""){
+				(cast entity).unpause();
+			}
 		}
 
 		entitiesInLevel.splice(0, entitiesInLevel.length);
@@ -309,9 +320,15 @@ class GameScene extends Scene {
 	
 	public override function update(){
 		if(Input.pressed(Key.ESCAPE)){
-			if( !gamePaused ){
-				gamePaused = true;
-				pauseGame();
+			if( !GM.levelCompleted && !GM.levelFailed ){
+				if( !gamePaused ){
+					gamePaused = true;
+					pauseGame();
+				}
+				else if( gamePaused ){
+					gamePaused = false;
+					unpauseGame();
+				}
 			}
 		}
 		

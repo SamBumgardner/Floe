@@ -1,7 +1,7 @@
 package entities;
 
 import com.haxepunk.Entity;
-import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
@@ -18,9 +18,8 @@ class SampleEnemy extends Enemy
 	
 	
 	// Graphic asset-holding variables
-	private static var idleAnim:Image;
 	
-	private static var assetsInitialized:Bool = false; 
+	private static var assetsInitialized:Bool = false;
 	
 	private var currentScene:GameScene; 
 
@@ -32,6 +31,7 @@ class SampleEnemy extends Enemy
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
 		
+		layer = 0;
 		frameDelay = 15; 
 		moveSpeed = 2;
 		recalcTime = 120;
@@ -47,11 +47,33 @@ class SampleEnemy extends Enemy
 		type = "sampleEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/sampleEnemy.png");
+			//Not used at the moment.
 			assetsInitialized = true;
 		}
+		sprite = new Spritemap("graphics/sampleEnemy.png", 32, 32);
+
+		sprite.add("upMove", [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+							  6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,
+							  10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
+							  6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6], 60, true); 
 		
-		graphic = idleAnim;
+		sprite.add("leftMove", [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+								4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
+								8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,
+								4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4], 60, true);
+		
+		sprite.add("downMove", [3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+								7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+								11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+								7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7], 60, true);
+		
+		sprite.add("rightMove", [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+								 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+								 9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,
+								 5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5], 60, true);
+		
+		sprite.play("downMove");
+		graphic = sprite;
 		currentScene = cast(HXP.scene, GameScene);
 		
 	}
@@ -78,6 +100,19 @@ class SampleEnemy extends Enemy
 		
 		super.calcDestination();
 	};
+	
+
+	///////////////////////////////////////////
+	//            ENEMY ANIMATION            //
+	///////////////////////////////////////////
+
+	
+	// setIdleAnimation()
+	//
+	// Overrides function from MovingActor, disables any animation-changing,
+	// since this enemy's idle and moving animations are identical.
+	
+	private override function setIdleAnimation(){}	
 	
 	
 	

@@ -1,7 +1,7 @@
 package entities;
 
 import com.haxepunk.Entity;
-import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
@@ -17,9 +17,6 @@ class MistEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	// Graphic asset-holding variables
-	private static var idleAnim:Image;
-	
 	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene;
@@ -31,12 +28,12 @@ class MistEnemy extends Enemy
 		
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
-		
+		layer = -2;
 		frameDelay = 31; 
 		moveSpeed = 1;
 		recalcTime = 40;
 		maxEndurance = 64; // moves four times before resting.
-		restTime = 20;	   // rests for 20 frames.
+		restTime = 32;	   // rests for 32 frames.
 		attackDamage = 0;
 		acceptableDestDistance = 3;
 
@@ -47,14 +44,42 @@ class MistEnemy extends Enemy
 		type = "mistEnemy";
 		
 		if( assetsInitialized == false ){
-			idleAnim = new Image("graphics/ZombieFlyManEnemy.png");
 			assetsInitialized = true;
 		}
 		
-		graphic = idleAnim;
+		// The animation is split into 60 individual frames to ensure the animation changes
+		// even if the player rapidly pauses/unpauses.
+		sprite = new Spritemap("graphics/mist.png", 32, 32);
+		sprite.add("idle", [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+							1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+							2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+							3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+							4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,], 60, true);
+		
+		
+		sprite.play("idle");
+		graphic = sprite;
+		
 		currentScene = cast(HXP.scene, GameScene);
 		
 	}
+	
+	///////////////////////////////////////////
+	//            ENEMY ANIMATION            //
+	///////////////////////////////////////////
+	
+	// setMoveAnimation()
+	//
+	// Overrides function from MovingActor, disables any animation-changing.
+	
+	private override function setMoveAnimation(){}
+	
+	
+	// setIdleAnimation()
+	//
+	// Overrides function from MovingActor, disables any animation-changing.
+	
+	private override function setIdleAnimation(){}
 	
 	
 	///////////////////////////////////////////

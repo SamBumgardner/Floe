@@ -2,6 +2,7 @@ package entities;
 
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
 import entities.MovingActor; //This actually just for the Direction enum, I think.
@@ -37,7 +38,7 @@ class WaterEnemy extends Enemy
 		
 		// Must set frameDelay, moveSpeed, recalcTime, maxEndurance, restTime, attackDamage
 		// and acceptableDestDistance
-		
+		layer = 1;
 		frameDelay = 15; 
 		moveSpeed = 0;
 		recalcTime = 120;
@@ -55,8 +56,25 @@ class WaterEnemy extends Enemy
 		if( assetsInitialized == false ){
 			assetsInitialized = true;
 		}
-		idleAnim = new Image("graphics/waterEnemy.png");
-		graphic = idleAnim;
+		
+		sprite = new Spritemap("graphics/waterEnemy.png", 32,32);
+		
+		sprite.add("upperSubmerged",[9], 1, false); 
+		sprite.add("emerging", [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+								5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,
+								5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,4], 60, false);
+		sprite.add("submerging", [	5,5,5,5,5,5,
+									6,6,6,6,6,6,
+									7,7,7,7,7,7,
+									0,0,0,0,0,0,
+									1,1,1,1,1,1,
+									2,2,2,2,2,2,
+									3,3,3,3,3,3,
+									8], 60, false);
+		
+		sprite.play("emerging");
+		sprite.index = 7;
+		graphic = sprite;
 		currentScene = cast(HXP.scene, GameScene);
 		
 	}
@@ -73,13 +91,13 @@ class WaterEnemy extends Enemy
 	private function submerge(timeToSubmerge:Int){
 		timeLeftSubmerged = timeToSubmerge;
 		submerged = true;
-		graphic.visible = false;
+		sprite.play("submerging");
 	}
 	
 	private function emerge(timeToEmerge:Int){
 		timeLeftEmerged = timeToEmerge;
 		submerged = false;
-		graphic.visible = true;
+		sprite.play("emerging");
 	}
 	
 	private function emergeTest(){
@@ -143,6 +161,11 @@ class WaterEnemy extends Enemy
 	public override function update(){
 		// enemy does not move, so all we need to do is toggle 'submerged'
 		stateDecay();		
+
+		if( timeLeftSubmerged == 60 ){ //1 second before "emerging" animation plays.
+			sprite.play("upperSubmerged");
+		}
+		
 	}
 
 

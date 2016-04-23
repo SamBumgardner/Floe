@@ -18,8 +18,13 @@ class GameManager extends Entity{
 	private var lake:Int				= 1;
 	public static var hud:HUD;
 	
+	private var waitTime:Int;
+	public var levelCompleted:Bool = false;
+	public var levelFailed:Bool = false;
+	
 	public function new(x:Int = 0, y:Int = 0){
 		super(x, y);
+		type = "manager";
 		hud = new HUD(0, 0, playerHealth);
 	}
 	
@@ -37,14 +42,30 @@ class GameManager extends Entity{
 	public function waterFrozen(){
 		unfrozenWaterCount--;
 		//addScore(10);
-		
+
 		HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
 		
 		if(unfrozenWaterCount <= 0){
 			HXP.console.log(["Level Complete!"]);
-			HXP.engine.nextLevel();
-			lake++;
-			hud.updateLake(lake);
+			
+			var entitiesInLevel:Array<Entity> = [];
+			HXP.scene.getAll(entitiesInLevel);
+			
+			for( entity in entitiesInLevel ){
+				if(entity.type != "player" && entity.type != "manager"){
+					entity.active = false;
+				}
+				else if(entity.type == "manager"){
+					// Do nothing
+				}
+				else{ //Is player
+					(cast entity).levelComplete();
+				}
+			}
+			
+			// Number of frames to delay moving onto the next level 
+			waitTime = 99;
+			levelCompleted = true;
 		}
 	}
 	
@@ -53,7 +74,23 @@ class GameManager extends Entity{
 		hud.updateHealth(playerHealth);
 		HXP.console.log(["Took ", damage, " damage! Only ", playerHealth, " health remaining."]);
 		if(playerHealth <= 0){
-			HXP.engine.gameOver();
+			
+			var entitiesInLevel:Array<Entity> = [];
+			HXP.scene.getAll(entitiesInLevel);
+			
+			for( entity in entitiesInLevel ){
+				if(entity.type != "player" && entity.type != "manager"){
+					entity.active = false;
+				}
+				else if( entity.type == "player" ){ //Is player
+					(cast entity).levelFailed();
+				}
+			}
+			
+			// Number of frames to delay moving onto the next level 
+			(cast HXP.scene).endMusic();
+			waitTime = 99;
+			levelFailed = true;
 		}
 	}
 	
@@ -73,4 +110,29 @@ class GameManager extends Entity{
 		return totalScore;
 	}
 
+	
+	public override function update(){
+		if( levelFailed == true ){
+			if (waitTime == 0){
+				levelFailed = false;
+				HXP.engine.gameOver();
+			}
+			else{
+				waitTime--;
+			}
+		}
+		else if( levelCompleted == true ){
+			if (waitTime == 0){
+				levelCompleted = false;
+				HXP.engine.nextLevel();
+				lake++;
+				hud.updateLake(lake);
+			}
+			else{
+				waitTime--;
+			}
+		}
+		
+		super.update();
+	}
 }
