@@ -12,8 +12,6 @@ import entities.GameManager;
 import utilities.DirectionEnum; 
 
 
-
-
 class WaterTile extends Tile {
 
 	///////////////////////////////////////////
@@ -38,15 +36,16 @@ class WaterTile extends Tile {
 
 	public var beenChecked:Bool = false;
 	
+	
+	// new( x:Int, y:Int )
+	//
+	// Constructor for WaterTile.
+	
 	public function new(x:Int, y:Int){
 		super(x, y);
 
 		type = "waterTile";
 		layer = 1;
-		//need to reset graphic
-		if(!graphicInit) {
-			graphicInit = true;
-		}
 		
 		sprite = new Spritemap("graphics/waterSpritesheet.png", 32, 32);
 		sprite.add("water", [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
@@ -103,11 +102,6 @@ class WaterTile extends Tile {
 			sprite.index = prePauseFrame;
 		}
 	}
-	
-	
-	///////////////////////////////////////////
-	//             WATER ACTIONS             //
-	///////////////////////////////////////////
 	
 	
 	// callOnAllWaterNeighbors(callBack:Entity->Direction->Void, ?parentDirection:Direction)
@@ -185,6 +179,11 @@ class WaterTile extends Tile {
 		(cast e).autoFreezeCheck();} );
 		
 	}
+	
+	
+	// thaw()
+	//
+	// Opposite of freezing the water tile.
 	
 	public function thaw(){
 		sprite.play("melting");
@@ -409,6 +408,13 @@ class WaterTile extends Tile {
 	}
 	
 	
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////
+	
+	// update()
+	//
+	// Called every frame to update the entity.
 	
 	public override function update(){
 		waterIndex = (waterIndex + 1) % 180;
