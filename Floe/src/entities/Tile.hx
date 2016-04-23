@@ -36,11 +36,9 @@ class Tile extends Entity {
 		
 		//if a the static graphic has not been set, set it here
 		if(!graphicInit) {
-			commonImage = new Image("graphics/Blank_32x32.png");
 			graphicInit = true;
 		}
 		//now that the static graphic has been set use it to set the image for any tile
-		graphic = commonImage;
 	}
 
 	

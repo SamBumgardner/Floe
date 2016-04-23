@@ -45,8 +45,6 @@ class WaterTile extends Tile {
 		layer = 1;
 		//need to reset graphic
 		if(!graphicInit) {
-			WaterTile.commonImage = new Image("graphics/water.png");
-			commonFrozenImage = new Image("graphics/Ground_Winter.png");
 			graphicInit = true;
 		}
 		
