@@ -2,7 +2,7 @@ package entities;
 
 import com.haxepunk.Entity;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; //This actually just for the Direction enum, I think.
 
 import com.haxepunk.HXP;
 

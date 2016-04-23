@@ -8,7 +8,7 @@ import com.haxepunk.utils.Key;
 import com.haxepunk.Sfx;
 import entities.WaterTile;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; 
 
 import com.haxepunk.HXP;
 

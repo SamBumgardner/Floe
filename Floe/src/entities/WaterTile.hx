@@ -9,7 +9,7 @@ import com.haxepunk.Entity;
 import scenes.GameScene;
 import entities.GameManager;
 
-import entities.MovingActor; //This is just for the Direction enum
+import utilities.DirectionEnum; 
 
 
 

@@ -9,16 +9,7 @@ package entities;
 import com.haxepunk.Entity;
 import com.haxepunk.HXP;
 import com.haxepunk.graphics.Spritemap;
-
-
-enum Direction {
-	Up;
-	Down;
-	Left;
-	Right;
-	None;
-}
-
+import utilities.DirectionEnum;
 
 
 class MovingActor extends Entity {
