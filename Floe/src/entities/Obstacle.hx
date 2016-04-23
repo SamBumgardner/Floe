@@ -12,6 +12,10 @@ class Obstacle extends Tile {
 	static public var borderImage:Image;
 	static private var graphicInit:Bool = false;
 	
+	// new()
+	//
+	// Constructor for the Obstacle class.
+	
 	public override function new(x:Int, y:Int, picture:String){
 		super(x,y);
 		layer = 1;
