@@ -11,6 +11,10 @@ import scenes.GameScene;
 
 class PauseMenu extends Entity
 {
+
+	///////////////////////////////////////////
+	//          DATA INITIALIZATION          //
+	///////////////////////////////////////////
 	
 	private static var moveDistance:Int = 50;
 	private static var verticalMove:Int = 0;
@@ -37,6 +41,11 @@ class PauseMenu extends Entity
 	
 	private var playUnpauseSound:Bool = true; 
 
+	
+	// new()
+	//
+	// Constructor for the PauseMenu class.
+	
 	public function new(){
 		super(265, 300);
 		
@@ -64,6 +73,11 @@ class PauseMenu extends Entity
 		
 	}
 	
+	
+	// added()
+	//
+	// Function from the Entity class. Is called when this is added to the scene.
+	
 	public override function added(){
 
 		containerEnt = HXP.scene.addGraphic(containerImg, -999, 160, 220);
@@ -76,6 +90,26 @@ class PauseMenu extends Entity
 		menuPaused.play(.5);
 		super.added();
 	}
+	
+	
+	// removed()
+	//
+	// Called when this entity is removed from the scene.
+	
+	public override function removed(){
+		if( playUnpauseSound ){ menuUnpaused.play(.5); }
+		
+		HXP.scene.remove( containerEnt );
+		HXP.scene.remove( resumeTextEnt );
+		HXP.scene.remove( quitTextEnt );
+		HXP.scene.remove( pausedTextEnt );
+		super.removed();
+	}
+	
+	
+	///////////////////////////////////////////
+	//           PAUSE MENU ACTIONS          //
+	///////////////////////////////////////////
 	
 	private function selectOption(){
 		// 1 = Resume Game
@@ -92,8 +126,13 @@ class PauseMenu extends Entity
 	}
 	
 
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////
 	
-
+	// update()
+	//
+	// Called every frame to update the entity.
 	
 	public override function update(){
 		// Check for user input: UP, DOWN
@@ -120,13 +159,4 @@ class PauseMenu extends Entity
 		super.update();
 	}
 		
-	public override function removed(){
-		if( playUnpauseSound ){ menuUnpaused.play(.5); }
-		
-		HXP.scene.remove( containerEnt );
-		HXP.scene.remove( resumeTextEnt );
-		HXP.scene.remove( quitTextEnt );
-		HXP.scene.remove( pausedTextEnt );
-		super.removed();
-	}
 }
