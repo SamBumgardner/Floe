@@ -64,7 +64,7 @@ class LightningEnemy extends Enemy
 		
 		sprite.play("idle");
 		graphic = sprite;
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -97,10 +97,10 @@ class LightningEnemy extends Enemy
     //should be "move ten units toward the PC in either the x or the y direction
 	//(which ever is greater favor Y on ties)"
 	private override function calcDestination(){
-    var pcTileX:Int = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-    var pcTileY:Int = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
-    var myTileX:Int = cast(x - x % 32, Int);
-    var myTileY:Int = cast(y - y % 32, Int);
+    var pcTileX:Int = (cast currentScene.PC.x - (currentScene.PC.x % 32));
+    var pcTileY:Int = (cast currentScene.PC.y - (currentScene.PC.y % 32));
+    var myTileX:Int = (cast x - x % 32);
+    var myTileY:Int = (cast y - y % 32);
     if(Math.abs(pcTileX - myTileX) < Math.abs(pcTileY - myTileY)) {
       destinationX = myTileX;
       destinationY = pcTileY;
@@ -160,7 +160,7 @@ class LightningEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
+		(cast e).takeDamage(attackDamage);
     rest();
 	}
 	
@@ -180,7 +180,7 @@ class LightningEnemy extends Enemy
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
+		if ((cast e).submerged == false){
 			stopMovement();
       rest();
 		}

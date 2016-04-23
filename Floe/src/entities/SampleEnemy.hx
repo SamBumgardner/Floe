@@ -74,7 +74,7 @@ class SampleEnemy extends Enemy
 		
 		sprite.play("downMove");
 		graphic = sprite;
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -93,8 +93,8 @@ class SampleEnemy extends Enemy
 	// Sets the destinationX and destinationY
 	
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+		destinationX = (cast currentScene.PC.x - (currentScene.PC.x % 32));
+		destinationY = (cast currentScene.PC.y - (currentScene.PC.y % 32));
 		
 		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		
@@ -168,7 +168,7 @@ class SampleEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
+		(cast e).takeDamage(attackDamage);
 	}
   
 	
@@ -187,7 +187,7 @@ class SampleEnemy extends Enemy
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
+		if ((cast e).submerged == false){
 			moveWasBlocked = true;
 			stopMovement();
 		}

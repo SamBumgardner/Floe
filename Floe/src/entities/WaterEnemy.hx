@@ -75,7 +75,7 @@ class WaterEnemy extends Enemy
 		sprite.play("emerging");
 		sprite.index = 7;
 		graphic = sprite;
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	

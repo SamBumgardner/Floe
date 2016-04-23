@@ -60,7 +60,7 @@ class MistEnemy extends Enemy
 		sprite.play("idle");
 		graphic = sprite;
 		
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -96,8 +96,8 @@ class MistEnemy extends Enemy
 	// Sets the destinationX and destinationY
 	
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+		destinationX = (cast currentScene.PC.x - (currentScene.PC.x % 32));
+		destinationY = (cast currentScene.PC.y - (currentScene.PC.y % 32));
 		
 		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		
@@ -163,7 +163,7 @@ class MistEnemy extends Enemy
 	// MistEnemy curses player.
 	
 	private override function playerCollision( e:Entity ){
-		cast(e, Player).cursePlayer(300);	// flip player controls
+		(cast e).cursePlayer(300);	// flip player controls
 	}
 	
 	

@@ -509,7 +509,7 @@ class Player extends MovingActor
 	
 	private override function waterTileCollision( e:Entity ){
 		sliding = true; // used in obstacle collision to tell if the player slid into it.
-		var w:WaterTile = cast(e, WaterTile);
+		var w:WaterTile = (cast e);
 		if(!w.isFrozen()){
 			w.freeze();
 		}
@@ -557,7 +557,7 @@ class Player extends MovingActor
 	
 	private override function sampleEnemyCollision( e:Entity ){
 		stopMovement();
-		takeDamage(cast(e, SampleEnemy).attackDamage);
+		takeDamage((cast e).attackDamage);
 	}
 	
 	private override function fireEnemyCollision( e:Entity ){
@@ -570,24 +570,24 @@ class Player extends MovingActor
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){
-		var enemy = cast(e, WaterEnemy);
+		var enemy = (cast e);
 		if (!enemy.submerged){
 			stopMovement();
 			takeDamage(enemy.attackDamage);
 		}
 		else if (enemy.submerged){
-			scene.remove(enemy);
+			scene.remove((cast enemy));
 		}
 	}
 	
 	private override function borderEnemyCollision( e:Entity ){
 		stopMovement();
-		takeDamage(cast(e, BorderEnemy).attackDamage);
+		takeDamage((cast e).attackDamage);
 	}
   
   private override function lightningEnemyCollision(e:Entity) {
     stopMovement();
-    takeDamage(cast(e, LightningEnemy).attackDamage);
+    takeDamage((cast e).attackDamage);
   }
 	
 	///////////////////////////////////////////

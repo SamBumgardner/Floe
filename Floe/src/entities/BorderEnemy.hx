@@ -74,7 +74,7 @@ class BorderEnemy extends Enemy
 		sprite.play("downIdle");
 		graphic = sprite;
 		
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -178,7 +178,7 @@ class BorderEnemy extends Enemy
 		moveSet += 2;
 		reverseEnemy = !reverseEnemy;
 		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
+		(cast e).takeDamage(attackDamage);
 	}
 	
 	

@@ -151,8 +151,8 @@ class Enemy extends MovingActor
 	// Should be called after finishing a move or calling calcDestination.
 	
 	private function setDestDistances(){
-		destDistanceX = cast(destinationX - x, Int);
-		destDistanceY = cast(destinationY - y, Int);
+		destDistanceX = (cast destinationX - x);
+		destDistanceY = (cast destinationY - y);
 		
 		checkIfAtDestination(acceptableDestDistance);
 	}

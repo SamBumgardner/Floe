@@ -68,7 +68,7 @@ class FireEnemy extends Enemy
 		sprite.play("idle");
 		graphic = sprite;
 		
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -133,7 +133,7 @@ class FireEnemy extends Enemy
 	
 	private override function waterTileCollision( e:Entity ){
 		stopMovement();
-		var w:WaterTile = cast(e, WaterTile);
+		var w:WaterTile = (cast e);
 		if(w.isFrozen()){
 			specialLoad++;
 			if(specialLoad % 5 == 0){
@@ -189,7 +189,7 @@ class FireEnemy extends Enemy
 	// Prevent the fireEnemy from moving into it.
 	
 	private override function playerCollision( e:Entity ){
-		cast(e, Player).takeDamage(attackDamage);
+		(cast e).takeDamage(attackDamage);
 		defeated();
 	}
 	

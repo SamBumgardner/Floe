@@ -58,7 +58,7 @@ class Main extends Engine
 	public function gameOver(){
 
 		HXP.console.log(["Game Over!"]);
-		var gm:GameManager = cast(HXP.scene, scenes.GameScene).gameOver(); //ends the looping music.
+		var gm:GameManager = (cast HXP.scene).gameOver(); //ends the looping music.
 		HXP.scene = new scenes.GameOver(gm);
 	
 	}
