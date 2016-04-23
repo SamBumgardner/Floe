@@ -104,10 +104,15 @@ class MistEnemy extends Enemy
 		super.calcDestination();
 	};
 	
+	// checkifAtDestination()
+	//
+	// If the mistEnemy is within the acceptable distance.
+	
 	private override function checkIfAtDestination( maxDist:Int ){
-		
-		if ( (Math.sqrt(Math.pow(destDistanceX, 2) + Math.pow(destDistanceY, 2) ) <= maxDist * tileSize ) && (
-			destDistanceX == (currentScene.PC.x % 32) || destDistanceY == (currentScene.PC.y % 32)) ){
+		super.checkIfAtDestination( maxDist );
+		if ( 	atDestination &&
+				(x == currentScene.PC.x - (currentScene.PC.x % 32) || 
+				y == currentScene.PC.y - (currentScene.PC.y % 32)) ){
 			atDestination = true;
 		}
 		else{
