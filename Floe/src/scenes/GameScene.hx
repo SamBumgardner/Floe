@@ -243,6 +243,7 @@ class GameScene extends Scene {
 	
 	public override function end(){
 		removeAll();
+		super.end();
 	}
 	
 	

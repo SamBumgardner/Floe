@@ -12,11 +12,20 @@ class GameOver extends Scene
 
 	public var GM:GameManager;
 
+	
+	// Constructor
+	
 	public function new(gm:GameManager)
 	{
 		super();
 		GM = gm;
 	}
+	
+	
+	// begin()
+	//
+	// Called when the scene becomes the current scene.
+	
 	public override function begin()
 	{
 		//HXP.console.log(["GameOver Scene executed!"]);
@@ -26,7 +35,14 @@ class GameOver extends Scene
 		add(new GameOverSplash(0,0));
 		
 	}
+	
+	
+	// end()
+	//
+	// Called after the scene is no longer the current scene.
+	
 	public override function end(){
 		removeAll();
+		super.end();
 	}
 }
