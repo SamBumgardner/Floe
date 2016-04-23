@@ -87,8 +87,6 @@ class MenuSelector extends Entity
 	}
 	
 	private function displayInfographic(){
-		scene.addGraphic(page1, -1);
-		scene.addGraphic(page2, -1);
 		horizontalMove = -1;
 		page1.visible=true;
 		pageSelect = true;
