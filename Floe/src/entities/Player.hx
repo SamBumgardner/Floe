@@ -676,10 +676,9 @@ class Player extends MovingActor
 			}
 		}
 			
-		//Temporary system for damaging the player.
-			
+		#if debug	
 		if (Input.pressed(Key.D)){ takeDamage(1);}
-	
+		#end
 	
 		if( animationCountdown <= 0 ){
 			shouldSetAnim = true;
