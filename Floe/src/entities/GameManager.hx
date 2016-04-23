@@ -94,6 +94,33 @@ class GameManager extends Entity{
 		}
 	}
 	
+	// Adds specified amount of hp to playerHealth and updates hud
+	public function addHealth(hpToAdd:Int) {
+		playerHealth += hpToAdd;
+		hud.updateHealth(playerHealth);
+	}
+	
+	// Advances the level (lake)
+	public function nextLake() {
+		if (waitTime == 0){
+				levelCompleted = false;
+				HXP.engine.nextLevel();
+				lake++;
+				if (lake % 2 == 1) {
+					if (playerHealth >= 3) {
+						addScore(1000);
+					}
+					else {
+						addHealth(1);
+					}
+				}
+				hud.updateLake(lake);
+			}
+			else{
+				waitTime--;
+			}
+	}
+	
 	//Returns the player's health as an integer
 	public function getHealth() {
 		return playerHealth;
@@ -122,15 +149,7 @@ class GameManager extends Entity{
 			}
 		}
 		else if( levelCompleted == true ){
-			if (waitTime == 0){
-				levelCompleted = false;
-				HXP.engine.nextLevel();
-				lake++;
-				hud.updateLake(lake);
-			}
-			else{
-				waitTime--;
-			}
+			nextLake();
 		}
 		
 		super.update();
