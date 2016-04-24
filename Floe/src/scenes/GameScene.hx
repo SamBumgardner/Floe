@@ -182,7 +182,7 @@ class GameScene extends Scene {
 				else if(HXP.random > .15){
 					add(new WaterTile(placeX, placeY));
 					tilesSinceLastObstacle++;
-					if (HXP.random > .99){
+					if (HXP.random > .99 && maxEnemies > 0){
 						add( new WaterEnemy(placeX, placeY));
 					}
 					
