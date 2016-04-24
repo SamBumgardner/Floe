@@ -15,7 +15,7 @@ class GameManager extends Entity{
 	private var unfrozenWaterCount:Int 	= 0;
 	private var totalScore:Int 			= 0;
 	private var playerHealth:Int 		= 3;
-	private var lake:Int				= 1;
+	public var lake:Int				= 1;
 	public static var hud:HUD;
 	
 	private var waitTime:Int;
@@ -103,14 +103,14 @@ class GameManager extends Entity{
 	// Advances the level (lake)
 	public function nextLake() {
 		if (waitTime == 0){
-				addScore( 500 * lake );
+				addScore( 50 * lake );
 				
 				levelCompleted = false;
 				HXP.engine.nextLevel();
 				lake++;
 				if (lake % 2 == 1) {
 					if (playerHealth >= 3) {
-						addScore(1000 * lake);
+						addScore(100 * lake);
 					}
 					else {
 						addHealth(1);
