@@ -49,9 +49,12 @@ class GameOverSplash extends Entity{
 
 	
 	///////////////////////////////////////////
-	//          DATA INITIALIZATION          //
+	//            ENTITY  ACTIONS            //
 	///////////////////////////////////////////
 	
+	// sendScore()
+	//
+	// uses the DbInterface object to send the user's score to the website's high score list.
 	
 	private function sendScore(){
 	
