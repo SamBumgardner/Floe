@@ -14,8 +14,9 @@ class HUD extends Entity {
 	private var imgHeart = new Image("graphics/heart.png");
 	private var imgHeartGreen = new Image("graphics/heartGreen.png");
 
-	// Background image
-	private var imgBackground = new Image("graphics/levelBackground.png");
+	// Background images
+	private var imgBackground = new Image("graphics/hudBackground.png");
+	private var levelBackground = new Image("graphics/levelBackdrop.png");
 
 	// Constructor
 	public function new(x:Int, y:Int, startHP:Int){
@@ -37,6 +38,7 @@ class HUD extends Entity {
 
 		HXP.scene.addGraphic(imgHeart, 0, 7, 7);
 		HXP.scene.addGraphic(imgBackground, 100, 0, 0);
+		HXP.scene.addGraphic(levelBackground, 101, 0,0);
 	}
 
 	// Updates the score text field on the HUD to the value passed in

@@ -74,28 +74,33 @@ class GameScene extends Scene {
 	//           LEVEL  GENERATION           //
 	///////////////////////////////////////////	
 	
-	// addEnemy( x:Int, y:Int )
+	// addEnemy( x:Int, y:Int, maxDifficulty:Int, maxMist:Int )
 	//
 	// Picks an enemy type, then adds that enemy to location (x, y)
 	//
 	// There's only one enemy type at the moment, so it's rather basic.
 	
-	private function addEnemy( x:Int, y:Int ){
+	private function addEnemy( x:Int, y:Int, maxDifficulty:Int, maxMist:Int ){
 		var rand = HXP.random % .5;
-		if(rand < .11){
+		if(rand < .11 && maxDifficulty >= 1){
 			add( new SampleEnemy(x, y) );
+			return 1;
 		}
 		
-		else if (rand < .22){
+		else if (rand < .22 && maxDifficulty >= 2){
 			add( new FireEnemy(x, y) );
+			return 2;
 		}
 		
-		else if (rand < .33){
+		else if (rand < .33 && maxMist >= 1){
 			add( new MistEnemy(x, y) );
+			return -1;
 		}
-    else if (rand < .44){
-      add( new LightningEnemy(x, y));
-    }
+		else if (rand < .44 && maxDifficulty >= 3){
+			add( new LightningEnemy(x, y));
+			return 3;
+		}
+		return 0;
 	}
 	
 	
@@ -111,18 +116,20 @@ class GameScene extends Scene {
 		var originY = tileSize * 2;
 		
 		var maxX = tileSize * 19;
-		var maxY = tileSize * 17;
-		
+		var maxY = tileSize * 19;
+
 		
 		var placeX = originX; 
 		var placeY = originY;
 		
 		var playerX = tileSize * 10; // Player's starting X & Y position.
-		var playerY = tileSize * 16;
+		var playerY = cast(tileSize * Math.min((18 - (6 - GM.lake)), 18));
 		
 		
 		var enemyCount = 0; // Counts number of enemies placed in the level.
-		var maxEnemies = 3;
+		var mistEnemyCount = 0;
+		var maxEnemies = GM.lake - 1;
+		var borderSize = Math.max(7 - GM.lake, 1);
 		
 		// To ensure all levels can be completed, we require 2+ non-obstacle tiles
 		// to be placed horizontally between obstacles in the lake.
@@ -138,20 +145,30 @@ class GameScene extends Scene {
 		while( placeY <= maxY ){
 			while( placeX <= maxX ){
 				
-				if( placeX == originX || placeY == originY || 
-					placeX == maxX || placeY == maxY){
+				
+				if( placeX < originX + (tileSize * (borderSize - 1)) || placeY < originY + (tileSize * (borderSize - 1))|| 
+					placeX > maxX - (tileSize * (borderSize - 1))|| placeY > maxY - (tileSize * (borderSize - 1))){
+					
+					// Do nothing
+					
+					placeX += tileSize;
+					continue;
+					
+					}
+				else if( placeX == originX + (tileSize * (borderSize - 1)) || placeY == originY + (tileSize * (borderSize - 1))|| 
+					placeX == maxX - (tileSize * (borderSize - 1))|| placeY == maxY - (tileSize * (borderSize - 1))){
 				
 					add(new Border(placeX, placeY, "border"));
 					
 					placeX += tileSize;
 					continue;
 				}
+				else if( 
+					placeX == originX + (tileSize * borderSize) || placeY == originY + (tileSize * borderSize) || 
+					placeX == maxX - (tileSize * borderSize) || placeY == maxY - (tileSize * borderSize)){
 				
-				if( placeX == originX + tileSize || placeY == originY + tileSize || 
-					placeX == maxX - tileSize || placeY == maxY - tileSize){
-				
-					if( placeY == originY + tileSize ) {
-						if (HXP.random > .96 && enemyCount < maxEnemies){
+					if( placeY == originY + (tileSize * borderSize) ) {
+						if (HXP.random > .95 && enemyCount < Math.min(2, GM.lake) && enemyCount < maxEnemies){
 							add( new BorderEnemy(placeX, placeY));
 							enemyCount++;
 						}
@@ -162,22 +179,25 @@ class GameScene extends Scene {
 					placeX += tileSize;
 					continue;
 				}
-			
-				if(HXP.random > .15){
+				else if(HXP.random > .15){
 					add(new WaterTile(placeX, placeY));
 					tilesSinceLastObstacle++;
-					if (HXP.random > .99 && enemyCount < maxEnemies){
+					if (HXP.random > .99 && maxEnemies > 0){
 						add( new WaterEnemy(placeX, placeY));
-						enemyCount++;
 					}
 					
-					if(HXP.random < .05 && enemyCount < maxEnemies){
-						addEnemy(placeX, placeY); //this will now randomly generate lightning Enemies
-						enemyCount++;
+					if(HXP.random < .15 && enemyCount < maxEnemies){
+						var result = addEnemy(placeX, placeY, maxEnemies - enemyCount, maxEnemies - mistEnemyCount);
+							if(result > 0){
+								enemyCount += result;
+							}
+							if(result < 0){
+								mistEnemyCount++;
+							}
 					}
 				}
 				else{
-					if(	HXP.random > .90 || tilesSinceLastObstacle < minimumSpaceBetweenObstacles ||
+					if(	HXP.random > .85 || tilesSinceLastObstacle < minimumSpaceBetweenObstacles ||
 						RocksInPreviousRow.indexOf(placeX) != -1 || 
 						RocksInPreviousRow.indexOf(placeX + tileSize) != -1 ||
 						RocksInPreviousRow.indexOf(placeX - tileSize) != -1 ){
@@ -185,9 +205,14 @@ class GameScene extends Scene {
 						add(new GroundTile(placeX, placeY));
 						tilesSinceLastObstacle++;
 						
-						if(HXP.random < .1 && enemyCount < maxEnemies){
-							addEnemy(placeX, placeY);
-							enemyCount++;
+						if(HXP.random < .15 && enemyCount < maxEnemies){
+							var result = addEnemy(placeX, placeY, maxEnemies - enemyCount, maxEnemies - mistEnemyCount);
+							if(result > 0){
+								enemyCount += result;
+							}
+							if(result < 0){
+								mistEnemyCount++;
+							}
 						}
 					}
 					else{
