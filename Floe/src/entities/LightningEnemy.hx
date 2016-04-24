@@ -144,13 +144,13 @@ class LightningEnemy extends Enemy
 	
 	// obstacleCollision( e:Entity )
 	//
-	// Lightning Enemy ignore obstacles
+	// Lightning Enemy ignores obstacles
 	
 	private override function obstacleCollision( e:Entity ){}
 	
 	private override function borderCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
 	
 	
@@ -161,75 +161,60 @@ class LightningEnemy extends Enemy
 	private override function playerCollision( e:Entity ){
 		stopMovement();
 		(cast e).takeDamage(attackDamage);
-    rest();
+		rest();
 	}
 	
 	
-	// sampleEnemyCollision( e:Entity )
+	// All of these collision functions serve the same purpose, but for different enemies:
 	//
-	// Prevent the LightningEnemy from moving into it, no path finding.
+	// Prevent the LightningEnemy from moving into it, and do not trigger path finding.
 	
 	private override function sampleEnemyCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
 	
 	private override function borderEnemyCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){
 		if ((cast e).submerged == false){
 			stopMovement();
-      rest();
+			rest();
 		}
 	}
-  private override function fireEnemyCollision( e:Entity ){
+	private override function fireEnemyCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
-  private override function mistEnemyCollision( e:Entity ){
+	private override function mistEnemyCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
-  private override function lightningEnemyCollision(e:Entity) {
-    //HXP.console.log(["lightningEnemyCollision"]);
-    stopMovement();
-    rest();
-  }
+	private override function lightningEnemyCollision(e:Entity) {
+		//HXP.console.log(["lightningEnemyCollision"]);
+		stopMovement();
+		rest();
+	}
 	
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
-	
-	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
-	
-	///////////////////////////////////////////
-	//     Rest                              //
-	///////////////////////////////////////////
-	
-	//lightningEnemy always recalcs its destination after it rests
-  private override function rest() {
-    //HXP.console.log(["lightningEnemy is resting"]);
-    super.rest();
-    recalcCountdown = restTime-1;
-  }
+
+
   
   
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
-	//The Sample Enemy simply uses Enemy's update function.
-  public override function update() {
+	// update() is called every frame.
+	
+	public override function update() {
 		if(restCountdown == 60){
 			sprite.play("charged");
 		}
-    super.update();
-  }
+		super.update();
+	}
 
 
 
