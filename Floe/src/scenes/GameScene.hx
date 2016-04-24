@@ -74,13 +74,13 @@ class GameScene extends Scene {
 	//           LEVEL  GENERATION           //
 	///////////////////////////////////////////	
 	
-	// addEnemy( x:Int, y:Int )
+	// addEnemy( x:Int, y:Int, maxDifficulty:Int, maxMist:Int )
 	//
 	// Picks an enemy type, then adds that enemy to location (x, y)
 	//
 	// There's only one enemy type at the moment, so it's rather basic.
 	
-	private function addEnemy( x:Int, y:Int, maxDifficulty:Int ){
+	private function addEnemy( x:Int, y:Int, maxDifficulty:Int, maxMist:Int ){
 		var rand = HXP.random % .5;
 		if(rand < .11 && maxDifficulty >= 1){
 			add( new SampleEnemy(x, y) );
@@ -92,9 +92,9 @@ class GameScene extends Scene {
 			return 2;
 		}
 		
-		else if (rand < .33){
+		else if (rand < .33 && maxMist >= maxMist){
 			add( new MistEnemy(x, y) );
-			return 0;
+			return -1;
 		}
 		else if (rand < .44 && maxDifficulty >= 3){
 			add( new LightningEnemy(x, y));
@@ -127,6 +127,7 @@ class GameScene extends Scene {
 		
 		
 		var enemyCount = 0; // Counts number of enemies placed in the level.
+		var mistEnemyCount = 0;
 		var maxEnemies = GM.lake - 1;
 		var borderSize = Math.max(7 - GM.lake, 1);
 		
@@ -186,7 +187,13 @@ class GameScene extends Scene {
 					}
 					
 					if(HXP.random < .15 && enemyCount < maxEnemies){
-						enemyCount += addEnemy(placeX, placeY, maxEnemies - enemyCount); //this will now randomly generate lightning Enemies
+						var result = addEnemy(placeX, placeY, maxEnemies - enemyCount, maxEnemies - mistEnemyCount);
+							if(result > 0){
+								enemyCount += result;
+							}
+							if(result < 0){
+								mistEnemyCount++;
+							}
 					}
 				}
 				else{
@@ -199,7 +206,13 @@ class GameScene extends Scene {
 						tilesSinceLastObstacle++;
 						
 						if(HXP.random < .15 && enemyCount < maxEnemies){
-							enemyCount += addEnemy(placeX, placeY, maxEnemies - enemyCount);
+							var result = addEnemy(placeX, placeY, maxEnemies - enemyCount, maxEnemies - mistEnemyCount);
+							if(result > 0){
+								enemyCount += result;
+							}
+							if(result < 0){
+								mistEnemyCount++;
+							}
 						}
 					}
 					else{
