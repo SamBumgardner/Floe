@@ -41,7 +41,7 @@ class Main extends Engine
 			HXP.randomSeed = Std.parseInt(seed);
 		}
 		else{
-			HXP.randomizeSeed();
+			HXP.randomSeed = (cast Math.random() * 1000000000); //Generates, at most, a 9-digit number.
 		}
 		
 		HXP.console.log(["The random seed is: ", HXP.randomSeed]);
