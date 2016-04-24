@@ -109,12 +109,7 @@ class GameManager extends Entity{
 				HXP.engine.nextLevel();
 				lake++;
 				if (lake % 2 == 1) {
-					if (playerHealth >= 3) {
-						addScore(100 * lake);
-					}
-					else {
 						addHealth(1);
-					}
 				}
 				hud.updateLake(lake);
 			}
