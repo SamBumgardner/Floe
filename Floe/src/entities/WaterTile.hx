@@ -184,7 +184,7 @@ class WaterTile extends Tile {
 	public function thaw(){
 		sprite.play("melting");
 		frozen = false;
-		scenes.GameScene.GM.waterThawed();
+		scenes.GameScene.GM.waterAdded();
 	}
 	
 	

@@ -12,6 +12,10 @@ import entities.HUD;
 
 class GameManager extends Entity{
 	
+	///////////////////////////////////////////
+	//          DATA INITIALIZATION          //
+	///////////////////////////////////////////
+	
 	private var unfrozenWaterCount:Int 	= 0;
 	private var totalScore:Int 			= 0;
 	private var playerHealth:Int 		= 3;
@@ -22,23 +26,36 @@ class GameManager extends Entity{
 	public var levelCompleted:Bool = false;
 	public var levelFailed:Bool = false;
 	
+	
+	// Constructor
+	
 	public function new(x:Int = 0, y:Int = 0){
 		super(x, y);
 		type = "manager";
 		hud = new HUD(0, 0, playerHealth);
 	}
 	
-	//Called by WaterTile upon construction
+	
+	
+	///////////////////////////////////////////
+	//            MANAGER ACTIONS            //
+	///////////////////////////////////////////
+	
+	
+	// waterAdded()
+	//
+	// Called when a water tile is added to the game scene, or is unfrozen.
+	
 	public function waterAdded(){
 		unfrozenWaterCount++;
 	}
 	
-	public function waterThawed(){
-		unfrozenWaterCount++;
-		//HXP.console.log([unfrozenWaterCount, " unfrozen water tiles remain."]);
-	}
 	
-	//Called by WaterTile as part of its freeze() function
+	// waterFrozen()
+	//
+	// Called by WaterTile as part of its freeze() function.
+	// Decrements count of water tiles, and checks if the level has been completed.
+	
 	public function waterFrozen(){
 		unfrozenWaterCount--;
 		//addScore(10);
@@ -69,6 +86,12 @@ class GameManager extends Entity{
 		}
 	}
 	
+	
+	// damagePlayer(damage:Int)
+	//
+	// Updates variables and hud reduce the player's health after they take damage.
+	// If the player is at zero health, it begins the game over sequence.
+	
 	public function damagePlayer(damage:Int){
 		playerHealth -= damage;
 		hud.updateHealth(playerHealth);
@@ -94,13 +117,17 @@ class GameManager extends Entity{
 		}
 	}
 	
+	
 	// Adds specified amount of hp to playerHealth and updates hud
+	
 	public function addHealth(hpToAdd:Int) {
 		playerHealth += hpToAdd;
 		hud.updateHealth(playerHealth);
 	}
 	
+	
 	// Advances the level (lake)
+	
 	public function nextLake() {
 		if (waitTime == 0){
 				levelCompleted = false;
@@ -121,22 +148,33 @@ class GameManager extends Entity{
 			}
 	}
 	
+	
 	//Returns the player's health as an integer
+	
 	public function getHealth() {
 		return playerHealth;
 	}
 	
+	
 	//Called by various entities, increases score
+	
 	public function addScore(points:Int){
 		totalScore += points;
 		hud.updateScore(totalScore);
 	}
 	
+	
 	//Returns the player's score as an integer
+	
 	public function getScore(){
 		return totalScore;
 	}
 
+	
+	
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////
 	
 	public override function update(){
 		if( levelFailed == true ){
