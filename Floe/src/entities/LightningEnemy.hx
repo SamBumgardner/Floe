@@ -87,9 +87,10 @@ class LightningEnemy extends Enemy
 	// calcDestination()
 	//
 	// Sets the destinationX and destinationY
+    //
+	// The rule is "move ten units toward the PC in either the x or the y direction
+	// (which ever is greater, favor Y on ties)"
 	
-    //should be "move ten units toward the PC in either the x or the y direction
-	//(which ever is greater favor Y on ties)"
 	private override function calcDestination(){
     var pcTileX:Int = (cast currentScene.PC.x - (currentScene.PC.x % 32));
     var pcTileY:Int = (cast currentScene.PC.y - (currentScene.PC.y % 32));
