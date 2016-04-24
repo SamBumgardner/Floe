@@ -19,8 +19,12 @@ class GameOverSplash extends Entity{
 
 	private var gameOverTag:Sfx;
 	
-	private var scoreInfo:Text  = new Text("", 70, 410);
-	private var entryField:Text = new Text("", 450, 500, 0, 0);
+	private var scoreInfo:Text  = new Text("", 130, 460);
+	private var entryField:Text = new Text("Type 3 initials: ", 130, 510, 0, 0);
+	private var instructions:Text = new Text(
+	"Press [Enter] to submit your score.\nPress [Esc] to return to the Main Menu.", 70, 560, 0, 0);
+	
+	private var seedTextImg:Text = new Text("Seed: " + HXP.randomSeed);
 	
 	private var playerScore:Int;
 	private var input:String = "";
@@ -38,11 +42,14 @@ class GameOverSplash extends Entity{
 		
 		scoreInfo.text = "Your score was: " + playerScore;
 		scoreInfo.size = 32;
-		
 		entryField.size = 25;
+		instructions.size = 20;
+		seedTextImg.size = 16;
 		
 		HXP.scene.addGraphic(scoreInfo, -1);
 		HXP.scene.addGraphic(entryField, -1);
+		HXP.scene.addGraphic(instructions, -1);
+		HXP.scene.addGraphic(seedTextImg, -1, 320 - (seedTextImg.width)/2, 610);
 		
 		KeyboardListener();
 	}
@@ -98,7 +105,7 @@ class GameOverSplash extends Entity{
         }
         
         // Else if the input is ENTER and there are 3 initials entered, go to the main menu (TO BE CHANGED)
-        else if (code == 13 && entryField.text.length == 3){   // if the input is 'enter'
+        else if (code == 13 && input.length == 3){   // if the input is 'enter'
             sendScore();
 			flash.Lib.current.stage.removeEventListener(
                 flash.events.KeyboardEvent.KEY_DOWN, keyDown
@@ -118,7 +125,7 @@ class GameOverSplash extends Entity{
 		}
         
         // update gui display
-        entryField.text = input;
+        entryField.text = "Type 3 initials: " + input;
     }
     
    
