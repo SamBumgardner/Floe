@@ -92,7 +92,7 @@ class GameScene extends Scene {
 			return 2;
 		}
 		
-		else if (rand < .33 && maxMist >= maxMist){
+		else if (rand < .33 && maxMist >= 1){
 			add( new MistEnemy(x, y) );
 			return -1;
 		}
