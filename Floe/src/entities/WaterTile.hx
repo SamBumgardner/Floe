@@ -28,7 +28,7 @@ class WaterTile extends Tile {
 	private var frozen:Bool = false;
 	private var beenFrozen:Bool = false;
 	
-	private static var minimumUnfrozen:Int = 4;
+	private static var minimumUnfrozen:Int = 5;
 
 	public var beenChecked:Bool = false;
 	
@@ -200,8 +200,9 @@ class WaterTile extends Tile {
 		if(collide("fireEnemy", x, y) != null){
 			(cast e).defeated();
 		}
-		else if(collide("waterEnemy", x, y) != null){
+		if(collide("waterEnemy", x, y) != null){
 			scene.remove( (cast w) );
+
 		}
 		
 		sprite.play("freezing");
