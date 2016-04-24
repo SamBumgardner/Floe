@@ -146,8 +146,10 @@ class GameScene extends Scene {
 			while( placeX <= maxX ){
 				
 				
-				if( placeX < originX + (tileSize * (borderSize - 1)) || placeY < originY + (tileSize * (borderSize - 1))|| 
-					placeX > maxX - (tileSize * (borderSize - 1))|| placeY > maxY - (tileSize * (borderSize - 1))){
+				if( placeX < originX + (tileSize * (borderSize - 1)) || 
+					placeY < originY + (tileSize * (borderSize - 1))|| 
+					placeX > maxX - (tileSize * (borderSize - 1))|| 
+					placeY > maxY - (tileSize * (borderSize - 1))){
 					
 					// Do nothing
 					
@@ -155,8 +157,10 @@ class GameScene extends Scene {
 					continue;
 					
 					}
-				else if( placeX == originX + (tileSize * (borderSize - 1)) || placeY == originY + (tileSize * (borderSize - 1))|| 
-					placeX == maxX - (tileSize * (borderSize - 1))|| placeY == maxY - (tileSize * (borderSize - 1))){
+				else if( placeX == originX + (tileSize * (borderSize - 1)) || 
+						placeY == originY + (tileSize * (borderSize - 1))|| 
+						placeX == maxX - (tileSize * (borderSize - 1))||
+						placeY == maxY - (tileSize * (borderSize - 1))){
 				
 					add(new Border(placeX, placeY, "border"));
 					
@@ -164,11 +168,15 @@ class GameScene extends Scene {
 					continue;
 				}
 				else if( 
-					placeX == originX + (tileSize * borderSize) || placeY == originY + (tileSize * borderSize) || 
-					placeX == maxX - (tileSize * borderSize) || placeY == maxY - (tileSize * borderSize)){
+					placeX == originX + (tileSize * borderSize) || 
+					placeY == originY + (tileSize * borderSize) || 
+					placeX == maxX - (tileSize * borderSize) || 
+					placeY == maxY - (tileSize * borderSize)){
 				
 					if( placeY == originY + (tileSize * borderSize) ) {
-						if (HXP.random > .95 && enemyCount < Math.min(2, GM.lake) && enemyCount < maxEnemies){
+						if (HXP.random > .95 && enemyCount < Math.min(2, GM.lake) && 
+							enemyCount < maxEnemies){
+							
 							add( new BorderEnemy(placeX, placeY));
 							enemyCount++;
 						}
@@ -187,7 +195,8 @@ class GameScene extends Scene {
 					}
 					
 					if(HXP.random < .15 && enemyCount < maxEnemies){
-						var result = addEnemy(placeX, placeY, maxEnemies - enemyCount, maxEnemies - mistEnemyCount);
+						var result = addEnemy(placeX, placeY, 
+								maxEnemies - enemyCount, maxEnemies - mistEnemyCount);
 							if(result > 0){
 								enemyCount += result;
 							}
@@ -197,7 +206,8 @@ class GameScene extends Scene {
 					}
 				}
 				else{
-					if(	HXP.random > .85 || tilesSinceLastObstacle < minimumSpaceBetweenObstacles ||
+					if(	HXP.random > .85 || 
+						tilesSinceLastObstacle < minimumSpaceBetweenObstacles ||
 						RocksInPreviousRow.indexOf(placeX) != -1 || 
 						RocksInPreviousRow.indexOf(placeX + tileSize) != -1 ||
 						RocksInPreviousRow.indexOf(placeX - tileSize) != -1 ){
@@ -206,7 +216,8 @@ class GameScene extends Scene {
 						tilesSinceLastObstacle++;
 						
 						if(HXP.random < .15 && enemyCount < maxEnemies){
-							var result = addEnemy(placeX, placeY, maxEnemies - enemyCount, maxEnemies - mistEnemyCount);
+							var result = addEnemy(placeX, placeY, 
+									maxEnemies - enemyCount, maxEnemies - mistEnemyCount);
 							if(result > 0){
 								enemyCount += result;
 							}
