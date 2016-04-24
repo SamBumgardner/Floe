@@ -58,18 +58,18 @@ class PauseMenu extends Entity
 			resumeTextImg.setTextProperty("size", 24);
 			quitTextImg = new Text("Quit");
 			quitTextImg.setTextProperty("size", 24);
-			seedTextImg = new Text("Seed: " + HXP.randomSeed);
+			seedTextImg = new Text("");
 			seedTextImg.setTextProperty("size", 16);
 			
 			assetsInitialized = true;
 		}
 		graphic = selectorImg;
 		
-		
 	}
 	
 	public override function added(){
-
+		seedTextImg.text = "Seed: " + HXP.randomSeed;
+	
 		containerEnt = HXP.scene.addGraphic(containerImg, -999, 160, 220);
 		pausedTextEnt = HXP.scene.addGraphic(pausedTextImg, -1000, 320 - (pausedTextImg.width)/2, 230);
 		resumeTextEnt = HXP.scene.addGraphic(resumeTextImg, -1000, 300 , 300);
