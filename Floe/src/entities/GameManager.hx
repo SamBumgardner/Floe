@@ -103,12 +103,14 @@ class GameManager extends Entity{
 	// Advances the level (lake)
 	public function nextLake() {
 		if (waitTime == 0){
+				addScore( 500 * lake );
+				
 				levelCompleted = false;
 				HXP.engine.nextLevel();
 				lake++;
 				if (lake % 2 == 1) {
 					if (playerHealth >= 3) {
-						addScore(1000);
+						addScore(1000 * lake);
 					}
 					else {
 						addHealth(1);
