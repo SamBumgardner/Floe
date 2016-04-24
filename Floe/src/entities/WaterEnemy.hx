@@ -104,7 +104,7 @@ class WaterEnemy extends Enemy
 	
 	// Tests if the water enemy is able to emerge or if it is blocked.
 	private function emergeTest(){
-        var actors = ["mistEnemy", "sampleEnemy", "player"];
+        var actors = ["lightningEnemy", "sampleEnemy", "player"];
         var canEmergeTest:Bool = true;
         HXP.console.log(["Testing for collisions at", x, y]);
         if (collideTypes(actors, x, y) != null){
