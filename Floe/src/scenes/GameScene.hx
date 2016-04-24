@@ -319,6 +319,12 @@ class GameScene extends Scene {
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////	
 	
+	
+	// update()
+	//
+	// Called every frame to update the scene.
+	// Used to check if the player paused or unpaused the game.
+	
 	public override function update(){
 		if(Input.pressed(Key.ESCAPE)){
 			if( !GM.levelCompleted && !GM.levelFailed ){
