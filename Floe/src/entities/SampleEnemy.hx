@@ -4,7 +4,7 @@ import com.haxepunk.Entity;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; 
 import scenes.GameScene; //Needed to store the reference to the player.
 
 import com.haxepunk.HXP;
@@ -74,7 +74,7 @@ class SampleEnemy extends Enemy
 		
 		sprite.play("downMove");
 		graphic = sprite;
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -93,8 +93,8 @@ class SampleEnemy extends Enemy
 	// Sets the destinationX and destinationY
 	
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+		destinationX = (cast currentScene.PC.x - (currentScene.PC.x % 32));
+		destinationY = (cast currentScene.PC.y - (currentScene.PC.y % 32));
 		
 		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		
@@ -156,6 +156,11 @@ class SampleEnemy extends Enemy
 		stopMovement();
 	}
 	
+	
+	// borderCollision( e:Entity )
+	//
+	// Prevent the sampleEnemy from moving into it.
+	
 	private override function borderCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
@@ -168,7 +173,7 @@ class SampleEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
+		(cast e).takeDamage(attackDamage);
 	}
   
 	
@@ -181,28 +186,37 @@ class SampleEnemy extends Enemy
 		stopMovement();
 	}
 	
+	
+	// borderEnemyCollision( e:Entity )
+	//
+	// Prevent the sampleEnemy from moving into it.
+	
 	private override function borderEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
 	
+	
+	// waterEnemyCollision( e:Entity )
+	//
+	// Prevent the sampleEnemy from moving into it.
+	
 	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
+		if ((cast e).submerged == false){
 			moveWasBlocked = true;
 			stopMovement();
 		}
 	}
-  private override function lightningEnemyCollision(e:Entity) {
-    moveWasBlocked = true;
+	
+	
+	// lightningEnemyCollision( e:Entity )
+	//
+	// Prevent the sampleEnemy from moving into it.
+	
+	private override function lightningEnemyCollision(e:Entity) {
+	moveWasBlocked = true;
 		stopMovement();
-  }
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
-	
-	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
+	}
 	
 	
 	///////////////////////////////////////////
@@ -210,8 +224,5 @@ class SampleEnemy extends Enemy
 	///////////////////////////////////////////
 
 	//The Sample Enemy simply uses Enemy's update function.
-
-
-
 
 }

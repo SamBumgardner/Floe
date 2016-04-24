@@ -10,6 +10,11 @@ import com.haxepunk.HXP;
 
 class MenuSelector extends Entity
 {
+
+	///////////////////////////////////////////
+	//          DATA INITIALIZATION          //
+	///////////////////////////////////////////
+
 	private var moveDisabled:Bool;
 	private var horizontalMove:Int;
 	private var pageSelect:Bool;
@@ -30,6 +35,9 @@ class MenuSelector extends Entity
 	private var currentPos:Int; //Used to determine what to do when the player presses spacebar
 	private var numOfPos:Int; //Used to determine the boundaries of MenuSelector's movement.
 
+	
+	// Constructor
+	
 	public function new( x:Int, y:Int ){
 		super(x, y);
 		
@@ -37,6 +45,7 @@ class MenuSelector extends Entity
 		moveDisabled = false;
 		horizontalMove = 0;
 		moveDistance = 50;
+		
 		graphic = new Image("graphics/MenuSelector.png");
 		page1 = new Image("graphics/infoGraphic_p1.png");
 		page2 = new Image("graphics/infoGraphic_p2.png");
@@ -53,18 +62,41 @@ class MenuSelector extends Entity
 		keyboardListener();
 	}
 	
+	
+	// added()
+	//
+	// Called when the entity is added to a scene.
+	
 	public override function added(){
 		scene.addGraphic(page1, -1);
 		scene.addGraphic(page2, -1);
 	}
+	
+	// removed()
+	//
+	// Called when this entity is removed from the scene.
+	
+	public override function removed(){
+		flash.Lib.current.stage.removeEventListener(
+                flash.events.KeyboardEvent.KEY_DOWN, keyDown
+		);
+	}
+	
+	///////////////////////////////////////////
+	//           SELECTOR  ACTIONS           //
+	///////////////////////////////////////////
+	
+	// selectOption()
+	//
+	// Executes the some actions when the player selects/exits
+	// a menu option.
 	
 	private function selectOption(){
 		// 1 = Play Game
 		// 2 = How To Play
 		// 3 = Set Random Seed
 		// 4 = Credits
-		//I'm not quite sure how enums work in Haxe, but using it would be better, I think.
-	
+
 		if(moveDisabled){
 			// Back out of current menu
 			switch currentPos{
@@ -86,6 +118,12 @@ class MenuSelector extends Entity
 		}
 	}
 	
+	
+	// displayInfographic()
+	//
+	// Disables control of menu movement.
+	// Renders the first page of the "how to play" infographic to the screen.
+	
 	private function displayInfographic(){
 		horizontalMove = -1;
 		page1.visible=true;
@@ -93,12 +131,24 @@ class MenuSelector extends Entity
 		moveDisabled = true;
 	}
 	
+	
+	// removeInfographic()
+	//
+	// Re-enables control of menu movement.
+	// Stops rendering the "how to play" infographic
+	
 	private function removeInfographic(){
 		page1.visible = false;
 		page2.visible = false;
 		pageSelect = false;
 		moveDisabled = false;
 	}
+	
+	
+	// displaySeedSelection()
+	//
+	// Disables control of menu movement.
+	// Renders the RNG seed select graphic to the screen.
 	
 	private function displaySeedSelection(){
 		userSeed = "";
@@ -110,18 +160,34 @@ class MenuSelector extends Entity
 		moveDisabled = true;
 	}
 	
+	
+	// removeSeedSelection()
+	//
+	// Re-enables control of menu movement.
+	// Removes the seed selection graphic & text from the scene.
+	
 	private function removeSeedSelection(){
 		scene.remove(popUp);
 		scene.remove(txtReference);
 		moveDisabled = false;
 	}
 	
-	//The code below is kinda redundant now, but the infographic and credits behavior
-	// will likely diverge as the project approaches completion.
+	
+	// displayCredits()
+	//
+	// Disables control of menu movement.
+	// Renders the credits graphic to the screen.
+	
 	private function displayCredits(){
 		popUp = scene.addGraphic( new Image("graphics/credits.png"), -1);
 		moveDisabled = true;
 	}
+	
+	
+	// removeCredits()
+	//
+	// Re-enables control of menu movement.
+	// Removes the credits graphic from the scene.
 	
 	private function removeCredits(){
 		scene.remove(popUp);
@@ -129,7 +195,17 @@ class MenuSelector extends Entity
 		moveDisabled = false;
 	}
 	
-	/// Adapted from Byron's code for Vocabulistics.
+	
+	///////////////////////////////////////////
+	//            KEYBOARD  INPUT            //
+	///////////////////////////////////////////
+	
+	
+	// keyboardListener()
+	//
+	// Creates an event listener that fires after keyboard input.
+	// Adapted from Byron's code for Vocabulistics.
+	
 	function keyboardListener(){
     // -- Listens for keyboard input --
      
@@ -137,6 +213,13 @@ class MenuSelector extends Entity
 			flash.events.KeyboardEvent.KEY_DOWN, keyDown
 		);
 	}
+	
+	
+	// keyDown()
+	//
+	// Only active when the "set random seed" option is selected.
+	// It interprets, tracks, and stores numeric keyboard inputs to set HaxePunk's
+	// random number generator's seed.
     
     function keyDown(event: flash.events.KeyboardEvent){
 		// -- handles numeric input --
@@ -166,6 +249,17 @@ class MenuSelector extends Entity
 			}
 		}
     }
+	
+	
+	
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////
+	
+	// update()
+	//
+	// Function that is called every frame.
+	// Used here for gathering and applying player input.
 	
 	public override function update(){
 		// Check for user input: UP, DOWN
@@ -215,9 +309,4 @@ class MenuSelector extends Entity
 		super.update();
 	}
 	
-	public function destroy(){
-		flash.Lib.current.stage.removeEventListener(
-                flash.events.KeyboardEvent.KEY_DOWN, keyDown
-		);
-	}
 }

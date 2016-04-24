@@ -4,7 +4,7 @@ import com.haxepunk.Entity;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; 
 import scenes.GameScene; //Needed to store the reference to the player.
 
 import com.haxepunk.HXP;
@@ -17,7 +17,6 @@ class MistEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene;
 
@@ -43,10 +42,6 @@ class MistEnemy extends Enemy
 		setHitbox(32, 32);
 		type = "mistEnemy";
 		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
-		
 		// The animation is split into 60 individual frames to ensure the animation changes
 		// even if the player rapidly pauses/unpauses.
 		sprite = new Spritemap("graphics/mist.png", 32, 32);
@@ -60,7 +55,7 @@ class MistEnemy extends Enemy
 		sprite.play("idle");
 		graphic = sprite;
 		
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -96,18 +91,23 @@ class MistEnemy extends Enemy
 	// Sets the destinationX and destinationY
 	
 	private override function calcDestination(){
-		destinationX = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-		destinationY = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
+		destinationX = (cast currentScene.PC.x - (currentScene.PC.x % 32));
+		destinationY = (cast currentScene.PC.y - (currentScene.PC.y % 32));
 		
 		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		
 		super.calcDestination();
 	};
 	
+	// checkifAtDestination()
+	//
+	// If the mistEnemy is within the acceptable distance.
+	
 	private override function checkIfAtDestination( maxDist:Int ){
-		
-		if ( (Math.sqrt(Math.pow(destDistanceX, 2) + Math.pow(destDistanceY, 2) ) <= maxDist * tileSize ) && (
-			destDistanceX == (currentScene.PC.x % 32) || destDistanceY == (currentScene.PC.y % 32)) ){
+		super.checkIfAtDestination( maxDist );
+		if ( 	atDestination &&
+				(x == currentScene.PC.x - (currentScene.PC.x % 32) || 
+				y == currentScene.PC.y - (currentScene.PC.y % 32)) ){
 			atDestination = true;
 		}
 		else{
@@ -159,7 +159,7 @@ class MistEnemy extends Enemy
 	//
 	// MistEnemy curses player, flipping their controls.
 	private override function playerCollision( e:Entity ){
-		cast(e, Player).cursePlayer(300);	// flip player controls
+		(cast e).cursePlayer(300);	// flip player controls
 	}
 	
 	

@@ -10,6 +10,9 @@ class GroundTile extends Tile
 	static public var commonImage:Image;
 	static private var graphicInit:Bool = false;
 	
+	
+	// Constructor for GroundTile
+	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);

@@ -9,16 +9,7 @@ package entities;
 import com.haxepunk.Entity;
 import com.haxepunk.HXP;
 import com.haxepunk.graphics.Spritemap;
-
-
-enum Direction {
-	Up;
-	Down;
-	Left;
-	Right;
-	None;
-}
-
+import utilities.DirectionEnum;
 
 
 class MovingActor extends Entity {
@@ -59,15 +50,16 @@ class MovingActor extends Entity {
 	private var collisionFunctions = new Map();
 	
 	// Used for first-time setup  of assets.
-	// Child classes also need this, since static variables aren't inherited.
-	private static var assetsInitialized:Bool = false; 
+
 	private var sprite:Spritemap;
 	private var prePauseAnim:String;
 	private var prePauseFrame:Int;
 	
 	
 	
-	
+	// new(x:Int, y:Int)
+	//
+	// Constructor for MovingActor.
 	
 	public function new(x:Int, y:Int)
 	{
@@ -93,9 +85,6 @@ class MovingActor extends Entity {
 
 		]; 
 		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
 	}
 	
 	
@@ -163,7 +152,7 @@ class MovingActor extends Entity {
 		prePauseAnim = sprite.currentAnim;
 		if(prePauseAnim != ""){
 			prePauseFrame = sprite.index;
-			HXP.console.log([type, x, y, prePauseFrame]);
+			//HXP.console.log([type, x, y, prePauseFrame]);
 			sprite.stop();
 		}
 	}
@@ -177,7 +166,7 @@ class MovingActor extends Entity {
 		if(prePauseAnim != ""){
 			sprite.play(prePauseAnim);
 			sprite.index = prePauseFrame;
-			HXP.console.log([type, x, y, sprite.index]);
+			//HXP.console.log([type, x, y, sprite.index]);
 		}
 	}
 	
@@ -307,7 +296,7 @@ class MovingActor extends Entity {
 	private function stopMovement(){
 		
 		if(frameCountdown > 0){
-			HXP.console.log(["ERROR: stopMovement was called while frameCountdown > 0"]);
+			//HXP.console.log(["ERROR: stopMovement was called while frameCountdown > 0"]);
 		}
 		
 		currentMove = None;
@@ -358,6 +347,6 @@ class MovingActor extends Entity {
 	
 	private function borderEnemyCollision( e:Entity ){}
   
-  private function lightningEnemyCollision( e:Entity ) {}
+	private function lightningEnemyCollision( e:Entity ) {}
 
 }

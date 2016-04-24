@@ -5,7 +5,7 @@ import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; 
 import scenes.GameScene; //Needed to store the reference to the player.
 
 import com.haxepunk.HXP;
@@ -17,11 +17,7 @@ class WaterEnemy extends Enemy
 	//          DATA INITIALIZATION          //
 	///////////////////////////////////////////
 	
-	
-	// Graphic asset-holding variables
-	private var idleAnim:Image;
-	
-	private static var assetsInitialized:Bool = false; 
+
 	
 	private var currentScene:GameScene;
 	
@@ -31,6 +27,10 @@ class WaterEnemy extends Enemy
 	private var initialSubmergeTime = Std.random(200);
 	private var initialSubmergeComplete = false;
 
+	
+	// new( x:Int, y:Int )
+	//
+	// Constructor for WaterTile.
 
 	public function new(x:Int, y:Int)
 	{
@@ -52,10 +52,7 @@ class WaterEnemy extends Enemy
 		
 		setHitbox(32, 32);
 		type = "waterEnemy";
-		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
+
 		
 		sprite = new Spritemap("graphics/waterEnemy.png", 32,32);
 		
@@ -75,7 +72,7 @@ class WaterEnemy extends Enemy
 		sprite.play("emerging");
 		sprite.index = 7;
 		graphic = sprite;
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -106,10 +103,10 @@ class WaterEnemy extends Enemy
 	private function emergeTest(){
         var actors = ["lightningEnemy", "sampleEnemy", "player"];
         var canEmergeTest:Bool = true;
-        HXP.console.log(["Testing for collisions at", x, y]);
+        //HXP.console.log(["Testing for collisions at", x, y]);
         if (collideTypes(actors, x, y) != null){
             // if something's on top of the water enemy, prevent emergence
-            HXP.console.log(["There's something above me at", x, y]);
+            //HXP.console.log(["There's something above me at", x, y]);
             canEmergeTest = false;
         }
         return canEmergeTest;
@@ -134,30 +131,6 @@ class WaterEnemy extends Enemy
 		}
 	}
 		
-	
-	///////////////////////////////////////////
-	//    BACKGROUND COLLISION FUNCTIONS     //
-	///////////////////////////////////////////
-	
-	// These functions will be called when SampleEnemy finishes moving onto a tile.
-	// They should set in motion any behavior that occurs after landing on that particular tile,
-	// e.g. move again while on a water tile, or stop when on a ground tile.
-	
-	
-	///////////////////////////////////////////
-	//       MOVE COLLISION FUNCTIONS        //
-	///////////////////////////////////////////
-	// *- unnecessary for stationary enemy -*
-	
-	
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
-	
-	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
-	
 	
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //

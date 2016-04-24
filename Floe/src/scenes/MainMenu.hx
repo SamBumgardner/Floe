@@ -13,13 +13,22 @@ class MainMenu extends Scene
 	
 	private var music:Sfx;
 	
+	
+	// Constructor
+	
 	public function new()
 	{
 		super();
 	}
+	
+	
+	// begin()
+	//
+	// Called when the scene becomes the current scene.
+	
 	public override function begin()
 	{
-		HXP.console.log(["MainMenu scene executed!"]);
+		//HXP.console.log(["MainMenu scene executed!"]);
 		
 		
 		music = new Sfx("audio/bgm.mp3");
@@ -36,10 +45,17 @@ class MainMenu extends Scene
 		
 		
 	}
+	
+	
+	// end()
+	//
+	// Called after the scene is no longer the current scene.
+	
 	public override function end(){
 	
 		music.stop();
 		removeAll();
+		super.end();
 	
 	}
 }

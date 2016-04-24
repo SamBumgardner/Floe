@@ -12,7 +12,6 @@ class HUD extends Entity {
 
 	// Heart images
 	private var imgHeart = new Image("graphics/heart.png");
-	private var imgHeartGreen = new Image("graphics/heartGreen.png");
 
 	// Background images
 	private var imgBackground = new Image("graphics/hudBackground.png");

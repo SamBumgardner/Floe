@@ -162,7 +162,7 @@ class GameScene extends Scene {
 						placeX == maxX - (tileSize * (borderSize - 1))||
 						placeY == maxY - (tileSize * (borderSize - 1))){
 				
-					add(new Border(placeX, placeY, "border"));
+					add(new Border(placeX, placeY));
 					
 					placeX += tileSize;
 					continue;
@@ -227,7 +227,7 @@ class GameScene extends Scene {
 						}
 					}
 					else{
-						add(new Obstacle(placeX, placeY, "rock"));
+						add(new Obstacle(placeX, placeY));
 						tilesSinceLastObstacle = 0;
 						RocksInCurrentRow.push(placeX);
 					}
@@ -241,7 +241,7 @@ class GameScene extends Scene {
 			placeY += tileSize;
 		}
 		
-		HXP.console.log(["Level has been generated!"]);
+		//HXP.console.log(["Level has been generated!"]);
 	}
 	
 	
@@ -257,7 +257,7 @@ class GameScene extends Scene {
 	
 	public override function begin()
 	{
-		HXP.console.log(["Level is loading..."]);
+		//HXP.console.log(["Level is loading..."]);
 		
 		if(!musicPlaying){
 			music.loop(HXP.engine.musicVolume);
@@ -279,6 +279,7 @@ class GameScene extends Scene {
 	
 	public override function end(){
 		removeAll();
+		super.end();
 	}
 	
 	
@@ -326,7 +327,7 @@ class GameScene extends Scene {
 		music.stop();
 		add(pausedMenu);
 		
-		HXP.console.log(["Paused the game!"]);
+		//HXP.console.log(["Paused the game!"]);
 	}
 	
 	// unpauseGame()
@@ -347,12 +348,18 @@ class GameScene extends Scene {
 		
 		music.resume();
 		gamePaused = false;
-		HXP.console.log(["Unpaused the game!"]);
+		//HXP.console.log(["Unpaused the game!"]);
 	}
 	
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////	
+	
+	
+	// update()
+	//
+	// Called every frame to update the scene.
+	// Used to check if the player paused or unpaused the game.
 	
 	public override function update(){
 		if(Input.pressed(Key.ESCAPE)){

@@ -8,7 +8,7 @@ import com.haxepunk.utils.Key;
 import com.haxepunk.Sfx;
 import entities.WaterTile;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; 
 
 import com.haxepunk.HXP;
 
@@ -60,6 +60,10 @@ class Player extends MovingActor
 	private var invincibilityCountdown:Int;
 	
 
+	// new( x:Int, y:Int )
+	//
+	// Constructor for Player.
+	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
@@ -99,7 +103,7 @@ class Player extends MovingActor
 		
 		sprite.add("upHurt", [19], 1, true);
 		sprite.add("leftHurt", [17], 1, true);		
-		sprite.add("downHurt", [118], 1, true);
+		sprite.add("downHurt", [18], 1, true);
 		sprite.add("rightHurt", [20], 1, true);
 		sprite.add("victory", [5,6], 3, true);
 		sprite.add("defeat", [12,13,12,14,12], 3, false);
@@ -509,7 +513,7 @@ class Player extends MovingActor
 	
 	private override function waterTileCollision( e:Entity ){
 		sliding = true; // used in obstacle collision to tell if the player slid into it.
-		var w:WaterTile = cast(e, WaterTile);
+		var w:WaterTile = (cast e);
 		if(!w.isFrozen()){
 			w.freeze();
 		}
@@ -546,6 +550,11 @@ class Player extends MovingActor
 		stopMovement();
 	}
 	
+	
+	// borderCollision( e:Entity )
+	//
+	// This is the same as obstacle collision.
+	
 	private override function borderCollision( e:Entity ){
 		if( sliding == true || pressedThisFrame == true || hasPlayedBumpSound == false ){
 			bumpSound.play(HXP.engine.sfxVolume);
@@ -555,53 +564,80 @@ class Player extends MovingActor
 		stopMovement();
 	}
 	
+	
+	// sampleEnemyCollision( e:Entity )
+	//
+	// Prevents movement into it and damages the player.
+	
 	private override function sampleEnemyCollision( e:Entity ){
 		stopMovement();
-		takeDamage(cast(e, SampleEnemy).attackDamage);
+		takeDamage((cast e).attackDamage);
 	}
+	
+	
+	// fireEnemyCollision( e:Entity )
+	//
+	// Damages the player and destroys the fireEnemy.
 	
 	private override function fireEnemyCollision( e:Entity ){
 		takeDamage((cast e).attackDamage);
 		(cast e).defeated();
 	}
 	
+	
+	// mistEnemyCollision( e:Entity )
+	//
+	// Curses the player.
+	
 	private override function mistEnemyCollision( e:Entity ){
 		cursePlayer(300);
 	}
 	
+	
+	// waterEnemyCollision( e:Entity )
+	//
+	// If emerged, prevents movement into it and damages the player.
+	// If submerged, removes the waterEnemy from the scene.
+	
 	private override function waterEnemyCollision( e:Entity ){
-		var enemy = cast(e, WaterEnemy);
+		var enemy = (cast e);
 		if (!enemy.submerged){
 			stopMovement();
 			takeDamage(enemy.attackDamage);
 		}
 		else if (enemy.submerged){
-			scene.remove(enemy);
+			scene.remove((cast enemy));
 		}
 	}
 	
+	
+	// borderEnemyEnemyCollision( e:Entity )
+	//
+	// Prevents movement into it, and damages the player.
+	
 	private override function borderEnemyCollision( e:Entity ){
 		stopMovement();
-		takeDamage(cast(e, BorderEnemy).attackDamage);
+		takeDamage((cast e).attackDamage);
 	}
+	
+	
+	// lightningEnemyCollision( e:Entity )
+	//
+	// Prevents movement into it, and damages the player.
   
-  private override function lightningEnemyCollision(e:Entity) {
-    stopMovement();
-    takeDamage(cast(e, LightningEnemy).attackDamage);
-  }
-	
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
-	
-	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
+	private override function lightningEnemyCollision(e:Entity) {
+	stopMovement();
+	takeDamage((cast e).attackDamage);
+	}
 	
 	
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
+	
+	// update()
+	//
+	// Called every frame to update the entity.
 	
 	public override function update()
 	{	
@@ -640,10 +676,9 @@ class Player extends MovingActor
 			}
 		}
 			
-		//Temporary system for damaging the player.
-			
+		#if debug	
 		if (Input.pressed(Key.D)){ takeDamage(1);}
-	
+		#end
 	
 		if( animationCountdown <= 0 ){
 			shouldSetAnim = true;

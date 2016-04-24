@@ -2,7 +2,7 @@ package entities;
 
 import com.haxepunk.Entity;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; //This actually just for the Direction enum, I think.
 
 import com.haxepunk.HXP;
 
@@ -151,8 +151,8 @@ class Enemy extends MovingActor
 	// Should be called after finishing a move or calling calcDestination.
 	
 	private function setDestDistances(){
-		destDistanceX = cast(destinationX - x, Int);
-		destDistanceY = cast(destinationY - y, Int);
+		destDistanceX = (cast destinationX - x);
+		destDistanceY = (cast destinationY - y);
 		
 		checkIfAtDestination(acceptableDestDistance);
 	}

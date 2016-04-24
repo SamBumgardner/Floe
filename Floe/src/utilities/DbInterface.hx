@@ -13,6 +13,10 @@ import flash.net.URLRequest;
  */
 class DbInterface{
 	private var dataToSend:URLVariables;
+	
+	
+	//Constructor
+	
 	public function new(game:String):Void {
 		this.dataToSend = new URLVariables();
 		if(game == "vocabulistics") {
@@ -22,6 +26,12 @@ class DbInterface{
 			this.dataToSend.game = "floe";
 		}
 	}
+	
+	
+	// sendDataToDb(initials:String, score:Int)
+	//
+	// Packages and sends data to the php file responsible for updating the high score page.
+	
 	public function sendDataToDb(initials:String, score:Int) {
 		this.dataToSend.initials = initials;
 		this.dataToSend.score = score;
