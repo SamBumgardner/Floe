@@ -17,7 +17,6 @@ class MistEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene;
 
@@ -42,10 +41,6 @@ class MistEnemy extends Enemy
 		
 		setHitbox(32, 32);
 		type = "mistEnemy";
-		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
 		
 		// The animation is split into 60 individual frames to ensure the animation changes
 		// even if the player rapidly pauses/unpauses.

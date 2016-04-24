@@ -19,8 +19,6 @@ class LightningEnemy extends Enemy
 	
 	// Graphic asset-holding variables
 	
-	private static var assetsInitialized:Bool = false; 
-	
 	private var currentScene:GameScene; 
 
 
@@ -46,10 +44,6 @@ class LightningEnemy extends Enemy
 		setHitbox(32, 32);
     
 		type = "lightningEnemy";
-		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
 		
 		sprite = new Spritemap("graphics/lightningEnemy.png", 32, 32);
 		

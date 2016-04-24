@@ -17,7 +17,6 @@ class FireEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene; 
 	
@@ -50,10 +49,6 @@ class FireEnemy extends Enemy
 		
 		setHitbox(32, 32);
 		type = "fireEnemy";
-		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
 		
 		sprite = new Spritemap("graphics/FireSprite.png", 32, 32);
 		
