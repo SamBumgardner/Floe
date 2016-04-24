@@ -167,7 +167,7 @@ class GameScene extends Scene {
 					placeX == maxX - (tileSize * borderSize) || placeY == maxY - (tileSize * borderSize)){
 				
 					if( placeY == originY + (tileSize * borderSize) ) {
-						if (HXP.random > .95 && enemyCount <= 2){
+						if (HXP.random > .95 && enemyCount < Math.min(2, GM.lake) && enemyCount < maxEnemies){
 							add( new BorderEnemy(placeX, placeY));
 							enemyCount++;
 						}
