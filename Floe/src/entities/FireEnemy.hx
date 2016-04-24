@@ -25,6 +25,8 @@ class FireEnemy extends Enemy
 	private var defeatCountdown:Int = -1;
 
 
+	// Constructor for FireEnemy
+	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
@@ -203,24 +205,37 @@ class FireEnemy extends Enemy
 		stopMovement();
 	}
 	
+	
+	// mistEnemyCollision( e:Entity )
+	//
+	// Prevent the fireEnemy from moving into it.
+	
 	private override function mistEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
 	
+	
+	// lightningEnemyCollision( e:Entity )
+	//
+	// Prevent the fireEnemy from moving into it.
+	
 	private override function lightningEnemyCollision(e:Entity) {
     moveWasBlocked = true;
 		stopMovement();
   }
-  
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
 	
 	
 	///////////////////////////////////////////
 	//            MOVEMENT FUNCTIONS         //
 	///////////////////////////////////////////
+	
+	
+	// selectDirection()
+	//
+	// Instead of setting a direction, uses its own system of 
+	// movementCycleCount and moveSet to move in spirals around
+	// the map.
 	
 	private override function selectDirection(){
 		if(moveCycleCount % 10 < 4){
@@ -317,6 +332,11 @@ class FireEnemy extends Enemy
 		}
 	}
 
+	
+	// selectOtherDirection()
+	//
+	// Instead of pathfinding, just calls selectDirection again.
+	
 	private override function selectOtherDirection(){
 		selectDirection();
 	}
@@ -326,6 +346,10 @@ class FireEnemy extends Enemy
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
+	// update()
+	//
+	// Called every frame to update the entity.
+	
 	public override function update(){
 		if(defeatCountdown == -1){
 			super.update();
