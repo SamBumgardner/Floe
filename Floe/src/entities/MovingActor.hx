@@ -50,15 +50,16 @@ class MovingActor extends Entity {
 	private var collisionFunctions = new Map();
 	
 	// Used for first-time setup  of assets.
-	// Child classes also need this, since static variables aren't inherited.
-	private static var assetsInitialized:Bool = false; 
+
 	private var sprite:Spritemap;
 	private var prePauseAnim:String;
 	private var prePauseFrame:Int;
 	
 	
 	
-	
+	// new(x:Int, y:Int)
+	//
+	// Constructor for MovingActor.
 	
 	public function new(x:Int, y:Int)
 	{
@@ -84,9 +85,6 @@ class MovingActor extends Entity {
 
 		]; 
 		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
 	}
 	
 	
@@ -349,6 +347,6 @@ class MovingActor extends Entity {
 	
 	private function borderEnemyCollision( e:Entity ){}
   
-  private function lightningEnemyCollision( e:Entity ) {}
+	private function lightningEnemyCollision( e:Entity ) {}
 
 }
