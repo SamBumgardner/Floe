@@ -4,7 +4,7 @@ import com.haxepunk.Entity;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; 
 import scenes.GameScene; //Needed to store the reference to the player.
 
 import com.haxepunk.HXP;
@@ -18,8 +18,6 @@ class LightningEnemy extends Enemy
 	
 	
 	// Graphic asset-holding variables
-	
-	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene; 
 
@@ -47,10 +45,6 @@ class LightningEnemy extends Enemy
     
 		type = "lightningEnemy";
 		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
-		
 		sprite = new Spritemap("graphics/lightningEnemy.png", 32, 32);
 		
 		sprite.add("idle", [4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
@@ -64,7 +58,7 @@ class LightningEnemy extends Enemy
 		
 		sprite.play("idle");
 		graphic = sprite;
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -93,14 +87,15 @@ class LightningEnemy extends Enemy
 	// calcDestination()
 	//
 	// Sets the destinationX and destinationY
+    //
+	// The rule is "move ten units toward the PC in either the x or the y direction
+	// (which ever is greater, favor Y on ties)"
 	
-    //should be "move ten units toward the PC in either the x or the y direction
-	//(which ever is greater favor Y on ties)"
 	private override function calcDestination(){
-    var pcTileX:Int = cast(currentScene.PC.x - (currentScene.PC.x % 32), Int);
-    var pcTileY:Int = cast(currentScene.PC.y - (currentScene.PC.y % 32), Int);
-    var myTileX:Int = cast(x - x % 32, Int);
-    var myTileY:Int = cast(y - y % 32, Int);
+    var pcTileX:Int = (cast(currentScene.PC.x - (currentScene.PC.x % 32), Int));
+    var pcTileY:Int = (cast(currentScene.PC.y - (currentScene.PC.y % 32), Int));
+    var myTileX:Int = (cast((x - x % 32), Int));
+    var myTileY:Int = (cast((y - y % 32), Int));
     if(Math.abs(pcTileX - myTileX) < Math.abs(pcTileY - myTileY)) {
       destinationX = myTileX;
       destinationY = pcTileY;
@@ -110,7 +105,7 @@ class LightningEnemy extends Enemy
       destinationY = myTileY;
     }
     
-		HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
+		//HXP.console.log(["My destination is: ", destinationX, ", ", destinationY]);
 		super.calcDestination();
 	};
 	
@@ -144,13 +139,13 @@ class LightningEnemy extends Enemy
 	
 	// obstacleCollision( e:Entity )
 	//
-	// Lightning Enemy ignore obstacles
+	// Lightning Enemy ignores obstacles
 	
 	private override function obstacleCollision( e:Entity ){}
 	
 	private override function borderCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
 	
 	
@@ -160,76 +155,61 @@ class LightningEnemy extends Enemy
 	
 	private override function playerCollision( e:Entity ){
 		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
-    rest();
+		(cast e).takeDamage(attackDamage);
+		rest();
 	}
 	
 	
-	// sampleEnemyCollision( e:Entity )
+	// All of these collision functions serve the same purpose, but for different enemies:
 	//
-	// Prevent the LightningEnemy from moving into it, no path finding.
+	// Prevent the LightningEnemy from moving into it, and do not trigger path finding.
 	
 	private override function sampleEnemyCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
 	
 	private override function borderEnemyCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
 	
 	private override function waterEnemyCollision( e:Entity ){
-		if (cast(e, WaterEnemy).submerged == false){
+		if ((cast e).submerged == false){
 			stopMovement();
-      rest();
+			rest();
 		}
 	}
-  private override function fireEnemyCollision( e:Entity ){
+	private override function fireEnemyCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
-  private override function mistEnemyCollision( e:Entity ){
+	private override function mistEnemyCollision( e:Entity ){
 		stopMovement();
-    rest();
+		rest();
 	}
-  private override function lightningEnemyCollision(e:Entity) {
-    //HXP.console.log(["lightningEnemyCollision"]);
-    stopMovement();
-    rest();
-  }
+	private override function lightningEnemyCollision(e:Entity) {
+		//HXP.console.log(["lightningEnemyCollision"]);
+		stopMovement();
+		rest();
+	}
 	
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
-	
-	
-	//Nothing here yet. Useful for handling things like getting hit by a fireball.
-	
-	
-	///////////////////////////////////////////
-	//     Rest                              //
-	///////////////////////////////////////////
-	
-	//lightningEnemy always recalcs its destination after it rests
-  private override function rest() {
-    HXP.console.log(["lightningEnemy is resting"]);
-    super.rest();
-    recalcCountdown = restTime-1;
-  }
+
+
   
   
 	///////////////////////////////////////////
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
-	//The Sample Enemy simply uses Enemy's update function.
-  public override function update() {
+	// update() is called every frame.
+	
+	public override function update() {
 		if(restCountdown == 60){
 			sprite.play("charged");
 		}
-    super.update();
-  }
+		super.update();
+	}
 
 
 

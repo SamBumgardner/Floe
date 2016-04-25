@@ -4,7 +4,7 @@ import com.haxepunk.Entity;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; 
 import scenes.GameScene; //Needed to store the reference to the player.
 
 import com.haxepunk.HXP;
@@ -17,7 +17,6 @@ class FireEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	private static var assetsInitialized:Bool = false; 
 	
 	private var currentScene:GameScene; 
 	
@@ -25,6 +24,8 @@ class FireEnemy extends Enemy
 	private var defeatCountdown:Int = -1;
 
 
+	// Constructor for FireEnemy
+	
 	public function new(x:Int, y:Int)
 	{
 		super(x, y);
@@ -49,10 +50,6 @@ class FireEnemy extends Enemy
 		setHitbox(32, 32);
 		type = "fireEnemy";
 		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
-		
 		sprite = new Spritemap("graphics/FireSprite.png", 32, 32);
 		
 		// The animation is split into 60 individual frames to ensure the animation changes
@@ -68,7 +65,7 @@ class FireEnemy extends Enemy
 		sprite.play("idle");
 		graphic = sprite;
 		
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -133,7 +130,7 @@ class FireEnemy extends Enemy
 	
 	private override function waterTileCollision( e:Entity ){
 		stopMovement();
-		var w:WaterTile = cast(e, WaterTile);
+		var w:WaterTile = (cast e);
 		if(w.isFrozen()){
 			specialLoad++;
 			if(specialLoad % 5 == 0){
@@ -189,7 +186,7 @@ class FireEnemy extends Enemy
 	// Prevent the fireEnemy from moving into it.
 	
 	private override function playerCollision( e:Entity ){
-		cast(e, Player).takeDamage(attackDamage);
+		(cast e).takeDamage(attackDamage);
 		defeated();
 	}
 	
@@ -203,24 +200,37 @@ class FireEnemy extends Enemy
 		stopMovement();
 	}
 	
+	
+	// mistEnemyCollision( e:Entity )
+	//
+	// Prevent the fireEnemy from moving into it.
+	
 	private override function mistEnemyCollision( e:Entity ){
 		moveWasBlocked = true;
 		stopMovement();
 	}
 	
+	
+	// lightningEnemyCollision( e:Entity )
+	//
+	// Prevent the fireEnemy from moving into it.
+	
 	private override function lightningEnemyCollision(e:Entity) {
     moveWasBlocked = true;
 		stopMovement();
   }
-  
-	///////////////////////////////////////////
-	//      GENERAL COLLISION FUNCTIONS      //
-	///////////////////////////////////////////
 	
 	
 	///////////////////////////////////////////
 	//            MOVEMENT FUNCTIONS         //
 	///////////////////////////////////////////
+	
+	
+	// selectDirection()
+	//
+	// Instead of setting a direction, uses its own system of 
+	// movementCycleCount and moveSet to move in spirals around
+	// the map.
 	
 	private override function selectDirection(){
 		if(moveCycleCount % 10 < 4){
@@ -317,6 +327,11 @@ class FireEnemy extends Enemy
 		}
 	}
 
+	
+	// selectOtherDirection()
+	//
+	// Instead of pathfinding, just calls selectDirection again.
+	
 	private override function selectOtherDirection(){
 		selectDirection();
 	}
@@ -326,6 +341,10 @@ class FireEnemy extends Enemy
 	//            UPDATE FUNCTION            //
 	///////////////////////////////////////////
 
+	// update()
+	//
+	// Called every frame to update the entity.
+	
 	public override function update(){
 		if(defeatCountdown == -1){
 			super.update();

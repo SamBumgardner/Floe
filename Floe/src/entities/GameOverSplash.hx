@@ -38,7 +38,7 @@ class GameOverSplash extends Entity{
 		gameOverTag = new Sfx("audio/got.mp3");
 		gameOverTag.play(HXP.engine.musicVolume);
 		
-		playerScore = cast(HXP.scene, scenes.GameOver).GM.getScore();
+		playerScore = (cast HXP.scene).GM.getScore();
 		
 		scoreInfo.text = "Your score was: " + playerScore;
 		scoreInfo.size = 32;
@@ -56,9 +56,12 @@ class GameOverSplash extends Entity{
 
 	
 	///////////////////////////////////////////
-	//          DATA INITIALIZATION          //
+	//            ENTITY  ACTIONS            //
 	///////////////////////////////////////////
 	
+	// sendScore()
+	//
+	// uses the DbInterface object to send the user's score to the website's high score list.
 	
 	private function sendScore(){
 	

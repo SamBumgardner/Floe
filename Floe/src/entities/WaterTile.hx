@@ -2,16 +2,13 @@ package entities;
 	  
 
 import entities.Tile;
-import com.haxepunk.graphics.Image;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
 import scenes.GameScene;
 import entities.GameManager;
 
-import entities.MovingActor; //This is just for the Direction enum
-
-
+import utilities.DirectionEnum; 
 
 
 class WaterTile extends Tile {
@@ -21,9 +18,6 @@ class WaterTile extends Tile {
 	///////////////////////////////////////////
 	
 	// For initializing assets
-	static public var commonImage:Image;
-	static public var commonFrozenImage:Image;
-	static private var graphicInit:Bool = false;
 	
 	private var sprite:Spritemap;
 	private var prePauseAnim:String;
@@ -38,17 +32,16 @@ class WaterTile extends Tile {
 
 	public var beenChecked:Bool = false;
 	
+	
+	// new( x:Int, y:Int )
+	//
+	// Constructor for WaterTile.
+	
 	public function new(x:Int, y:Int){
 		super(x, y);
 
 		type = "waterTile";
 		layer = 1;
-		//need to reset graphic
-		if(!graphicInit) {
-			WaterTile.commonImage = new Image("graphics/water.png");
-			commonFrozenImage = new Image("graphics/Ground_Winter.png");
-			graphicInit = true;
-		}
 		
 		sprite = new Spritemap("graphics/waterSpritesheet.png", 32, 32);
 		sprite.add("water", [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
@@ -105,11 +98,6 @@ class WaterTile extends Tile {
 			sprite.index = prePauseFrame;
 		}
 	}
-	
-	
-	///////////////////////////////////////////
-	//             WATER ACTIONS             //
-	///////////////////////////////////////////
 	
 	
 	// callOnAllWaterNeighbors(callBack:Entity->Direction->Void, ?parentDirection:Direction)
@@ -188,10 +176,15 @@ class WaterTile extends Tile {
 		
 	}
 	
+	
+	// thaw()
+	//
+	// Opposite of freezing the water tile.
+	
 	public function thaw(){
 		sprite.play("melting");
 		frozen = false;
-		scenes.GameScene.GM.waterThawed();
+		scenes.GameScene.GM.waterAdded();
 	}
 	
 	
@@ -205,10 +198,11 @@ class WaterTile extends Tile {
 		var e:Entity = collideTypes("fireEnemy", x, y);
 		var w:Entity = collideTypes("waterEnemy", x, y);
 		if(collide("fireEnemy", x, y) != null){
-			cast(e, FireEnemy).defeated();
+			(cast e).defeated();
 		}
 		if(collide("waterEnemy", x, y) != null){
-			scene.remove(cast(w, WaterEnemy));
+			scene.remove( (cast w) );
+
 		}
 		
 		sprite.play("freezing");
@@ -411,6 +405,13 @@ class WaterTile extends Tile {
 	}
 	
 	
+	///////////////////////////////////////////
+	//            UPDATE FUNCTION            //
+	///////////////////////////////////////////
+	
+	// update()
+	//
+	// Called every frame to update the entity.
 	
 	public override function update(){
 		waterIndex = (waterIndex + 1) % 180;

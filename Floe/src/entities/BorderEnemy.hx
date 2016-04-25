@@ -4,7 +4,7 @@ import com.haxepunk.Entity;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.Sfx;
 
-import entities.MovingActor; //This actually just for the Direction enum, I think.
+import utilities.DirectionEnum; 
 import scenes.GameScene; //Needed to store the reference to the player.
 
 import com.haxepunk.HXP;
@@ -17,10 +17,12 @@ class BorderEnemy extends Enemy
 	///////////////////////////////////////////
 	
 	
-	private static var assetsInitialized:Bool = false; 
-	
 	private var currentScene:GameScene; 
 
+	
+	// new(x:Int, y:Int)
+	//
+	// Constructor for BorderEnemy
 
 	public function new(x:Int, y:Int)
 	{
@@ -44,10 +46,6 @@ class BorderEnemy extends Enemy
 		
 		setHitbox(32, 32);
 		type = "borderEnemy";
-		
-		if( assetsInitialized == false ){
-			assetsInitialized = true;
-		}
 		
 		sprite = new Spritemap("graphics/borderEnemy.png", 32, 32);
 		
@@ -74,7 +72,7 @@ class BorderEnemy extends Enemy
 		sprite.play("downIdle");
 		graphic = sprite;
 		
-		currentScene = cast(HXP.scene, GameScene);
+		currentScene = (cast HXP.scene);
 		
 	}
 	
@@ -178,7 +176,7 @@ class BorderEnemy extends Enemy
 		moveSet += 2;
 		reverseEnemy = !reverseEnemy;
 		stopMovement();
-		cast(e, Player).takeDamage(attackDamage);
+		(cast e).takeDamage(attackDamage);
 	}
 	
 	
@@ -203,8 +201,12 @@ class BorderEnemy extends Enemy
 		reverseEnemy = !reverseEnemy;
 		stopMovement();
 	}
+	
+	// lightningEnemyCollision( e:Entity )
+	//
+	// Prevent the borderEnemy from moving into it.
   
-	private override function lightningEnemyCollision(e:Entity) {
+	private override function lightningEnemyCollision( e:Entity ) {
     moveWasBlocked = true;
     moveSet += 2;
 		reverseEnemy = !reverseEnemy;
@@ -220,10 +222,25 @@ class BorderEnemy extends Enemy
 	//            MOVEMENT FUNCTIONS         //
 	///////////////////////////////////////////
 	
+	
+	// cannotMove()
+	//
+	// Overrides function from Enemy. 
+	// Dictates the behavior of the enemy when it fails to move in any
+	// direction during its turn.
+	
 	private override function cannotMove(){
 		restCountdown = restTime * 2 - 1;
 		currentEndurance = maxEndurance;
 	}
+	
+	
+	// selectDirection()
+	//
+	// Overrides function from Enemy.
+	// Rather than depending on a destination function, BorderEnemy 
+	// keeps an internal variable that tracks which direction it should
+	// move in.
 
 	private override function selectDirection(){
 		if(moveSet >= 0){
@@ -261,6 +278,12 @@ class BorderEnemy extends Enemy
 			}
 		}
 	}
+	
+	
+	// selectDirection()
+	//
+	// Overrides function from Enemy.
+	// Replicates the behavior of select direction.
 	
 	private override function selectOtherDirection(){
 		if(moveSet >= 0){
