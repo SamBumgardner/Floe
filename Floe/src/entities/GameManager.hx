@@ -185,7 +185,7 @@ class GameManager extends Entity{
 				waitTime--;
 			}
 		}
-		else if( levelCompleted == true || Input.pressed(Key.N)){
+		else if( levelCompleted == true || (HXP.console.debug && Input.pressed(Key.N))){
 			nextLake();
 		}
 		
