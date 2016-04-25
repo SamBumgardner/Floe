@@ -109,6 +109,17 @@ class LightningEnemy extends Enemy
 		super.calcDestination();
 	};
 	
+	
+	// rest()
+	//
+	//lightningEnemy always recalcs its destination after it rests
+	
+	private override function rest() {
+		HXP.console.log(["lightningEnemy is resting"]);
+		super.rest();
+		recalcCountdown = restTime-1;
+	}
+	
 
 	///////////////////////////////////////////
 	//    BACKGROUND COLLISION FUNCTIONS     //
