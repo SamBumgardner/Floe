@@ -28,9 +28,11 @@ class MenuSelector extends Entity
 	private var menuMove:Sfx;
 	private var menuSelect:Sfx;
 	
-	private var userSeed:String;
+	private var currentUserSeed:String;
+	private var tempUserSeed:String;
 	private var txtReference:Entity;
-	private var displayUserSeed:Text;
+	private var displayTempUserSeed:Text;
+	private var displayCurrentUserSeed:Text; 
 	
 	private var currentPos:Int; //Used to determine what to do when the player presses spacebar
 	private var numOfPos:Int; //Used to determine the boundaries of MenuSelector's movement.
@@ -58,7 +60,13 @@ class MenuSelector extends Entity
 		menuMove = new Sfx("audio/menuMove.mp3");
 		menuSelect = new Sfx("audio/menuSelect.mp3");
 		
-		userSeed = "";
+		currentUserSeed = (cast Math.floor(Math.random() * 1000000000));
+		tempUserSeed = "";
+		
+		displayCurrentUserSeed = new Text("Seed: " + currentUserSeed);
+		displayCurrentUserSeed.size = 16;
+		displayCurrentUserSeed.color = 0;
+		
 		keyboardListener();
 	}
 	
@@ -70,6 +78,7 @@ class MenuSelector extends Entity
 	public override function added(){
 		scene.addGraphic(page1, -1);
 		scene.addGraphic(page2, -1);
+		HXP.scene.addGraphic(displayCurrentUserSeed, -1, 75 , 610);
 	}
 	
 	// removed()
@@ -110,7 +119,7 @@ class MenuSelector extends Entity
 			menuSelect.play(HXP.engine.sfxVolume);
 			// Start selected option
 			switch currentPos{
-				case 1: HXP.engine.startGame(userSeed);
+				case 1: HXP.engine.startGame(currentUserSeed);
 				case 2: displayInfographic();
 				case 3: displaySeedSelection();
 				case 4: displayCredits();
@@ -151,12 +160,12 @@ class MenuSelector extends Entity
 	// Renders the RNG seed select graphic to the screen.
 	
 	private function displaySeedSelection(){
-		userSeed = "";
-		displayUserSeed = new Text("", 300, 480, 0, 0);
-		displayUserSeed.setTextProperty("color", 0);
-		displayUserSeed.setTextProperty("size", 48);
+		tempUserSeed = "";
+		displayTempUserSeed = new Text("", 300, 480, 0, 0);
+		displayTempUserSeed.setTextProperty("color", 0);
+		displayTempUserSeed.setTextProperty("size", 48);
 		popUp = scene.addGraphic( new Image("graphics/rngSeed.png"));
-		txtReference = scene.addGraphic(displayUserSeed);
+		txtReference = scene.addGraphic(displayTempUserSeed);
 		moveDisabled = true;
 	}
 	
@@ -169,6 +178,9 @@ class MenuSelector extends Entity
 	private function removeSeedSelection(){
 		scene.remove(popUp);
 		scene.remove(txtReference);
+		
+		displayCurrentUserSeed.text = "Seed: " + currentUserSeed;
+		
 		moveDisabled = false;
 	}
 	
@@ -228,24 +240,34 @@ class MenuSelector extends Entity
 			var code = event.keyCode;
 			
 			// Check if the input string isn't too big, and that the key was a number
-			if (userSeed.length < 9 && ((code >= 48 && code < 58) || (code >= 96 && code < 106))){   
+			if (tempUserSeed.length < 9 && ((code >= 48 && code < 58) || (code >= 96 && code < 106))){   
 				if(code > 95){
 					code -= 48;
 				}
-				userSeed += String.fromCharCode(code);
+				tempUserSeed += String.fromCharCode(code);
 			}
 			else if (code == 8){    // if the input is backspace
-				userSeed = userSeed.substring(0, userSeed.length - 1);
+				tempUserSeed = tempUserSeed.substring(0, tempUserSeed.length - 1);
 			}
 			if (code == 13){   // if the input is 'enter'
-				//The removeSeedSelection() function is called by selectOption()
+				if( tempUserSeed == ""){
+					tempUserSeed = (cast Math.floor(Math.random() * 1000000000));
+				}
+				
+				currentUserSeed = (cast Std.parseInt(cast tempUserSeed));
+				
+				if(currentUserSeed == "0"){
+					currentUserSeed = "1";
+				}
+				
+				tempUserSeed = "";
 			}
 			else if(code == 27){ // if the input is 'escape'
-				userSeed = "";
+				tempUserSeed = "";
 				removeSeedSelection();
 			}
 			else{
-				displayUserSeed.text = userSeed;   // update the input string display
+				displayTempUserSeed.text = tempUserSeed;   // update the input string display
 			}
 		}
     }

@@ -40,8 +40,8 @@ class MovingActor extends Entity {
 	// Arrays of types used for checking collisions
 	
 	private static var backgroundTypes = ["groundTile", "waterTile"];
-	private static var actorTypes = ["obstacle", "border", "player", "sampleEnemy",
-		"fireEnemy", "mistEnemy", "waterEnemy", "borderEnemy", "lightningEnemy"];
+	private static var actorTypes = ["obstacle", "border", "player", "sampleEnemy", "lightningEnemy",
+		 "borderEnemy", "waterEnemy",  "fireEnemy", "mistEnemy"];
 
 	
 	// Contains references to collision functions.
@@ -80,8 +80,7 @@ class MovingActor extends Entity {
 		"waterEnemy" 	=> waterEnemyCollision,
 		"border"		=> borderCollision,
 		"borderEnemy"	=> borderEnemyCollision,
-		"lightningEnemy"=> lightningEnemyCollision  //update for specific behavior 
-													//(need to add function placeholder then override in player and enemy)
+		"lightningEnemy"=> lightningEnemyCollision  
 
 		]; 
 		
@@ -194,30 +193,53 @@ class MovingActor extends Entity {
 	private function checkNextStep(){
 		switch currentMove{
 			case Left: {
-				// Checks 1px left of actor for collision with actorType entities
-				var e:Entity = collideTypes(actorTypes, x - tileSize, y); 
+				// Checks to the left of actor for collision with actorType entities
+				var e:Array<Entity> = [];
+				collideTypesInto(actorTypes, x - tileSize, y, e); 
 				currentFacing = currentMove;
-				attemptCollision(e);
+				for( actorType in e ){
+					attemptCollision(actorType);
+					if(currentMove == None){
+						break;
+					}
+				}
 			}
 			case Right: {
-				// Checks 1px to the right
-				var e:Entity = collideTypes(actorTypes, x + tileSize, y); 
+				// Checks to the right
+				var e:Array<Entity> = [];
+				collideTypesInto(actorTypes, x + tileSize, y, e); 
 				currentFacing = currentMove;
-				attemptCollision(e);
+				for( actorType in e ){
+					attemptCollision(actorType);
+					if(currentMove == None){
+						break;
+					}
+				}
 			
 			}
 			case Up: {
-				// Checks 1px above
-				var e:Entity = collideTypes(actorTypes, x, y - tileSize); 
+				// Checks above
+				var e:Array<Entity> = [];
+				collideTypesInto(actorTypes, x, y - tileSize, e); 
 				currentFacing = currentMove;
-				attemptCollision(e);
-			
+				for( actorType in e ){
+					attemptCollision(actorType);
+					if(currentMove == None){
+						break;
+					}
+				}
 			}
 			case Down: {
-				// Checks 1px below
-				var e:Entity = collideTypes(actorTypes, x, y + tileSize); 
+				// Checks below
+				var e:Array<Entity> = [];
+				collideTypesInto(actorTypes, x, y + tileSize, e); 
 				currentFacing = currentMove;
-				attemptCollision(e);
+				for( actorType in e ){
+					attemptCollision(actorType);
+					if(currentMove == None){
+						break;
+					}
+				}
 			}
 			
 			case None: {} //Does nothing
@@ -280,10 +302,6 @@ class MovingActor extends Entity {
 		if (e != null)
 		{
 			(collisionFunctions[e.type])(e); //calls appropriate collision function.
-		}
-		else{ //TEMPORARY CODE: handles case if there is no tile below. remove after level generation is completely fixed!
-			collisionFunctions["groundTile"](e);
-		
 		}
 	};
 	
