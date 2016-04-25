@@ -92,6 +92,8 @@ class PauseMenu extends Entity
 		currentPos = 1;
 		numOfPos = 2;
 		y = 300;
+		playUnpauseSound = true; 
+		
 		menuPaused.play(.5);
 		super.added();
 	}
