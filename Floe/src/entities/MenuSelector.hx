@@ -32,6 +32,7 @@ class MenuSelector extends Entity
 	private var tempUserSeed:String;
 	private var txtReference:Entity;
 	private var displayTempUserSeed:Text;
+	private var displayCurrentUserSeed:Text; 
 	
 	private var currentPos:Int; //Used to determine what to do when the player presses spacebar
 	private var numOfPos:Int; //Used to determine the boundaries of MenuSelector's movement.
@@ -61,6 +62,11 @@ class MenuSelector extends Entity
 		
 		currentUserSeed = (cast Math.floor(Math.random() * 1000000000));
 		tempUserSeed = "";
+		
+		displayCurrentUserSeed = new Text("Seed: " + currentUserSeed);
+		displayCurrentUserSeed.size = 16;
+		displayCurrentUserSeed.color = 0;
+		
 		keyboardListener();
 	}
 	
@@ -72,6 +78,7 @@ class MenuSelector extends Entity
 	public override function added(){
 		scene.addGraphic(page1, -1);
 		scene.addGraphic(page2, -1);
+		HXP.scene.addGraphic(displayCurrentUserSeed, -1, 75 , 610);
 	}
 	
 	// removed()
@@ -171,6 +178,9 @@ class MenuSelector extends Entity
 	private function removeSeedSelection(){
 		scene.remove(popUp);
 		scene.remove(txtReference);
+		
+		displayCurrentUserSeed.text = "Seed: " + currentUserSeed;
+		
 		moveDisabled = false;
 	}
 	
