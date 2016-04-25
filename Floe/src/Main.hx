@@ -62,12 +62,8 @@ class Main extends Engine
 	public function startGame(seed:String){
 		// --- Sets up manager and RNG for the new game ---
 		
-		if(seed != ""){
-			HXP.randomSeed = Std.parseInt(seed);
-		}
-		else{
-			HXP.randomSeed = (cast Math.random() * 1000000000); //Generates, at most, a 9-digit number.
-		}
+		HXP.randomSeed = Std.parseInt(seed);
+		
 		
 		//HXP.console.log(["The random seed is: ", HXP.randomSeed]);
 		
