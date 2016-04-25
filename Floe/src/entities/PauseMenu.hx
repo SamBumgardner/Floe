@@ -92,9 +92,8 @@ class PauseMenu extends Entity
 		currentPos = 1;
 		numOfPos = 2;
 		y = 300;
-		playUnpauseSound = true; 
-		
-		menuPaused.play(.5);
+		playUnpauseSound = true;
+		menuPaused.play(HXP.engine.sfxVolume);
 		super.added();
 	}
 	
@@ -104,7 +103,7 @@ class PauseMenu extends Entity
 	// Called when this entity is removed from the scene.
 	
 	public override function removed(){
-		if( playUnpauseSound ){ menuUnpaused.play(.5); }
+		if( playUnpauseSound ){ menuUnpaused.play(HXP.engine.sfxVolume); }
 		
 		HXP.scene.remove( containerEnt );
 		HXP.scene.remove( resumeTextEnt );
@@ -155,7 +154,7 @@ class PauseMenu extends Entity
 			&& (tempPos <= numOfPos)){
 				moveBy(0, verticalMove * moveDistance);
 				currentPos = tempPos;
-				menuMove.play(.5);
+				menuMove.play(HXP.engine.sfxVolume);
 		}
 		verticalMove = 0;
 		

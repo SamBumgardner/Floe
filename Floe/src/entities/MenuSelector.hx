@@ -116,7 +116,7 @@ class MenuSelector extends Entity
 		}
 		
 		else{
-			menuSelect.play(.5);
+			menuSelect.play(HXP.engine.sfxVolume);
 			// Start selected option
 			switch currentPos{
 				case 1: HXP.engine.startGame(currentUserSeed);
@@ -318,7 +318,7 @@ class MenuSelector extends Entity
 			&& (tempPos <= numOfPos)){
 				moveBy(0, verticalMove * moveDistance);
 				currentPos = tempPos;
-				menuMove.play(.5);
+				menuMove.play(HXP.engine.sfxVolume);
 		}
 		verticalMove = 0;
 		
