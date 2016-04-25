@@ -9,6 +9,8 @@ package entities;
 import com.haxepunk.HXP;
 import com.haxepunk.Entity;
 import entities.HUD;
+import com.haxepunk.utils.Key;
+import com.haxepunk.utils.Input;
 
 class GameManager extends Entity{
 	
@@ -183,7 +185,7 @@ class GameManager extends Entity{
 				waitTime--;
 			}
 		}
-		else if( levelCompleted == true ){
+		else if( levelCompleted == true || (HXP.console.debug && Input.pressed(Key.N))){
 			nextLake();
 		}
 		
