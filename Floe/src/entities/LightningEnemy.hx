@@ -92,10 +92,10 @@ class LightningEnemy extends Enemy
 	// (which ever is greater, favor Y on ties)"
 	
 	private override function calcDestination(){
-    var pcTileX:Int = (cast currentScene.PC.x - (currentScene.PC.x % 32));
-    var pcTileY:Int = (cast currentScene.PC.y - (currentScene.PC.y % 32));
-    var myTileX:Int = (cast x - x % 32);
-    var myTileY:Int = (cast y - y % 32);
+    var pcTileX:Int = (cast(currentScene.PC.x - (currentScene.PC.x % 32), Int));
+    var pcTileY:Int = (cast(currentScene.PC.y - (currentScene.PC.y % 32), Int));
+    var myTileX:Int = (cast((x - x % 32), Int));
+    var myTileY:Int = (cast((y - y % 32), Int));
     if(Math.abs(pcTileX - myTileX) < Math.abs(pcTileY - myTileY)) {
       destinationX = myTileX;
       destinationY = pcTileY;
