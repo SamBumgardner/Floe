@@ -251,7 +251,7 @@ class MenuSelector extends Entity
 			}
 			if (code == 13){   // if the input is 'enter'
 				if( tempUserSeed == ""){
-					tempUserSeed = (cast Math.random() * 1000000000);
+					tempUserSeed = (cast Math.floor(Math.random() * 1000000000));
 				}
 			
 				currentUserSeed = tempUserSeed;
