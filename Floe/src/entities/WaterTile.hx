@@ -162,6 +162,16 @@ class WaterTile extends Tile {
 	
 	public function freeze()
 	{
+		var e:Entity = collideTypes("fireEnemy", x, y);
+		var w:Entity = collideTypes("waterEnemy", x, y);
+		if(collide("fireEnemy", x, y) != null){
+			(cast e).defeated();
+		}
+		if(collide("waterEnemy", x, y) != null){
+			scene.remove( (cast w) );
+
+		}
+		
 		sprite.play("freezing");
 		frozen = true;
 		if(beenFrozen == false){

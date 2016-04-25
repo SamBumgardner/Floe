@@ -30,11 +30,13 @@ class PauseMenu extends Entity
 	private static var pausedTextImg:Text;
 	private static var resumeTextImg:Text;
 	private static var quitTextImg:Text;
+	private static var seedTextImg:Text;
 	
 	private var containerEnt:Entity;
 	private var pausedTextEnt:Entity;
 	private var resumeTextEnt:Entity;
 	private var quitTextEnt:Entity;
+	private var seedTextEnt:Entity;
 	
 	private var currentPos:Int; // Used to determine what to do when the player presses spacebar
 	private var numOfPos:Int; // Used to determine the boundaries of the selector's movement.
@@ -65,11 +67,12 @@ class PauseMenu extends Entity
 			resumeTextImg.setTextProperty("size", 24);
 			quitTextImg = new Text("Quit");
 			quitTextImg.setTextProperty("size", 24);
+			seedTextImg = new Text("");
+			seedTextImg.setTextProperty("size", 16);
 			
 			assetsInitialized = true;
 		}
 		graphic = selectorImg;
-		
 		
 	}
 	
@@ -79,14 +82,18 @@ class PauseMenu extends Entity
 	// Function from the Entity class. Is called when this is added to the scene.
 	
 	public override function added(){
-
+		seedTextImg.text = "Seed: " + HXP.randomSeed;
+	
 		containerEnt = HXP.scene.addGraphic(containerImg, -999, 160, 220);
 		pausedTextEnt = HXP.scene.addGraphic(pausedTextImg, -1000, 320 - (pausedTextImg.width)/2, 230);
 		resumeTextEnt = HXP.scene.addGraphic(resumeTextImg, -1000, 300 , 300);
 		quitTextEnt = HXP.scene.addGraphic(quitTextImg, -1000, 300 , 350);
+		seedTextEnt = HXP.scene.addGraphic(seedTextImg, -1000, 320 - (seedTextImg.width)/2, 385);
 		currentPos = 1;
 		numOfPos = 2;
 		y = 300;
+		playUnpauseSound = true; 
+		
 		menuPaused.play(.5);
 		super.added();
 	}
@@ -103,6 +110,7 @@ class PauseMenu extends Entity
 		HXP.scene.remove( resumeTextEnt );
 		HXP.scene.remove( quitTextEnt );
 		HXP.scene.remove( pausedTextEnt );
+		HXP.scene.remove( seedTextEnt );
 		super.removed();
 	}
 	
