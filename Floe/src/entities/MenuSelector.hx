@@ -249,7 +249,7 @@ class MenuSelector extends Entity
 			else if (code == 8){    // if the input is backspace
 				tempUserSeed = tempUserSeed.substring(0, tempUserSeed.length - 1);
 			}
-			if (code == 13){   // if the input is 'enter'
+			if (code == 13 || code == 32){   // if the input is 'enter' or 'spacebar'
 				if( tempUserSeed == ""){
 					tempUserSeed = (cast Math.floor(Math.random() * 1000000000));
 				}
