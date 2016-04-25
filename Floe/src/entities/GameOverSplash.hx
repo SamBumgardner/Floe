@@ -66,7 +66,7 @@ class GameOverSplash extends Entity{
 	private function sendScore(){
 	
 		var myDbInterface = new DbInterface("floe");
-		myDbInterface.sendDataToDb(entryField.text, playerScore);
+		myDbInterface.sendDataToDb(input, playerScore);
 	
 	}
 
