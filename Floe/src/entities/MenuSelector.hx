@@ -254,7 +254,7 @@ class MenuSelector extends Entity
 					tempUserSeed = (cast Math.floor(Math.random() * 1000000000));
 				}
 			
-				currentUserSeed = tempUserSeed;
+				currentUserSeed = (cast Std.parseInt(cast tempUserSeed));
 				tempUserSeed = "";
 			}
 			else if(code == 27){ // if the input is 'escape'
