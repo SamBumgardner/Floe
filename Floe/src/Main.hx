@@ -8,7 +8,7 @@ class Main extends Engine
 {
 
 	public var musicVolume:Float = .5;
-	public var sfxVolume:Float = .1;
+	public var sfxVolume:Float = .05;
 
 	
 	// init()
