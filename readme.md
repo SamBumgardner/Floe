@@ -13,9 +13,12 @@ Floe is a puzzle game with procedurally generated levels.
 
 ### How do I get set up?
 
-* Summary of set up: Download [HaxePunk](http://haxepunk.com/) 2.2.5 and [OpenFL](http://www.openfl.org/download/); *Note: Noah is unsure if this is the correct OpenFL link.*
+* [Haxe](http://www.haxe.org/download)
+* [Haxepunk](http://www.haxepunk.com)
+* [OpenFL](http://www.openfl.org/download/)
+
 * To build and run Floe, follow the steps below:
-* 1. Ensure you have Haxe and Haxepunk installed on your computer
+* 1. Ensure you have Haxe, Haxepunk, and OpenFL installed on your computer
  2. Open a command prompt in /Floe/Floe/
  3. Run the command "lime test flash" to build and run the executable
 * The executable is located in /Floe/Floe/bin/flash/bin/
