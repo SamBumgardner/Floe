@@ -14,16 +14,18 @@ Floe is a puzzle game with procedurally generated levels.
 ### How do I get set up?
 
 * Summary of set up: Download [HaxePunk](http://haxepunk.com/) 2.2.5 and [OpenFL](http://www.openfl.org/download/); *Note: Noah is unsure if this is the correct OpenFL link.*
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* To build and run Floe, follow the steps below:
+* 1. Ensure you have Haxe and Haxepunk installed on your computer
+ 2. Open a command prompt in /Floe/Floe/
+ 3. Run the command "lime test flash" to build and run the executable
+* The executable is located in /Floe/Floe/bin/flash/bin/
+* To run in debug mode, run the command "lime test -debug flash". Access the debug console with `
 
 ### Useful Notes:
 
 * Freeze all water tiles in the level to move on to the next.
-* Use the 'd' key to hurt yourself and eventually get a game over.
+* Avoid all enemies.
+* DEBUG MODE: use the 'd' key to damage yourself, use 'n' to advance to the next level.
 
 ### Contribution guidelines
 
