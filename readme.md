@@ -5,6 +5,7 @@ This is an action-puzzle game created by a team of students in Missouri State Un
 ## Overview
 
 Help Floe, the spirit of ice, bring winter to the land by freezing over lakes. There are a number of different enemies that stand in your path, however, and they aren't happy about Floe's intrusion on their territory. 
+
 *Version 1.0*
 
 ## Getting Started
@@ -28,7 +29,7 @@ Past demos of Floe are in [SavedBinFiles](SavedBinFiles/readme.md) for posterity
  * Anything else should be pretty self-explanatory.
 * Freeze all water tiles in the level to move on to the next.
 * Avoid all enemies.
-* **Debug Mode:** Use the 'd' key to damage yourself, use 'n' to advance to the next level.
+* **Debug Mode:** Use the `d` key to damage yourself, use `n` to advance to the next level.
 
 ## Contribution guidelines
 
