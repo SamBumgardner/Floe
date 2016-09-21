@@ -28,7 +28,7 @@ Past demos of Floe are in [SavedBinFiles](SavedBinFiles/readme.md) for posterity
  * Anything else should be pretty self-explanatory.
 * Freeze all water tiles in the level to move on to the next.
 * Avoid all enemies.
-* DEBUG MODE: use the 'd' key to damage yourself, use 'n' to advance to the next level.
+* **Debug Mode:** Use the 'd' key to damage yourself, use 'n' to advance to the next level.
 
 ### Contribution guidelines
 
