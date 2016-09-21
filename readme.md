@@ -44,7 +44,9 @@ If you're interested in making contributions to this game, please follow the ste
 
 ### Contacts
 
-@SamBumgardner - Lead Programmer and Designer for Floe. Feel free to send me an email at sambumgardner1@gmail.com.
+[@SamBumgardner](https://github.com/SamBumgardner) - Lead Programmer and Designer for Floe.
+
+Feel free to send me an email at sambumgardner1@gmail.com.
 
 These members are also available:
-* @NBumgardner - Lead Tester and Music Composer.
+* [@NBumgardner](https://github.com/NBumgardner) - Lead Tester and Music Composer.
