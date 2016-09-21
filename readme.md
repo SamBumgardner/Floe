@@ -12,12 +12,11 @@ Help Floe, the spirit of ice, bring winter to the land by freezing over lakes. T
 
 To build and run Floe, follow the steps below:
 
- 1. Ensure you have [Haxe](http://www.haxe.org/download), [Haxepunk](http://www.haxepunk.com), and [OpenFL](http://www.openfl.org/download/) installed on your computer.
- 2. Open a command prompt in `/Floe/Floe/`.
- 3. Run the command `lime test flash` to build and run the executable.
-
-* The executable is located in `/Floe/Floe/bin/flash/bin/`.
-* To run in debug mode, run the command `lime test -debug flash`. Then access the debug console with the backquote key.
+1. Ensure you have [Haxe](http://www.haxe.org/download), [Haxepunk](http://www.haxepunk.com), and [OpenFL](http://www.openfl.org/download/) installed on your computer.
+2. Open a command prompt in `/Floe/Floe/`.
+3. Run the command `lime test flash` to build and run the executable.
+  * The executable is located in `/Floe/Floe/bin/flash/bin/`.
+  * To run in debug mode, run the command `lime test -debug flash`. Then access the debug console with the backquote key.
 
 Past demos of Floe are in [SavedBinFiles](SavedBinFiles/readme.md) for posterity.
 
