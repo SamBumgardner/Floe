@@ -5,7 +5,7 @@ This is an action-puzzle game created by a team of students in Missouri State Un
 ### Overview
 
 Help Floe, the spirit of ice, bring winter to the land by freezing over lakes. There are a number of different enemies that stand in your path, however, and they aren't happy about Floe's intrusion on their territory. 
-Version 1.0
+*Version 1.0*
 
 ### Getting Started
 
@@ -38,11 +38,11 @@ If you're interested in making contributions to this game, please follow the ste
 * Create a branch off of `master` with a name that describes what sort of changes you plan to make.
 * Make changes/additions/deletions, committing them to your branch as you go. 
  * Aim to make your commits atomic, each dealing with a single subject.
-* When finished, come back to this repository and open a pull request from your branch to `master`
+* When finished, come back to this repository and open a pull request from your branch to `master`.
  * See existing pull requests for a general format to follow.
 * Your pull request will be reviewed and responded to, and hopefully merged in!
 
 ### Who do I talk to?
 
-* Lead Programmer and Designer for Floe - Sam
-* Feel free to send me an email at Sambumgardner1@gmail.com
+* Lead Programmer and Designer for Floe - Sam.
+* Feel free to send me an email at Sambumgardner1@gmail.com.
