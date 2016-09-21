@@ -20,7 +20,7 @@ To build and run Floe, follow the steps below:
 
 Past demos of Floe are in [SavedBinFiles](SavedBinFiles/readme.md) for posterity.
 
-### Useful Notes:
+### Useful Notes
 
 * All controls are keyboard-based. 
  * Use the arrow keys to change menu selections and move Floe.
