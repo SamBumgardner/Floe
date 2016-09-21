@@ -7,17 +7,18 @@ This is an action-puzzle game created by a team of students in Missouri State Un
 Help Floe, the spirit of ice, bring winter to the land by freezing over lakes. There are a number of different enemies that stand in your path, however, and they aren't happy about Floe's intrusion on their territory. 
 Version 1.0
 
-### How do I get set up?
+### Getting Started
 
-* [Haxe](http://www.haxe.org/download)
-* [Haxepunk](http://www.haxepunk.com)
-* [OpenFL](http://www.openfl.org/download/)
-* To build and run Floe, follow the steps below:
- 1. Ensure you have Haxe, Haxepunk, and OpenFL installed on your computer
- 2. Open a command prompt in /Floe/Floe/
- 3. Run the command "lime test flash" to build and run the executable
-* The executable is located in /Floe/Floe/bin/flash/bin/
-* To run in debug mode, run the command "lime test -debug flash". Access the debug console with the backquote key.
+To build and run Floe, follow the steps below:
+
+ 1. Ensure you have [Haxe](http://www.haxe.org/download), [Haxepunk](http://www.haxepunk.com), and [OpenFL](http://www.openfl.org/download/) installed on your computer.
+ 2. Open a command prompt in `/Floe/Floe/`.
+ 3. Run the command `lime test flash` to build and run the executable.
+
+* The executable is located in `/Floe/Floe/bin/flash/bin/`.
+* To run in debug mode, run the command `lime test -debug flash`. Then access the debug console with the backquote key.
+
+Past demos of Floe are in [SavedBinFiles](SavedBinFiles/readme.md) for posterity.
 
 ### Useful Notes:
 
