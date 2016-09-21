@@ -2,12 +2,12 @@
 
 This is an action-puzzle game created by a team of students in Missouri State University's Computer Science department.
 
-### Overview
+## Overview
 
 Help Floe, the spirit of ice, bring winter to the land by freezing over lakes. There are a number of different enemies that stand in your path, however, and they aren't happy about Floe's intrusion on their territory. 
 *Version 1.0*
 
-### Getting Started
+## Getting Started
 
 To build and run Floe, follow the steps below:
 
@@ -20,7 +20,7 @@ To build and run Floe, follow the steps below:
 
 Past demos of Floe are in [SavedBinFiles](SavedBinFiles/readme.md) for posterity.
 
-### Useful Notes
+## Useful Notes
 
 * All controls are keyboard-based. 
  * Use the arrow keys to change menu selections and move Floe.
@@ -30,7 +30,7 @@ Past demos of Floe are in [SavedBinFiles](SavedBinFiles/readme.md) for posterity
 * Avoid all enemies.
 * **Debug Mode:** Use the 'd' key to damage yourself, use 'n' to advance to the next level.
 
-### Contribution guidelines
+## Contribution guidelines
 
 If you're interested in making contributions to this game, please follow the steps outlined below.
 
@@ -42,7 +42,7 @@ If you're interested in making contributions to this game, please follow the ste
  * See existing pull requests for a general format to follow.
 * Your pull request will be reviewed and responded to, and hopefully merged in!
 
-### Contacts
+## Contacts
 
 [@SamBumgardner](https://github.com/SamBumgardner) - Lead Programmer and Designer for Floe.
 
