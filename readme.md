@@ -6,7 +6,7 @@ This is an action-puzzle game created by a team of students in Missouri State Un
 
 Help Floe, the spirit of ice, bring winter to the land by freezing over lakes. There are a number of different enemies that stand in your path, however, and they aren't happy about Floe's intrusion on their territory. 
 
-*Version 1.0*
+*Version 1.0* - [Play Here!](http://SamBumgardner.Github.io/Floe)
 
 ## Getting Started
 
