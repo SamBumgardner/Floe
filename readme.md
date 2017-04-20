@@ -49,4 +49,6 @@ If you're interested in making contributions to this game, please follow the ste
 Feel free to send me an email at sambumgardner1@gmail.com.
 
 These members are also available:
+* [@atestsoliman](https://github.com/atestsoliman) - Designer and Programmer.
 * [@NBumgardner](https://github.com/NBumgardner) - Lead Tester and Music Composer.
+
